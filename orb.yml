@@ -29,8 +29,8 @@ commands:
           name: Upload Coverage Results
           command: |
             bash <(curl -s https://codecov.io/bash) \
-              -F << parameters.flags >> \
               -f << parameters.file >> \
               -n << parameters.upload_name >> \
               -t << parameters.token >> \
               -y << parameters.conf >> \
+              -F << parameters.flags >> \
