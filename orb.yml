@@ -12,6 +12,7 @@ commands:
       file:
         description: Path to the code coverage data file to upload.
         type: string
+        default: ""
       flags:
         description: Flag the upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
         type: string
@@ -25,12 +26,27 @@ commands:
         type: string
         default: ${CIRCLE_BUILD_NUM}
     steps:
-      - run:
-          name: Upload Coverage Results
-          command: |
-            bash <(curl -s https://codecov.io/bash) \
-              -f << parameters.file >> \
-              -n << parameters.upload_name >> \
-              -t << parameters.token >> \
-              -y << parameters.conf >> \
-              -F << parameters.flags >> \
+      - when:
+          condition: << parameters.file >>
+          steps:
+            - run:
+                name: Upload Coverage Results
+                command: |
+                  bash <(curl -s https://codecov.io/bash) \
+                    -f << parameters.file >> \
+                    -n << parameters.upload_name >> \
+                    -t << parameters.token >> \
+                    -y << parameters.conf >> \
+                    -F << parameters.flags >> \
+                    
+      - unless:
+          condition: << parameters.file >>
+          steps:
+            - run:
+                name: Upload Coverage Results
+                command: |
+                  bash <(curl -s https://codecov.io/bash) \
+                    -n << parameters.upload_name >> \
+                    -t << parameters.token >> \
+                    -y << parameters.conf >> \
+                    -F << parameters.flags >> \
