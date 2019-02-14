@@ -37,7 +37,7 @@ commands:
                     -n << parameters.upload_name >> \
                     -t << parameters.token >> \
                     -y << parameters.conf >> \
-                    -F << parameters.flags >> \
+                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >> \
                     
       - unless:
           condition: << parameters.file >>
@@ -49,4 +49,4 @@ commands:
                     -n << parameters.upload_name >> \
                     -t << parameters.token >> \
                     -y << parameters.conf >> \
-                    -F << parameters.flags >> \
+                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >> \
