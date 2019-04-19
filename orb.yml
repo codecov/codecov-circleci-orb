@@ -42,6 +42,7 @@ commands:
                     -t << parameters.token >> \
                     -y << parameters.conf >> \
                     <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >> \
+                 when: << parameters.when >>
                     
       - unless:
           condition: << parameters.file >>
