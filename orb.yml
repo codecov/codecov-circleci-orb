@@ -29,14 +29,31 @@ commands:
         description: When should this step run?
         type: string
         default: "always"
-    steps:
-      - run:
-          name: Upload Coverage Results
-          command: |
-            bash <(curl -s https://codecov.io/bash) \
-              <<#parameters.file>> -f << parameters.file >> \
-              -n << parameters.upload_name >> \
-              -t << parameters.token >> \
-              -y << parameters.conf >> \
-              <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
-            when: << parameters.when >>
+     steps:
+      - when:
+          condition: << parameters.file >>
+          steps:
+            - run:
+                name: Upload Coverage Results
+                command: |
+                  bash <(curl -s https://codecov.io/bash) \
+                    -f << parameters.file >> \
+                    -n << parameters.upload_name >> \
+                    -t << parameters.token >> \
+                    -y << parameters.conf >> \
+                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
+                  when: << parameters.when >>
+                    
+      - unless:
+          condition: << parameters.file >>
+          steps:
+            - run:
+                name: Upload Coverage Results
+                command: |
+                  bash <(curl -s https://codecov.io/bash) \
+                    -n << parameters.upload_name >> \
+                    -t << parameters.token >> \
+                    -y << parameters.conf >> \
+                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
+                  when: << parameters.when >>
+        
