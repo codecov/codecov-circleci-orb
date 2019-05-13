@@ -25,7 +25,11 @@ commands:
         description: Custom defined name of the upload. Visible in Codecov UI
         type: string
         default: ${CIRCLE_BUILD_NUM}
-    steps:
+      when:
+        description: When should this step run?
+        type: string
+        default: "always"
+     steps:
       - when:
           condition: << parameters.file >>
           steps:
@@ -37,7 +41,8 @@ commands:
                     -n << parameters.upload_name >> \
                     -t << parameters.token >> \
                     -y << parameters.conf >> \
-                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >> \
+                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
+                  when: << parameters.when >>
                     
       - unless:
           condition: << parameters.file >>
@@ -49,4 +54,6 @@ commands:
                     -n << parameters.upload_name >> \
                     -t << parameters.token >> \
                     -y << parameters.conf >> \
-                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >> \
+                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
+                  when: << parameters.when >>
+        
