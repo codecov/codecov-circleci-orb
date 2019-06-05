@@ -29,31 +29,31 @@ commands:
         description: When should this step run?
         type: string
         default: "always"
-     steps:
+    steps:
       - when:
           condition: << parameters.file >>
           steps:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  bash <(curl -s https://codecov.io/bash) \
-                    -f << parameters.file >> \
-                    -n << parameters.upload_name >> \
-                    -t << parameters.token >> \
-                    -y << parameters.conf >> \
-                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
-                  when: << parameters.when >>
-                    
+                  curl -s https://codecov.io/bash | bash -s -- \
+                    -f "<< parameters.file >>" \
+                    -t "<< parameters.token >>" \
+                    -n "<< parameters.upload_name >>" \
+                    -y "<< parameters.conf >>" \
+                    -F "<< parameters.flags >>" \
+                    -Z || echo 'Codecov upload failed'
+                when: << parameters.when >>
       - unless:
           condition: << parameters.file >>
           steps:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  bash <(curl -s https://codecov.io/bash) \
-                    -n << parameters.upload_name >> \
-                    -t << parameters.token >> \
-                    -y << parameters.conf >> \
-                    <<# parameters.flags >> -F << parameters.flags >> <</ parameters.flags >>
-                  when: << parameters.when >>
-        
+                  curl -s https://codecov.io/bash | bash -s -- \
+                    -t "<< parameters.token >>" \
+                    -n "<< parameters.upload_name >>" \
+                    -y "<< parameters.conf >>" \
+                    -F "<< parameters.flags >>" \
+                    -Z || echo 'Codecov upload failed'
+                when: << parameters.when >>
