@@ -1,11 +1,13 @@
 version: 2.1
 
 orbs:
-  orb-tools: circleci/orb-tools@2.0.0
+  orb-tools: circleci/orb-tools@8.27.4
 
 workflows:
   btd:
     jobs:
+      - orb-tools/validate:
+          orb-path: src/orb.yml
       - orb-tools/publish:
           orb-path: src/orb.yml
           orb-ref: circleci/hello-build@dev:${CIRCLE_SHA1}
