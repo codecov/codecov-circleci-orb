@@ -25,6 +25,10 @@ commands:
         description: Custom defined name of the upload. Visible in Codecov UI
         type: string
         default: ${CIRCLE_BUILD_NUM}
+      packages:
+        description: Specify packages to build coverage. This can significantly reduces time to build coverage reports.
+        type: string
+        default: ""
       when:
         description: When should this step run?
         type: string
@@ -42,6 +46,7 @@ commands:
                     -n "<< parameters.upload_name >>" \
                     -y "<< parameters.conf >>" \
                     -F "<< parameters.flags >>" \
+                    -J "<< parameters.packages >>" \
                     -Z || echo 'Codecov upload failed'
                 when: << parameters.when >>
       - unless:
@@ -55,5 +60,6 @@ commands:
                     -n "<< parameters.upload_name >>" \
                     -y "<< parameters.conf >>" \
                     -F "<< parameters.flags >>" \
+                    -J "<< parameters.packages >>" \
                     -Z || echo 'Codecov upload failed'
                 when: << parameters.when >>
