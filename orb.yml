@@ -1,7 +1,7 @@
 version: 2.1
 
 description: >
-  Upload your coverage reports to Codecov without dealing with complex configurations.  This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence. 
+  Upload your coverage reports to Codecov without dealing with complex configurations.  This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence.
   Repo: https://github.com/codecov/codecov-circleci-orb
 
 commands:
@@ -27,6 +27,10 @@ commands:
         description: Custom defined name of the upload. Visible in Codecov UI
         type: string
         default: ${CIRCLE_BUILD_NUM}
+      url:
+        description: Custom url to submit the codecov result. Default to "https://codecov.io/bash"
+        type: string
+        default: "https://codecov.io/bash"
       when:
         description: When should this step run?
         type: string
@@ -38,7 +42,7 @@ commands:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  curl -s https://codecov.io/bash | bash -s -- \
+                  curl -s << parameters.url >> | bash -s -- \
                     -f "<< parameters.file >>" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
@@ -52,7 +56,7 @@ commands:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  curl -s https://codecov.io/bash | bash -s -- \
+                  curl -s << parameters.url >> | bash -s -- \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -y "<< parameters.conf >>" \
