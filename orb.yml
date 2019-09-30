@@ -1,7 +1,7 @@
 version: 2.1
 
 description: >
-  Upload your coverage reports to Codecov without dealing with complex configurations.  This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence.
+  Upload your coverage reports to Codecov without dealing with complex configurations. This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence.
   Repo: https://github.com/codecov/codecov-circleci-orb
 
 commands:
