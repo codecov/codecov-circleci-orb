@@ -1,4 +1,4 @@
-version: 2.1
+version: 2.2
 
 description: >
   Upload your coverage reports to Codecov without dealing with complex configurations.  This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence. 
@@ -21,7 +21,7 @@ commands:
         default: ""
       token:
         description: Set the private repository token (defaults to environment variable $CODECOV_TOKEN)
-        type: string
+        type: env_var_name
         default: ${CODECOV_TOKEN}
       upload_name:
         description: Custom defined name of the upload. Visible in Codecov UI
