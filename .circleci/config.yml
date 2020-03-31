@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@dev:alpha
-  orb-tools: circleci/orb-tools@9.0
+  orb-tools: circleci/orb-tools@9.0.2
 jobs:
   test:
     docker:
