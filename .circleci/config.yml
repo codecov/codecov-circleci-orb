@@ -44,7 +44,5 @@ workflows:
           requires:
             - orb-tools/publish-dev
 
-  run-tests:
-    jobs:
       # Run Copy and Sync commands. Requires credentials. These are already set in the CircleCI Project
       - test
