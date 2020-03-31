@@ -1,8 +1,9 @@
 version: 2.1
 orbs:
-  codecov: codecov/codecov@1.0.5
+  codecov: codecov/codecov@dev:alpha
+  orb-tools: circleci/orb-tools@9.0
 jobs:
-  build:
+  test:
     docker:
         - image: circleci/python:2.7.15-node
     steps:
@@ -18,3 +19,32 @@ jobs:
       - codecov/upload:
           file: coverage/*.json
           flags: frontend
+
+workflows:
+  publish-dev:
+    jobs:
+      - orb-tools/lint
+      - orb-tools/pack:
+          requires:
+            - orb-tools/lint
+      # release dev version of orb, for testing & possible publishing.
+      # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
+      # requires a CircleCI API token to be stored as CIRCLE_TOKEN (default)
+      - orb-tools/publish-dev:
+          orb-name: codecov/codecov
+          context: orb-publishing
+          requires:
+            - orb-tools/pack
+
+      # trigger an integration workflow to test the
+      # dev:${CIRCLE_SHA1:0:7} version of your orb
+      - orb-tools/trigger-integration-tests-workflow:
+          name: trigger-integration-dev
+          context: orb-publishing
+          requires:
+            - orb-tools/publish-dev
+
+  run-tests:
+    jobs:
+      # Run Copy and Sync commands. Requires credentials. These are already set in the CircleCI Project
+      - test
