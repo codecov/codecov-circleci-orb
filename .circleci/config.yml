@@ -43,9 +43,10 @@ workflows:
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       - orb-tools/publish-dev:
           orb-name: codecov/codecov
-          orb-path: orb.yml
+          orb-path: ./orb.yml
           requires:
             - orb-tools/lint
+          validate: true
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
