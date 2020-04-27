@@ -36,11 +36,8 @@ workflows:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint
-      # pack your orb YAML files to a single orb.yml
-      # validate the orb.yml file to ensure it is well-formed
-      - orb-tools/pack:
-          requires:
-            - orb-tools/lint
+
+      # Skip packing because orb.yml is already a singular file
 
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
@@ -51,7 +48,7 @@ workflows:
       - orb-tools/publish-dev:
           orb-name: codecov/codecov
           requires:
-            - orb-tools/pack
+            - orb-tools/lint
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
