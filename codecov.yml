@@ -3,10 +3,12 @@ coverage:
     project:
       default: off
       adder:
-        flags: adder
+        flags:
+          - adder
       subtractor:
         target: 50%
-        flags: subtractor
+        flags:
+          - subtractor
 flags:
   adder:
     paths:
