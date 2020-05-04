@@ -28,6 +28,8 @@ jobs:
     executor: orb-tools/ubuntu
     steps:
       - checkout
+      - run: sudo apt-get update
+      - run: sudo apt-get install python3.8
       - run: sudo python -m pip install --upgrade pip
       - run: sudo pip install -r requirements.txt
       - run: python -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
