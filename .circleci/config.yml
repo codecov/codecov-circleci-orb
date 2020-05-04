@@ -37,7 +37,7 @@ jobs:
       - codecov/upload:
           flags: backend,unittest
 
-      - run: sudo apt install nodejs
+      - run: sudo apt-get install npm
       - run: npm install
       - run: npm test
       - codecov/upload:
