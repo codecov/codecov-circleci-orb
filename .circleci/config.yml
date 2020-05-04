@@ -37,6 +37,13 @@ jobs:
       - codecov/upload:
           flags: backend,unittest
 
+      - run: sudo apt install nodejs
+      - run: npm install
+      - run: npm test
+      - codecov/upload:
+          file: coverage/*.json
+          flags: frontend
+
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.
   lint_pack-validate_publish-dev:
