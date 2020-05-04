@@ -5,19 +5,24 @@ coverage:
       adder:
         flags:
           - adder
-      subtractor:
+      backend:
+        flags:
+          - backend
+      frontend:
         target: 50%
         flags:
-          - subtractor
+          - frontend
 flags:
   adder:
     paths:
       - src/adder/
-    assume: true
-  subtractor:
+  backend:
     paths:
+      - src/adder/
       - src/subtractor/
-    assume: true
+  frontend:
+    paths:
+      - src/calculator/
   tests:
     paths:
       - tests/

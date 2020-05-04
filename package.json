@@ -1,14 +1,13 @@
 {
-  "name": "example-typescript",
-  "version": "1.0.0",
-  "description": "Codecov Example Typescript",
+  "name": "codecov-circleci-orb",
+  "version": "1.0.6",
+  "description": "Codecov CircleCI Orb",
   "main": "index.js",
   "devDependencies": {
     "@types/mocha": "5.2.5",
     "chai": "^4.2.0",
-    "codecov": "^3.1.0",
-    "mocha": "^5.2.0",
-    "nyc": "^13.0.1",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
     "typescript": "^3.1.1"
   },
   "scripts": {
@@ -18,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codecov/example-typescript.git"
+    "url": "git+https://github.com/codecov/codecov-circleci-orb.git"
   },
   "keywords": [
     "codecov",
@@ -27,10 +26,10 @@
     "code",
     "coverage"
   ],
-  "author": "Ed Moore <eddie.moore@gmail.com>",
+  "author": "Thomas Hu <tom@codecov.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/codecov/example-typescript/issues"
+    "url": "https://github.com/codecov/codecov-circleci-orb/issues"
   },
-  "homepage": "https://github.com/codecov/example-typescript#readme"
+  "homepage": "https://github.com/codecov/codecov-circleci-orb#readme"
 }
