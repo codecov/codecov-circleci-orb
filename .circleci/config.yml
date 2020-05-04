@@ -29,10 +29,10 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get update
-      - run: sudo apt-get install python3.8
-      - run: sudo python -m pip install --upgrade pip
-      - run: sudo pip install -r requirements.txt
-      - run: python -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
+      - run: sudo apt-get install python3
+      - run: sudo python3 -m pip3 install --upgrade pip3
+      - run: sudo pip3 install -r requirements.txt
+      - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
       - codecov/upload:
           flags: backend,unittest
 
