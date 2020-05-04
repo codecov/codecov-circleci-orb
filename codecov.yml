@@ -1,7 +1,6 @@
 coverage:
   status:
     project:
-      default: off
       adder:
         flags:
           - adder
