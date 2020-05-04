@@ -24,7 +24,7 @@ jobs:
   #
   # Rename this job and add more as needed.
   #
-  integration-test-1:
+  integration-test:
     executor: orb-tools/ubuntu
     steps:
       - checkout
@@ -58,3 +58,11 @@ workflows:
           name: trigger-integration-dev
           requires:
             - orb-tools/publish-dev
+
+  integration-tests_prod-release:
+    when: << pipeline.parameters.run-integration-tests >>
+    jobs:
+      # your integration test jobs go here: essentially, run all your orb's
+      # jobs and commands to ensure they behave as expected. or, run other
+      # integration tests of your choosing
+      - integration-test
