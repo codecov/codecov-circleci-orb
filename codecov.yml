@@ -1,0 +1,27 @@
+coverage:
+  status:
+    project:
+      adder:
+        flags:
+          - adder
+      backend:
+        flags:
+          - backend
+      frontend:
+        target: 50%
+        flags:
+          - frontend
+flags:
+  adder:
+    paths:
+      - src/adder/
+  backend:
+    paths:
+      - src/adder/
+      - src/subtractor/
+  frontend:
+    paths:
+      - src/calculator/
+  tests:
+    paths:
+      - tests/

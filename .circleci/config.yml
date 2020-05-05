@@ -24,11 +24,25 @@ jobs:
   #
   # Rename this job and add more as needed.
   #
-  integration-test-1:
+  integration-test:
     executor: orb-tools/ubuntu
     steps:
       - checkout
-    # - your-orb/your-orb-command
+      - run: sudo apt-get update
+      - run: sudo apt-get install python3
+      - run: sudo apt-get install python3-pip
+      - run: sudo python3 -m pip install --upgrade pip
+      - run: sudo pip install -r requirements.txt
+      - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
+      - codecov/upload:
+          flags: adder,backend
+
+      - run: sudo apt-get install npm
+      - run: npm install
+      - run: npm test
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: frontend
 
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.
@@ -54,3 +68,11 @@ workflows:
           name: trigger-integration-dev
           requires:
             - orb-tools/publish-dev
+
+  integration-tests_prod-release:
+    when: << pipeline.parameters.run-integration-tests >>
+    jobs:
+      # your integration test jobs go here: essentially, run all your orb's
+      # jobs and commands to ensure they behave as expected. or, run other
+      # integration tests of your choosing
+      - integration-test

@@ -10,10 +10,6 @@ display:
 commands:
   upload:
     parameters:
-      conf:
-        description: Used to specify the location of the .codecov.yml config file
-        type: string
-        default: ".codecov.yml"
       file:
         description: Path to the code coverage data file to upload.
         type: string
@@ -24,8 +20,8 @@ commands:
         default: ""
       token:
         description: Set the private repository token as the value of the variable CODECOV_TOKEN using CircleCI Environment Variables.
-        type: env_var_name
-        default: CODECOV_TOKEN
+        type: string
+        default: ${CODECOV_TOKEN}
       upload_name:
         description: Custom defined name of the upload. Visible in Codecov UI
         type: string
@@ -49,7 +45,6 @@ commands:
                     -f "<< parameters.file >>" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
-                    -y "<< parameters.conf >>" \
                     -F "<< parameters.flags >>" \
                     -Z || echo 'Codecov upload failed'
                 when: << parameters.when >>
@@ -62,7 +57,6 @@ commands:
                   curl -s << parameters.url >> | bash -s -- \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
-                    -y "<< parameters.conf >>" \
                     -F "<< parameters.flags >>" \
                     -Z || echo 'Codecov upload failed'
                 when: << parameters.when >>

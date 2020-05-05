@@ -1,0 +1,35 @@
+{
+  "name": "codecov-circleci-orb",
+  "version": "1.0.5",
+  "description": "Codecov CircleCI Orb",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/mocha": "5.2.5",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
+    "typescript": "^3.1.1"
+  },
+  "scripts": {
+    "pretest": "tsc -p .",
+    "test": "nyc mocha",
+    "posttest": "nyc report --reporter=json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codecov/codecov-circleci-orb.git"
+  },
+  "keywords": [
+    "codecov",
+    "typescript",
+    "example",
+    "code",
+    "coverage"
+  ],
+  "author": "Thomas Hu <tom@codecov.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codecov/codecov-circleci-orb/issues"
+  },
+  "homepage": "https://github.com/codecov/codecov-circleci-orb#readme"
+}
