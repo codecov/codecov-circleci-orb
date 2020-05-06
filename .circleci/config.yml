@@ -81,7 +81,7 @@ workflows:
           orb-name: codecov/codecov
           context: orb-publishing
           fail-if-semver-not-indicated: true
-          requires: *integration-test
+          requires: integration-test
           filters:
             branches:
               only: master
