@@ -1,9 +1,6 @@
 coverage:
   status:
     project:
-      adder:
-        flags:
-          - adder
       backend:
         flags:
           - backend
@@ -12,9 +9,6 @@ coverage:
         flags:
           - frontend
 flags:
-  adder:
-    paths:
-      - src/adder/
   backend:
     paths:
       - src/adder/

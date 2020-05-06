@@ -35,7 +35,7 @@ jobs:
       - run: sudo pip install -r requirements.txt
       - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
       - codecov/upload:
-          flags: adder,backend
+          flags: backend
 
       - run: sudo apt-get install npm
       - run: npm install
@@ -76,3 +76,15 @@ workflows:
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
       - integration-test
+
+      - orb-tools/dev-promote-prod-from-commit-subject:
+          add-pr-comment: false
+          context: orb-publishing
+          fail-if-semver-not-indicated: true
+          filters:
+            branches:
+              only: master
+          orb-name: codecov/codecov
+          publish-version-tag: false
+          requires:
+            - integration-test
