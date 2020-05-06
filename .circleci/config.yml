@@ -76,3 +76,12 @@ workflows:
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
       - integration-test
+
+      - orb-tools/dev-promote-prod-from-commit-subject:
+          orb-name: codecov/codecov
+          context: orb-publishing
+          fail-if-semver-not-indicated: true
+          requires: *integration-test
+          filters:
+            branches:
+              only: master
