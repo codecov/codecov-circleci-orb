@@ -84,4 +84,5 @@ workflows:
             branches:
               only: master
           orb-name: codecov/codecov
-          requires: integration-test
+          requires:
+            - integration-test
