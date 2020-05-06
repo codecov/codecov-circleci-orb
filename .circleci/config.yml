@@ -79,7 +79,6 @@ workflows:
 
       - orb-tools/dev-promote-prod-from-commit-subject:
           add-pr-comment: false
-          context: orb-publishing
           fail-if-semver-not-indicated: true
           filters:
             branches:
