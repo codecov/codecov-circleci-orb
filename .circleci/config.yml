@@ -78,11 +78,13 @@ workflows:
       - integration-test
 
       - orb-tools/dev-promote-prod-from-commit-subject:
+          add-pr-comment: false
           context: orb-publishing
           fail-if-semver-not-indicated: true
           filters:
             branches:
               only: master
           orb-name: codecov/codecov
+          publish-version-tag: false
           requires:
             - integration-test
