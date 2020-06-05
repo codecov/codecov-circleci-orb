@@ -38,7 +38,7 @@ jobs:
           flags: backend
 
       - run: sudo apt-get install npm
-      - run: npm install
+      - run: npm install -g npm@latest
       - run: npm test
       - codecov/upload:
           file: coverage/coverage-final.json
