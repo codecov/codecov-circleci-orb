@@ -39,6 +39,7 @@ jobs:
 
       - run: sudo apt-get install npm
       - run: sudo npm install -g npm@latest
+      - run: npm install
       - run: npm test
       - codecov/upload:
           file: coverage/coverage-final.json
