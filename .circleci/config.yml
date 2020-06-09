@@ -38,6 +38,7 @@ jobs:
           flags: backend
 
       - run: sudo apt-get install npm
+      - run: sudo npm install -g npm@6.14.5
       - run: npm install
       - run: npm test
       - codecov/upload:
@@ -79,11 +80,13 @@ workflows:
 
       - orb-tools/dev-promote-prod-from-commit-subject:
           add-pr-comment: false
+          context: Codecov Orb Context
           fail-if-semver-not-indicated: false
           filters:
             branches:
               only: master
           orb-name: codecov/codecov
           publish-version-tag: false
+          publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
             - integration-test
