@@ -38,7 +38,7 @@ jobs:
           flags: backend
 
       - run: sudo apt-get install npm
-      - run: sudo npm install -g npm@latest
+      - run: sudo npm install -g npm@6.14.5
       - run: npm install
       - run: npm test
       - codecov/upload:
