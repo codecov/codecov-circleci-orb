@@ -34,6 +34,10 @@ commands:
         description: When should this step run?
         type: string
         default: "always"
+      xtra_flags:
+        description: Additional flags and values that should be passed to the bash script defined in parameters.url
+        type: string
+        default: ""
     steps:
       - when:
           condition: << parameters.file >>
@@ -46,6 +50,7 @@ commands:
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
+                    << parameters.xtra_flags >> \
                     -Z || echo 'Codecov upload failed'
                 when: << parameters.when >>
       - unless:
@@ -58,5 +63,6 @@ commands:
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
+                    << parameters.xtra_flags >> \
                     -Z || echo 'Codecov upload failed'
                 when: << parameters.when >>
