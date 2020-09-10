@@ -59,6 +59,7 @@ workflows:
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       - orb-tools/publish-dev:
+          context: Codecov Orb Context
           orb-name: codecov/codecov
           requires:
             - orb-tools/pack
