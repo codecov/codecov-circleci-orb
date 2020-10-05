@@ -56,6 +56,13 @@ workflows:
           requires:
             - orb-tools/lint
 
+          publish-token-variable: ORB_PUBLISH_TOKEN
+
+      - hold:
+          type: approval # presents manual approval button in the UI
+          requires:
+            - orb-tools/pack
+
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       - orb-tools/publish-dev:
@@ -63,7 +70,7 @@ workflows:
           orb-name: codecov/codecov
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
-            - orb-tools/pack
+            - hold
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
