@@ -56,8 +56,6 @@ workflows:
           requires:
             - orb-tools/lint
 
-          publish-token-variable: ORB_PUBLISH_TOKEN
-
       - hold:
           type: approval # presents manual approval button in the UI
           requires:
