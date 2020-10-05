@@ -61,6 +61,7 @@ workflows:
       - orb-tools/publish-dev:
           context: Codecov Orb Context
           orb-name: codecov/codecov
+          publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
             - orb-tools/pack
 
