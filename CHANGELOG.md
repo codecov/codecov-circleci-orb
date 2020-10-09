@@ -1,3 +1,10 @@
+## 1.1.2
+**Features**
+None
+
+**Fixes**
+- [#52](https://github.com/codecov/codecov-circleci-orb/pull/52) Show error message when curl fails.
+
 ## 1.1.1
 **Features**
 None
