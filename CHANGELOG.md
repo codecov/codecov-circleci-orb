@@ -1,3 +1,10 @@
+## 1.1.3
+**Features**
+None
+
+**Fixes**
+- [#57](https://github.com/codecov/codecov-circleci-orb/pull/57) Add Codecov bash paramter
+
 ## 1.1.2
 **Features**
 None
