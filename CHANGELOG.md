@@ -1,3 +1,10 @@
+## 1.1.3
+**Features**
+None
+
+**Fixes**
+- [#59](https://github.com/codecov/codecov-circleci-orb/pull/59) Fixed bash command failure due to unescaped line break
+
 ## 1.1.2
 **Features**
 None
