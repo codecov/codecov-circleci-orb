@@ -42,7 +42,7 @@ commands:
                 name: Upload Coverage Results
                 command: |
                   curl -sS << parameters.url >> | bash -s -- \
-                    -Q "codecov-circleci-orb-1.1.2"
+                    -Q "codecov-circleci-orb-1.1.2" \
                     -f "<< parameters.file >>" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
@@ -56,7 +56,7 @@ commands:
                 name: Upload Coverage Results
                 command: |
                   curl -sS << parameters.url >> | bash -s -- \
-                    -Q "codecov-circleci-orb-1.1.2"
+                    -Q "codecov-circleci-orb-1.1.2" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
