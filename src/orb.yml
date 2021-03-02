@@ -23,7 +23,7 @@ commands:
         type: integer
         default: 4
       retry-delay:
-        description: Seconds to wait before nexxt retry attempt
+        description: Seconds to wait before next retry attempt
         type: integer
         default: 15
       token:
