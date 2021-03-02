@@ -18,6 +18,14 @@ commands:
         description: Flag the upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
         type: string
         default: ""
+      retry:
+        description: Retry this number of times before giving up
+        type: integer
+        default: 4
+      retry-delay:
+        description: Seconds to wait before nexxt retry attempt
+        type: integer
+        default: 15
       token:
         description: Set the private repository token as the value of the variable CODECOV_TOKEN using CircleCI Environment Variables.
         type: string
@@ -42,6 +50,8 @@ commands:
                 name: Upload Coverage Results
                 command: |
                   curl -sS << parameters.url >> | bash -s -- \
+                    --retry << parameters.retry >> \
+                    --retry-delay << parameters.retry-delay >> \
                     -Q "codecov-circleci-orb-1.1.2" \
                     -f "<< parameters.file >>" \
                     -t "<< parameters.token >>" \
@@ -56,6 +66,8 @@ commands:
                 name: Upload Coverage Results
                 command: |
                   curl -sS << parameters.url >> | bash -s -- \
+                    --retry << parameters.retry >> \
+                    --retry-delay << parameters.retry-delay >> \
                     -Q "codecov-circleci-orb-1.1.2" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
