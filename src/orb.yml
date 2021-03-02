@@ -19,9 +19,9 @@ commands:
         type: string
         default: ""
       retry:
-        description: Retry this number of times before giving up
+        description: If a transient error is returned when curl tries to perform a transfer, it will retry this number of times before giving up.
         type: integer
-        default: 4
+        default: 0
       retry-delay:
         description: Seconds to wait before next retry attempt
         type: integer
