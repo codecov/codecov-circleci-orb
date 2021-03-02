@@ -65,9 +65,9 @@ commands:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  curl -sS << parameters.url >> | bash -s -- \
-                    --retry << parameters.retry >> \
-                    --retry-delay << parameters.retry-delay >> \
+                  curl -sS << parameters.url >> \
+                    --retry << parameters.retry >> 
+                    --retry-delay << parameters.retry-delay >> | bash -s -- \
                     -Q "codecov-circleci-orb-1.1.2" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
