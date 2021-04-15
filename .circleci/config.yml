@@ -69,7 +69,7 @@ workflows:
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
-					context: Codecov Orb Context
+          context: Codecov Orb Context
           name: trigger-integration-dev
           requires:
             - orb-tools/publish-dev
