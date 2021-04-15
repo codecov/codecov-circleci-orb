@@ -4,7 +4,7 @@ version: 2.1
 # release must exist.);
 orbs:
   codecov: codecov/codecov@dev:alpha
-  orb-tools: circleci/orb-tools@9.0
+  orb-tools: circleci/orb-tools@10.0
 
 # Pipeline parameters
 parameters:
@@ -47,15 +47,11 @@ jobs:
 
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.
-  lint_pack-validate_publish-dev:
+  test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint
-
-      - orb-tools/pack:
-          requires:
-            - orb-tools/lint
-
+      - orb-tools/pack
       - hold:
           type: approval # presents manual approval button in the UI
           requires:
@@ -73,11 +69,12 @@ workflows:
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
+					context: Codecov Orb Context
           name: trigger-integration-dev
           requires:
             - orb-tools/publish-dev
 
-  integration-tests_prod-release:
+  integration-tests_deploy:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # your integration test jobs go here: essentially, run all your orb's
