@@ -25,7 +25,8 @@ jobs:
   # Rename this job and add more as needed.
   #
   integration-test:
-    executor: cimg/base:stable
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
       - run: sudo apt-get update
