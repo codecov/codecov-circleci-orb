@@ -25,7 +25,7 @@ jobs:
   # Rename this job and add more as needed.
   #
   integration-test:
-    executor: orb-tools/ubuntu
+    executor: cimg/base:stable
     steps:
       - checkout
       - run: sudo apt-get update
