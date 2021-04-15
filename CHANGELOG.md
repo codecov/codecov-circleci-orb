@@ -1,3 +1,13 @@
+## 1.1.4
+**Features**
+None
+
+**Fixes**
+- #74 Add validation of checksums
+
+**Dependencies**
+- #75 Bump y18n from 4.0.0 to 4.0.3
+
 ## 1.1.3
 **Features**
 None
