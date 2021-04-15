@@ -2,7 +2,6 @@ version: 2.1
 
 description: >
   Upload your coverage reports to Codecov without dealing with complex configurations. This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence.
-
 display:
   source_url: https://github.com/codecov/codecov-circleci-orb
   home_url: https://codecov.io/
@@ -30,35 +29,52 @@ commands:
         description: Custom url to submit the codecov result. Default to "https://codecov.io/bash"
         type: string
         default: "https://codecov.io/bash"
+      validate_url:
+        description: Validate the url before submitting the codecov result. https://docs.codecov.io/docs/about-the-codecov-bash-uploader#validating-the-bash-script
+        type: boolean
+        default: true
       when:
         description: When should this step run?
         type: string
         default: "always"
     steps:
+      - run:
+          name: Download Codecov Bash Uploader
+          command: curl -s << parameters.url >> > codecov
+          when: << parameters.when >>
+      - when:
+          condition: << parameters.validate_url >>
+          steps:
+            - run:
+                name: Validate Codecov Bash Uploader
+                command: |
+                  VERSION=$(grep 'VERSION=\".*\"' codecov | cut -d'"' -f2);
+                  for i in 1 256 512
+                  do
+                    shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM)
+                  done
       - when:
           condition: << parameters.file >>
           steps:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  curl -sS << parameters.url >> | bash -s -- \
-                    -Q "codecov-circleci-orb-1.1.2" \
+                  cat codecov | bash -s -- \
+                    -Q "codecov-circleci-orb-1.1.3" \
                     -f "<< parameters.file >>" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
                     -Z || echo 'Codecov upload failed'
-                when: << parameters.when >>
       - unless:
           condition: << parameters.file >>
           steps:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  curl -sS << parameters.url >> | bash -s -- \
-                    -Q "codecov-circleci-orb-1.1.2" \
+                  cat codecov | bash -s -- \
+                    -Q "codecov-circleci-orb-1.1.3" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
                     -Z || echo 'Codecov upload failed'
-                when: << parameters.when >>
