@@ -62,7 +62,7 @@ workflows:
       - orb-tools/publish-dev:
           context: Codecov Orb Context
           orb-name: codecov/codecov
-          publish-token-variable: $ORB_PUBLISH_TOKEN
+          publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
             - hold
 
@@ -91,6 +91,6 @@ workflows:
               only: master
           orb-name: codecov/codecov
           publish-version-tag: false
-          publish-token-variable: $ORB_PUBLISH_TOKEN
+          publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
             - integration-test
