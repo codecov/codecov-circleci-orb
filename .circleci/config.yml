@@ -52,7 +52,8 @@ workflows:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint
-      - orb-tools/pack
+      - orb-tools/pack:
+          workspace-root: src
       - hold:
           type: approval # presents manual approval button in the UI
           requires:
