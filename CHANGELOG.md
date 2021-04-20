@@ -1,3 +1,7 @@
+## 1.1.5
+**Fixes**
+- #78 Update validation regex and add shasum flexibility
+
 ## 1.1.4
 **Features**
 None
