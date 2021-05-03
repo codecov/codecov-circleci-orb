@@ -1,3 +1,7 @@
+## 1.1.6
+**Fixes**
+- #81 Update bash script with best practices
+
 ## 1.1.5
 **Fixes**
 - #78 Update validation regex and add shasum flexibility
