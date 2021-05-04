@@ -54,17 +54,14 @@ commands:
                     shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM) ||
                     shasum -a $i -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM)
                   done
-          steps:
             - run:
                 name: See parameters
                 command:
                   echo << parameters.file >>
-          steps:
             - run:
                 name: See parameters
                 command:
                   echo $parameters
-          steps:
             - run:
                 name: Upload Coverage Results
                 command: |
