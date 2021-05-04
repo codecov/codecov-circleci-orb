@@ -1,6 +1,7 @@
 ## 1.1.6
 **Fixes**
 - #81 Update bash script with best practices
+- #82 Reduce the code in the orb to DRY
 
 ## 1.1.5
 **Fixes**
