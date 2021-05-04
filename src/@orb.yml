@@ -54,8 +54,16 @@ commands:
                     shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM) ||
                     shasum -a $i -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM)
                   done
-      - when:
-          condition: << parameters.file >>
+          steps:
+            - run:
+                name: See parameters
+                command:
+                  echo << parameters.file >>
+          steps:
+            - run:
+                name: See parameters
+                command:
+                  echo $parameters
           steps:
             - run:
                 name: Upload Coverage Results
@@ -63,18 +71,6 @@ commands:
                   cat codecov | bash -s -- \
                     -Q "codecov-circleci-orb-1.1.4" \
                     -f "<< parameters.file >>" \
-                    -t "<< parameters.token >>" \
-                    -n "<< parameters.upload_name >>" \
-                    -F "<< parameters.flags >>" \
-                    -Z || echo 'Codecov upload failed'
-      - unless:
-          condition: << parameters.file >>
-          steps:
-            - run:
-                name: Upload Coverage Results
-                command: |
-                  cat codecov | bash -s -- \
-                    -Q "codecov-circleci-orb-1.1.4" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
