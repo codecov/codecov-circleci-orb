@@ -61,11 +61,10 @@ commands:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  cat codecov | bash -s -- \
+                  bash codecov \
                     -Q "codecov-circleci-orb-1.2.0" \
-                    [[ -z << parameters.file >> ]] && echo "-f << parameters.file >>" || echo "" \
-                    -f "<< parameters.file >>" \
+                    [[ -z "<< parameters.file >>" ]] && "-f << parameters.file >>" || "" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
-                    [[ -z << parameters.xtra_args >> ]] && echo "<< parameters.xtra_args >>" || echo ""
+                    [[ -z "<< parameters.xtra_args >>" ]] && "<< parameters.xtra_args >>" || ""
