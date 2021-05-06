@@ -1,6 +1,9 @@
 ## 1.2.0
-** Features**
-- # Allow extra parameters to be specified from the bash uploader
+**Features**
+- #84 Allow extra parameters to be specified from the bash uploader
+
+**Fixes**
+- #84 Fixes issue with parameters in #82
 
 ## 1.1.6
 **Fixes**
