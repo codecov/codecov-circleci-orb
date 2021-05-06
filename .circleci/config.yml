@@ -45,6 +45,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
+          xtra_args: -v -Z
 
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.
