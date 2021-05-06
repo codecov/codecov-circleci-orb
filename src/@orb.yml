@@ -37,6 +37,10 @@ commands:
         description: When should this step run?
         type: string
         default: "always"
+      xtra_args:
+        description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`)
+        type: string
+        default: ""
     steps:
       - run:
           name: Download Codecov Bash Uploader
@@ -57,11 +61,12 @@ commands:
             - run:
                 name: Upload Coverage Results
                 command: |
-                  cat codecov | bash -s -- \
-                    -Q "codecov-circleci-orb-1.1.4" \
-                    [[ -z << parameters.file >> ]] && echo "-f << parameters.file >>" || echo "" \
-                    -f "<< parameters.file >>" \
+                  args=()
+                  [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
+                  [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+                  bash codecov \
+                    -Q "codecov-circleci-orb-1.2.0" \
                     -t "<< parameters.token >>" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
-                    -Z || echo 'Codecov upload failed'
+                    ${args[@]}

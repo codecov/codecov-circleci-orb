@@ -1,3 +1,10 @@
+## 1.2.0
+**Features**
+- #84 Allow extra parameters to be specified from the bash uploader
+
+**Fixes**
+- #84 Fixes issue with parameters in #82
+
 ## 1.1.6
 **Fixes**
 - #81 Update bash script with best practices
