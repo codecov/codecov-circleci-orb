@@ -126,4 +126,4 @@ workflows:
           publish-version-tag: false
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
-            - integration-test
+            - test-codecov-orb
