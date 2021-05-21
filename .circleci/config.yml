@@ -92,7 +92,7 @@ workflows:
       # your integration test jobs go here: essentially, run all your orb's
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
-      - integration-test
+      - integration-test:
           matrix:
             parameters:
               os: [linux, macos]
