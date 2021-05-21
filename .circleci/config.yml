@@ -17,6 +17,14 @@ parameters:
     type: string
     default: "dev:alpha"
 
+executors:
+  linux:
+    docker:
+      - image: cimg/base:stable
+  macos:
+    macos:
+      xcode: 11.4
+
 jobs:
   # This job is an example of an integration testing job.
   # This job should execute a command from your orb and verify
@@ -25,8 +33,10 @@ jobs:
   # Rename this job and add more as needed.
   #
   integration-test:
-    docker:
-      - image: cimg/base:stable
+    parameters:
+      os:
+        type: executor
+    executor: << parameters.os >>
     steps:
       - checkout
       - run: sudo apt-get update
@@ -83,6 +93,9 @@ workflows:
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
       - integration-test
+          matrix:
+            parameters:
+              os: [linux, macos]
 
       - orb-tools/dev-promote-prod-from-commit-subject:
           add-pr-comment: false
