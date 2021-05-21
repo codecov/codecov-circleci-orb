@@ -31,10 +31,10 @@ executors:
 
   python:
     docker:
-      - image: cimg/python
+      - image: cimg/python:3.9.5
   node:
     docker:
-      - image: cimg/node
+      - image: cimg/node:16.2.0
 
 jobs:
   # This job is an example of an integration testing job.
@@ -81,7 +81,10 @@ workflows:
       - hold:
           type: approval # presents manual approval button in the UI
           requires:
+            - orb-tools/lint
             - orb-tools/pack
+            - test-backend
+            - test-frontend
 
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
