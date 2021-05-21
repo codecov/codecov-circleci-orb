@@ -55,6 +55,7 @@ jobs:
     steps:
       - checkout
       - node/install-npm
+      - run: npm install
       - run: npm test
   test-codecov-orb:
     parameters:
