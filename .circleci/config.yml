@@ -50,6 +50,8 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
+      - store_artifacts:
+          path: coverage.xml
   test-frontend:
     executor: node
     steps:
@@ -57,12 +59,16 @@ jobs:
       - node/install-npm
       - run: npm install
       - run: npm test
+      - store_artifacts:
+          path: coverage/coverage-final.json
   test-codecov-orb:
     parameters:
       os:
         type: executor
     executor: << parameters.os >>
     steps:
+      - checkout
+      -
       - codecov/upload:
           flags: backend
       - codecov/upload:
@@ -75,8 +81,6 @@ workflows:
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
-      - test-backend
-      - test-frontend
       - orb-tools/lint
       - orb-tools/pack
       - hold:
@@ -84,8 +88,6 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - test-backend
-            - test-frontend
 
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
@@ -107,13 +109,15 @@ workflows:
   integration-tests_deploy:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
-      # your integration test jobs go here: essentially, run all your orb's
-      # jobs and commands to ensure they behave as expected. or, run other
-      # integration tests of your choosing
+      - test-backend
+      - test-frontend
       - test-codecov-orb:
           matrix:
             parameters:
               os: [linux, macos, windows]
+          requires:
+            - test-backend
+            - test-frontend
 
       - orb-tools/dev-promote-prod-from-commit-subject:
           add-pr-comment: false
