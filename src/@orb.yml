@@ -29,6 +29,10 @@ commands:
         description: Custom url to submit the codecov result. Default to "https://codecov.io/bash"
         type: string
         default: "https://codecov.io/bash"
+      using_windows:
+        description: Is this being run in a Windows setup?
+        type: boolean
+        default: false
       validate_url:
         description: Validate the url before submitting the codecov result. https://docs.codecov.io/docs/about-the-codecov-bash-uploader#validating-the-bash-script
         type: boolean
@@ -42,31 +46,65 @@ commands:
         type: string
         default: ""
     steps:
-      - run:
-          name: Download Codecov Bash Uploader
-          command: curl -fLso codecov << parameters.url >>
-          when: << parameters.when >>
       - when:
-          condition: << parameters.validate_url >>
+          condition: << parameters.using_windows >>
           steps:
             - run:
-                name: Validate Codecov Bash Uploader
-                command: |
-                  VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
-                  for i in 1 256 512
-                  do
-                    shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM) ||
-                    shasum -a $i -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM | grep -w "codecov")
-                  done
+                name: Download Codecov Bash Uploader
+                command: curl -Outfile codecov -Uri << parameters.url >>
+                when: << parameters.when >>
+            - when:
+                condition: << parameters.validate_url >>
+                steps:
+                  - run:
+                      name: Validate Codecov Bash Uploader
+                      command: |
+                        VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
+                        for i in 1 256 512
+                        do
+                          shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM) ||
+                          shasum -a $i -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM | grep -w "codecov")
+                        done
+                  - run:
+                      name: Upload Coverage Results
+                      command: |
+                        args=()
+                        [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
+                        [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+                        bash codecov \
+                          -Q "codecov-circleci-orb-1.2.0" \
+                          -t "<< parameters.token >>" \
+                          -n "<< parameters.upload_name >>" \
+                          -F "<< parameters.flags >>" \
+                          ${args[@]}
+      - unless:
+          condition: << parameters.using_windows >>
+          steps:
             - run:
-                name: Upload Coverage Results
-                command: |
-                  args=()
-                  [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
-                  [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
-                  bash codecov \
-                    -Q "codecov-circleci-orb-1.2.0" \
-                    -t "<< parameters.token >>" \
-                    -n "<< parameters.upload_name >>" \
-                    -F "<< parameters.flags >>" \
-                    ${args[@]}
+                name: Download Codecov Bash Uploader
+                command: curl -fLso codecov << parameters.url >>
+                when: << parameters.when >>
+            - when:
+                condition: << parameters.validate_url >>
+                steps:
+                  - run:
+                      name: Validate Codecov Bash Uploader
+                      command: |
+                        VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
+                        for i in 1 256 512
+                        do
+                          shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM) ||
+                          shasum -a $i -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM | grep -w "codecov")
+                        done
+                  - run:
+                      name: Upload Coverage Results
+                      command: |
+                        args=()
+                        [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
+                        [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+                        bash codecov \
+                          -Q "codecov-circleci-orb-1.2.0" \
+                          -t "<< parameters.token >>" \
+                          -n "<< parameters.upload_name >>" \
+                          -F "<< parameters.flags >>" \
+                          ${args[@]}
