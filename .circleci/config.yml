@@ -64,7 +64,6 @@ jobs:
     executor: << parameters.os >>
     steps:
       - checkout
-      -
       - codecov/upload:
           flags: backend
       - codecov/upload:
