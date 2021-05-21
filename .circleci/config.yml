@@ -5,6 +5,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@dev:alpha
   orb-tools: circleci/orb-tools@10.0
+  win: circleci/windows@2.2.0
 
 # Pipeline parameters
 parameters:
@@ -24,6 +25,7 @@ executors:
   macos:
     macos:
       xcode: 11.4
+  windows: win/default
 
 jobs:
   # This job is an example of an integration testing job.
@@ -95,7 +97,7 @@ workflows:
       - integration-test:
           matrix:
             parameters:
-              os: [linux, macos]
+              os: [linux, macos, windows]
 
       - orb-tools/dev-promote-prod-from-commit-subject:
           add-pr-comment: false
