@@ -29,6 +29,13 @@ executors:
       xcode: 11.4
   windows: win/default
 
+  python:
+    docker:
+      - image: cimg/python
+  node:
+    docker:
+      - image: cimg/node
+
 jobs:
   # This job is an example of an integration testing job.
   # This job should execute a command from your orb and verify
@@ -37,14 +44,14 @@ jobs:
   # Rename this job and add more as needed.
   #
   test-backend:
-    executor: cimg/python
+    executor: python
     steps:
       - checkout
       - python/install-packages:
           pkg-manager: pip
       - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
   test-frontend:
-    executor: cimg/node
+    executor: node
     steps:
       - checkout
       - node/install-npm
