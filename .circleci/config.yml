@@ -36,22 +36,27 @@ jobs:
   #
   # Rename this job and add more as needed.
   #
-  integration-test:
+  test-backend:
+    executor: cimg/python
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
+  test-frontend:
+    executor: cimg/node
+    steps:
+      - checkout
+      - node/install-npm
+      - run: npm test
+  test-codecov-orb:
     parameters:
       os:
         type: executor
     executor: << parameters.os >>
     steps:
-      - checkout
-      - python/dist
-      - python/install-packages:
-          pkg-manager: pip
-      - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
       - codecov/upload:
           flags: backend
-
-      - node/install-npm
-      - run: npm test
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
@@ -62,6 +67,8 @@ workflows:
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
+      - test-backend
+      - test-frontend
       - orb-tools/lint
       - orb-tools/pack
       - hold:
@@ -92,7 +99,7 @@ workflows:
       # your integration test jobs go here: essentially, run all your orb's
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
-      - integration-test:
+      - test-codecov-orb:
           matrix:
             parameters:
               os: [linux, macos, windows]
