@@ -77,9 +77,6 @@ commands:
                       command: |
                         $arguments=@(
                           '-Q "codecov-circleci-orb-1.2.1"',
-                          '-t "<< parameters.token >>"',
-                          '-n "<< parameters.upload_name >>"',
-                          '-F "<< parameters.flags >>"'
                         )
                         If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
                         If ( "<< parameters.xtra_args >>" -ne "") {$arguments += '<< parameters.xtra_args >>'}
