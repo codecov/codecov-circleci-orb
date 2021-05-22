@@ -82,7 +82,7 @@ commands:
                           '-F "<< parameters.flags >>"'
                         )
                         If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
-                        If ( "<< parameters.xtra_args >>" -ne "") {$arguments += '<< parameters.xtra_args'}
+                        If ( "<< parameters.xtra_args >>" -ne "") {$arguments += '<< parameters.xtra_args >>'}
                         chmod +x codecov
                         echo "$arguments"
                         ls
