@@ -42,7 +42,8 @@ commands:
         type: string
         default: "always"
       xtra_args:
-        description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`)
+        description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`). Windows builds must provide extra flags as
+          query string (e.g. `-i=src/&-v=$true&-Z=$true` for `-i src/ -v -Z`)
         type: string
         default: ""
     steps:
@@ -75,18 +76,14 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
-                        bash ./codecov -f coverage/coverage-final.json -v -Z
-                        echo "next attempt"
-                        bash ./codecov "-f coverage/coverage-final.json -v -Z"
-                        echo "next attempt"
-                        bash ./codecov "-f coverage/coverage-final.json" "-v -Z"
-                        $arguments=@()
-                        If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
-                        If ( "<< parameters.xtra_args >>" -ne "") {$arguments += '<< parameters.xtra_args >>'}
+                        $arguments=@{}
+                        If ( "<< parameters.file >>" -ne "") {$arguments['-f'] = << parameters.file >>
+                        If ( "<< parameters.xtra_args >>" -ne "") {
+                          foreach ($pair in << parameters.xtra_args >>.split("&")) {
+                            $arguments[$pair.split("=")[0]] = $pair.split("=")[1]
+                          }
+                        }
                         chmod +x codecov
-                        echo "$arguments"
-                        ls
-                        pwd
                         bash ./codecov @arguments
       - unless:
           condition: << parameters.using_windows >>
