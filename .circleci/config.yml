@@ -122,6 +122,7 @@ workflows:
       - test-frontend
       - test-codecov-orb:
           matrix:
+            alias: test-codecov-orb-non-windows
             parameters:
               os: [linux, macos]
               using_windows: [false]
@@ -130,6 +131,7 @@ workflows:
             - test-frontend
       - test-codecov-orb:
           matrix:
+            alias: test-codecov-orb-windows
             parameters:
               os: [windows]
               using_windows: [true]
@@ -148,4 +150,5 @@ workflows:
           publish-version-tag: false
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
-            - test-codecov-orb
+            - test-codecov-orb-non-windows
+            - test-codecov-orb-windows
