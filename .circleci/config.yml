@@ -75,17 +75,6 @@ jobs:
       - attach_workspace:
           at: .
       - when:
-          condition: << parameters.os >> != 'windows'
-          steps:
-            - codecov/upload:
-                flags: backend
-                using_windows: false
-            - codecov/upload:
-                file: coverage/coverage-final.json
-                flags: frontend
-                using_windows: false
-                xtra_args: -v -Z
-      - when:
           condition: << parameters.os >> == 'windows'
           steps:
             - codecov/upload:
@@ -95,6 +84,17 @@ jobs:
                 file: coverage/coverage-final.json
                 flags: frontend
                 using_windows: true
+                xtra_args: -v -Z
+      - unless:
+          condition: << parameters.os >> == 'windows'
+          steps:
+            - codecov/upload:
+                flags: backend
+                using_windows: false
+            - codecov/upload:
+                file: coverage/coverage-final.json
+                flags: frontend
+                using_windows: false
                 xtra_args: -v -Z
 
 
