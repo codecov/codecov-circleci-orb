@@ -67,8 +67,8 @@ commands:
                           echo $i
                           echo "url"
                           echo "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM"
-                          echo (curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov"
-                          echo (curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " "
+                          echo ((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov")
+                          echo ((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " ")
                           $hash = ((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " ")[0]
                           echo "hash"
                           echo $hash
