@@ -75,6 +75,7 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
+                        bash ./codecov -f coverage/coverage-final.json -v -Z
                         $arguments=@()
                         If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
                         If ( "<< parameters.xtra_args >>" -ne "") {$arguments += '<< parameters.xtra_args >>'}
