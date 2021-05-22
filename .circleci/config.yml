@@ -69,6 +69,8 @@ jobs:
     parameters:
       os:
         type: executor
+      using_windows:
+        type: boolean
     executor: << parameters.os >>
     steps:
       - checkout
@@ -76,17 +78,14 @@ jobs:
           at: .
       - codecov/upload:
           flags: backend
-          using_windows:
-            - equal: [ 'windows', << parameters.os >> ]
+          using_windows: << parameters.using_windows >>
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
-          using_windows:
-            - equal: [ 'windows', << parameters.os >> ]
+          using_windows: << parameters.using_windows >>
           xtra_args: -v -Z
 
 workflows:
-  # This `lint-pack_validate_publish-dev` workflow will run on any commit.
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
@@ -123,7 +122,16 @@ workflows:
       - test-codecov-orb:
           matrix:
             parameters:
-              os: [linux, macos, windows]
+              os: [linux, macos]
+              using_windows: false
+          requires:
+            - test-backend
+            - test-frontend
+
+      - test-codecov-orb:
+          parameters:
+            os: windows
+            using_windows: true
           requires:
             - test-backend
             - test-frontend
