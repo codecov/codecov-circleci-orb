@@ -88,9 +88,9 @@ commands:
                           $arguments += "-f"
                           $arguments += "<< parameters.file >>"
                         }
-                        If ( "<< parameters.name >>" -ne "") {
+                        If ( "<< parameters.upload_name >>" -ne "") {
                           $arguments += "-n"
-                          $arguments += "<< parameters.name >>"
+                          $arguments += "<< parameters.upload_name >>"
                         }
                         If ( "<< parameters.xtra_args >>" -ne "") {
                           foreach ($arg in "<< parameters.xtra_args >>".split( " " ) ) {
