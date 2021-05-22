@@ -42,8 +42,7 @@ commands:
         type: string
         default: "always"
       xtra_args:
-        description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`). Windows builds must provide extra flags as
-          query string (e.g. `-i=src/&-v=$true&-Z=$true` for `-i src/ -v -Z`)
+        description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`).
         type: string
         default: ""
     steps:
@@ -76,11 +75,14 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
-                        $arguments=@{}
-                        If ( "<< parameters.file >>" -ne "") {$arguments['-f'] = "<< parameters.file >>" }
+                        $arguments=@[]
+                        If ( "<< parameters.file >>" -ne "") {
+                          $arguments += "-f"
+                          $arguments += "<< parameters.file >>"
+                        }
                         If ( "<< parameters.xtra_args >>" -ne "") {
-                          foreach ($pair in "<< parameters.xtra_args >>".split("&")) {
-                            $arguments[$pair.split("=")[0]] = "${pair.split('=')[1]}"
+                          foreach ($arg in "<< parameters.xtra_args >>".split( " " ) ) {
+                            $arguments += $arg
                           }
                         }
                         chmod +x codecov
