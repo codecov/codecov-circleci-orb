@@ -76,14 +76,29 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - codecov/upload:
-          flags: backend
-          using_windows: << parameters.using_windows >>
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: frontend
-          using_windows: << parameters.using_windows >>
-          xtra_args: -v -Z
+      - when:
+          condition: << parameters.os >> != 'windows'
+          steps:
+            - codecov/upload:
+                flags: backend
+                using_windows: false
+            - codecov/upload:
+                file: coverage/coverage-final.json
+                flags: frontend
+                using_windows: false
+                xtra_args: -v -Z
+      - when:
+          condition: << parameters.os >> == 'windows'
+          steps:
+            - codecov/upload:
+                flags: backend
+                using_windows: true
+            - codecov/upload:
+                file: coverage/coverage-final.json
+                flags: frontend
+                using_windows: true
+                xtra_args: -v -Z
+
 
 workflows:
   test-pack:
@@ -120,25 +135,9 @@ workflows:
       - test-backend
       - test-frontend
       - test-codecov-orb:
-          parameters:
-            os: linux
-            using_windows: false
-          requires:
-            - test-backend
-            - test-frontend
-
-      - test-codecov-orb:
-          parameters:
-            os: macos
-            using_windows: true
-          requires:
-            - test-backend
-            - test-frontend
-
-      - test-codecov-orb:
-          parameters:
-            os: windows
-            using_windows: true
+          matrix:
+            parameters:
+              os: [linux, macos, windows]
           requires:
             - test-backend
             - test-frontend
