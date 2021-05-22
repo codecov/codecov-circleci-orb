@@ -75,10 +75,7 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
-                        $arguments = @(
-                          "-Q", "codecov-circleci-orb-1.2.1",
-                          "-n", "<< parameters.upload_name >>"
-                        )
+                        $arguments = @( "-Q", "codecov-circleci-orb-1.2.1" )
                         If ( "<< parameters.token >>" -ne "") {
                           $arguments += "-t"
                           $arguments += "<< parameters.token >>"
@@ -90,6 +87,10 @@ commands:
                         If ( "<< parameters.file >>" -ne "") {
                           $arguments += "-f"
                           $arguments += "<< parameters.file >>"
+                        }
+                        If ( "<< parameters.name >>" -ne "") {
+                          $arguments += "-n"
+                          $arguments += "<< parameters.name >>"
                         }
                         If ( "<< parameters.xtra_args >>" -ne "") {
                           foreach ($arg in "<< parameters.xtra_args >>".split( " " ) ) {
