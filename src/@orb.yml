@@ -60,11 +60,13 @@ commands:
                       name: Validate Codecov Bash Uploader
                       command: |
                         VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
-                        for i in 1 256 512
-                        do
-                          shasum -a $i -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM) ||
-                          shasum -a $i -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM | grep -w "codecov")
-                        done
+                        $algorithms = 1, 256, 512
+                        foreach ($algorithm in $algorithms) {
+                          $hash = curl -Uri "https://raw.githubusercontent.com/codecov/codecov-bash${VERSION}/SHA${algorithm}SUM"
+                          echo $hash
+                          echo (Get-FileHash codecov).hash
+                          (Get-FileHash codecov).hash -eq $hash
+                        }
                   - run:
                       name: Upload Coverage Results
                       command: |
