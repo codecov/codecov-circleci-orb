@@ -87,7 +87,7 @@ commands:
                         echo "$arguments"
                         ls
                         pwd
-                        bash codecov "$arguments"
+                        ./codecov "$arguments"
       - unless:
           condition: << parameters.using_windows >>
           steps:
