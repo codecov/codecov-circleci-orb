@@ -68,14 +68,16 @@ commands:
                             echo "Published has: ${hash}"
                             echo "SHASUMs do not match, exiting."
                             exit 1
+                          } Else {
+                            echo "OK"
                           }
                         }
                   - run:
                       name: Upload Coverage Results
                       command: |
                         $arguments=@()
-                        If (<< parameters.file >> -ne "") {$arguments += '-f << parameters.file >>'}
-                        ./codecov \
+                        If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
+                        codecov \
                           -Q "codecov-circleci-orb-1.2.1" \
                           -t "<< parameters.token >>" \
                           -n "<< parameters.upload_name >>" \
