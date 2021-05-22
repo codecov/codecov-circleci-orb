@@ -78,7 +78,7 @@ commands:
                         $arguments=@()
                         If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
                         chmod +x codecov
-                        codecov \
+                        ./codecov \
                           -Q "codecov-circleci-orb-1.2.1" \
                           -t "<< parameters.token >>" \
                           -n "<< parameters.upload_name >>" \
