@@ -75,7 +75,7 @@ jobs:
       - attach_workspace:
           at: .
       - when:
-          condition: << parameters.os >> == windows
+          condition: << parameters.os.name >> == "windows"
           steps:
             - codecov/upload:
                 flags: backend
@@ -86,7 +86,7 @@ jobs:
                 using_windows: true
                 xtra_args: -v -Z
       - unless:
-          condition: << parameters.os >> == windows
+          condition: << parameters.os.name >> == "windows"
           steps:
             - codecov/upload:
                 flags: backend
