@@ -74,8 +74,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: |
+          echo << parameters.os >>
+          echo << parameters.os >>.name
       - when:
-          condition: << parameters.os.name >> == "windows"
+          condition: << parameters.os >> == "windows"
           steps:
             - codecov/upload:
                 flags: backend
@@ -86,7 +89,7 @@ jobs:
                 using_windows: true
                 xtra_args: -v -Z
       - unless:
-          condition: << parameters.os.name >> == "windows"
+          condition: << parameters.os >> == "windows"
           steps:
             - codecov/upload:
                 flags: backend
