@@ -121,25 +121,18 @@ workflows:
       - test-backend
       - test-frontend
       - test-codecov-orb:
-          parameters:
-            os: [linux]
-            using_windows: false
+          matrix:
+            parameters:
+              os: [linux, macos]
+              using_windows: [false]
           requires:
             - test-backend
             - test-frontend
-
       - test-codecov-orb:
-          parameters:
-            os: [macos]
-            using_windows: false
-          requires:
-            - test-backend
-            - test-frontend
-
-      - test-codecov-orb:
-          parameters:
-            os: [windows]
-            using_windows: true
+          matrix:
+            parameters:
+              os: [windows]
+              using_windows: [true]
           requires:
             - test-backend
             - test-frontend
