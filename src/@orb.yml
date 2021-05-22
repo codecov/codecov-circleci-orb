@@ -73,6 +73,11 @@ commands:
                           }
                         }
                   - run:
+                      name: List files
+                      command: |
+                        ls
+                        pwd
+                  - run:
                       name: Upload Coverage Results
                       command: |
                         $arguments=@()
