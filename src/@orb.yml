@@ -83,7 +83,7 @@ commands:
                         )
                         If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
                         chmod +x codecov
-                        ./codecov "$arguments"
+                        bash codecov "$arguments"
       - unless:
           condition: << parameters.using_windows >>
           steps:
