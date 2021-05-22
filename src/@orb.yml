@@ -51,7 +51,7 @@ commands:
           steps:
             - run:
                 name: Download Codecov Bash Uploader
-                command: curl -Outfile codecov.sh -Uri << parameters.url >>
+                command: curl -Outfile codecov -Uri << parameters.url >>
                 when: << parameters.when >>
             - when:
                 condition: << parameters.validate_url >>
@@ -83,11 +83,11 @@ commands:
                         )
                         If ( "<< parameters.file >>" -ne "") {$arguments += '-f << parameters.file >>'}
                         If ( "<< parameters.xtra_args >>" -ne "") {$arguments += '<< parameters.xtra_args >>'}
-                        chmod +x codecov.sh
+                        chmod +x codecov
                         echo "$arguments"
                         ls
                         pwd
-                        sh codecov.sh "$arguments"
+                        ./codecov @arguments
       - unless:
           condition: << parameters.using_windows >>
           steps:
