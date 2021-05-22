@@ -76,11 +76,13 @@ jobs:
           at: .
       - codecov/upload:
           flags: backend
-          using_windows: << parameters.os >> == 'windows'
+          using_windows:
+            - equal: [ 'windows', << parameters.os >> ]
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
-          using_windows: << parameters.os >> == 'windows'
+          using_windows:
+            - equal: [ 'windows', << parameters.os >> ]
           xtra_args: -v -Z
 
 workflows:
