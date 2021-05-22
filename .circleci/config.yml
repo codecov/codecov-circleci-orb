@@ -69,8 +69,6 @@ jobs:
     parameters:
       os:
         type: executor
-      using_windows:
-        type: boolean
     executor: << parameters.os >>
     steps:
       - checkout
