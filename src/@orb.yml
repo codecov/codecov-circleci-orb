@@ -60,8 +60,18 @@ commands:
                       name: Validate Codecov Bash Uploader
                       command: |
                         $VERSION=((Select-String -path codecov 'VERSION=\"[0-9\.]*\"' | ForEach-Object {$_.Matches} | Foreach-Object {$_.Groups[0].Value})-split '"')[1]
+                        echo "version"
+                        echo $VERSION
                         foreach ($i in 1, 256, 512) {
+                          echo "i"
+                          echo $i
+                          echo "url"
+                          echo "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM"
+                          echo (curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov"
+                          echo (curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " "
                           $hash = ((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " ")[0]
+                          echo "hash"
+                          echo $hash
                           If ((Get-FileHash -Algorithm "SHA${i}" codecov).hash.ToLower() -ne $hash) {
                             echo "hash"
                             echo $hash
