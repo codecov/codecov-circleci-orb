@@ -119,7 +119,7 @@ workflows:
     jobs:
       - test-backend
       - test-frontend
-      - test-codecov-orb-linux:
+      - test-codecov-orb:
           parameters:
             os: linux
             using_windows: false
@@ -127,7 +127,7 @@ workflows:
             - test-backend
             - test-frontend
 
-      - test-codecov-orb-macos:
+      - test-codecov-orb:
           parameters:
             os: macos
             using_windows: true
@@ -135,7 +135,7 @@ workflows:
             - test-backend
             - test-frontend
 
-      - test-codecov-orb-windows:
+      - test-codecov-orb:
           parameters:
             os: windows
             using_windows: true
@@ -154,6 +154,4 @@ workflows:
           publish-version-tag: false
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
-            - test-codecov-orb-linux
-            - test-codecov-orb-macos
-            - test-codecov-orb-windows
+            - test-codecov-orb
