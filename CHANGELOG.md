@@ -1,3 +1,7 @@
+## 1.2.1
+**Fixes**
+- #87 Fix support for Windows executors
+
 ## 1.2.0
 **Features**
 - #84 Allow extra parameters to be specified from the bash uploader

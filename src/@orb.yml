@@ -67,15 +67,14 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
-                        args=()
-                        [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
-                        [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+                        $arguments=@()
+                        If (<< parameters.file >> -ne "") {$arguments += '-f << parameters.file >>'}
                         bash codecov \
-                          -Q "codecov-circleci-orb-1.2.0" \
+                          -Q "codecov-circleci-orb-1.2.1" \
                           -t "<< parameters.token >>" \
                           -n "<< parameters.upload_name >>" \
                           -F "<< parameters.flags >>" \
-                          ${args[@]}
+                          @arguments
       - unless:
           condition: << parameters.using_windows >>
           steps:
@@ -102,7 +101,7 @@ commands:
                         [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
                         [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
                         bash codecov \
-                          -Q "codecov-circleci-orb-1.2.0" \
+                          -Q "codecov-circleci-orb-1.2.1" \
                           -t "<< parameters.token >>" \
                           -n "<< parameters.upload_name >>" \
                           -F "<< parameters.flags >>" \
