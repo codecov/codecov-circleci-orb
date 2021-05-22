@@ -83,7 +83,7 @@ jobs:
           file: coverage/coverage-final.json
           flags: frontend
           using_windows: << parameters.using_windows >>
-          xtra_args: -v&-Z
+          xtra_args: -v=$true&-Z=$true
 
 
 workflows:
