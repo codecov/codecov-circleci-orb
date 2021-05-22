@@ -75,7 +75,12 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
-                        $arguments = @()
+                        $arguments = @(
+                          "-Q", "codecov-circleci-orb-1.2.1",
+                          "-t", "<< parameters.token >>",
+                          "-n", "<< parameters.upload_name >>",
+                          "-F", "<< parameters.flags >>"
+                        )
                         If ( "<< parameters.file >>" -ne "") {
                           $arguments += "-f"
                           $arguments += "<< parameters.file >>"
@@ -86,8 +91,6 @@ commands:
                           }
                         }
                         chmod +x codecov
-                        echo $arguments
-                        echo @arguments
                         bash ./codecov @arguments
       - unless:
           condition: << parameters.using_windows >>
