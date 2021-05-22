@@ -62,7 +62,11 @@ commands:
                         $VERSION=((Select-String -path codecov 'VERSION=\"[0-9\.]*\"' | ForEach-Object {$_.Matches} | Foreach-Object {$_.Groups[0].Value})-split '"')[1]
                         foreach ($i in 1, 256, 512) {
                           $hash = ((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " ")[0]
-                          (Get-FileHash codecov).hash.ToLower() -eq $hash
+                          If ((Get-FileHash -Algorithm "SHA${i}" codecov).hash.ToLower() -ne $hash) {
+                            echo $hash
+                            echo (Get-FileHash -Algorithm "SHA${i}" codecov).hash.ToLower()
+                            exit 1
+                          }
                         }
                   - run:
                       name: Upload Coverage Results
@@ -74,7 +78,7 @@ commands:
                           -t "<< parameters.token >>" \
                           -n "<< parameters.upload_name >>" \
                           -F "<< parameters.flags >>" \
-                          @arguments
+                          "$arguments"
       - unless:
           condition: << parameters.using_windows >>
           steps:
