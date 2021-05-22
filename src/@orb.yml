@@ -77,7 +77,7 @@ commands:
                       name: Upload Coverage Results
                       command: |
                         $arguments=@{}
-                        If ( "<< parameters.file >>" -ne "") {$arguments['-f'] = << parameters.file >>}
+                        If ( "<< parameters.file >>" -ne "") {$arguments['-f'] = "<< parameters.file >>" }
                         If ( "<< parameters.xtra_args >>" -ne "") {
                           foreach ($pair in << parameters.xtra_args >>.split("&")) {
                             $arguments[$pair.split("=")[0]] = $pair.split("=")[1]
