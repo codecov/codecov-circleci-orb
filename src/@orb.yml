@@ -84,6 +84,8 @@ commands:
                           }
                         }
                         chmod +x codecov
+                        echo $arguments
+                        echo @arguments
                         bash ./codecov @arguments
       - unless:
           condition: << parameters.using_windows >>
