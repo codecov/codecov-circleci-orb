@@ -59,13 +59,10 @@ commands:
                   - run:
                       name: Validate Codecov Bash Uploader
                       command: |
-                        VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
-                        $algorithms = 1, 256, 512
-                        foreach ($algorithm in $algorithms) {
-                          $hash = curl -Uri "https://raw.githubusercontent.com/codecov/codecov-bash${VERSION}/SHA${algorithm}SUM"
-                          echo $hash
-                          echo (Get-FileHash codecov).hash
-                          (Get-FileHash codecov).hash -eq $hash
+                        $VERSION=((Select-String -path codecov 'VERSION=\"[0-9\.]*\"' | ForEach-Object {$_.Matches} | Foreach-Object {$_.Groups[0].Value})-split '"')[1]
+                        foreach ($i in 1, 256, 512) {
+                          $hash = ((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM") -match "codecov" -split " ")[0]
+                          (Get-FileHash codecov).hash.ToLower() -eq $hash
                         }
                   - run:
                       name: Upload Coverage Results
