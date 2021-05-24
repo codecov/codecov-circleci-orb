@@ -4,7 +4,10 @@ version: 2.1
 # release must exist.);
 orbs:
   codecov: codecov/codecov@dev:alpha
+  node: circleci/node@4.4.0
   orb-tools: circleci/orb-tools@10.0
+  python: circleci/python@1.4.0
+  win: circleci/windows@2.2.0
 
 # Pipeline parameters
 parameters:
@@ -17,6 +20,22 @@ parameters:
     type: string
     default: "dev:alpha"
 
+executors:
+  linux:
+    docker:
+      - image: cimg/base:stable
+  macos:
+    macos:
+      xcode: 11.4
+  windows: win/default
+
+  python:
+    docker:
+      - image: cimg/python:3.9.5
+  node:
+    docker:
+      - image: cimg/node:16.2.0
+
 jobs:
   # This job is an example of an integration testing job.
   # This job should execute a command from your orb and verify
@@ -24,31 +43,50 @@ jobs:
   #
   # Rename this job and add more as needed.
   #
-  integration-test:
-    docker:
-      - image: cimg/base:stable
+  test-backend:
+    executor: python
     steps:
       - checkout
-      - run: sudo apt-get update
-      - run: sudo apt-get install python3
-      - run: sudo apt-get install python3-pip
-      - run: sudo python3 -m pip install --upgrade pip
-      - run: sudo pip install -r requirements.txt
+      - python/install-packages:
+          pkg-manager: pip
       - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
-      - codecov/upload:
-          flags: backend
-
-      - run: sudo apt-get install npm
-      - run: sudo npm install -g npm@6.14.5
+      - persist_to_workspace:
+          root: .
+          paths:
+            - coverage.xml
+  test-frontend:
+    executor: node
+    steps:
+      - checkout
+      - node/install-npm
       - run: npm install
       - run: npm test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - coverage/coverage-final.json
+  test-codecov-orb:
+    parameters:
+      os:
+        type: executor
+      using_windows:
+        type: boolean
+    executor: << parameters.os >>
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - codecov/upload:
+          flags: backend
+          using_windows: << parameters.using_windows >>
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
+          using_windows: << parameters.using_windows >>
           xtra_args: -v -Z
 
+
 workflows:
-  # This `lint-pack_validate_publish-dev` workflow will run on any commit.
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
@@ -57,6 +95,7 @@ workflows:
       - hold:
           type: approval # presents manual approval button in the UI
           requires:
+            - orb-tools/lint
             - orb-tools/pack
 
       # release dev version of orb, for testing & possible publishing.
@@ -79,10 +118,26 @@ workflows:
   integration-tests_deploy:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
-      # your integration test jobs go here: essentially, run all your orb's
-      # jobs and commands to ensure they behave as expected. or, run other
-      # integration tests of your choosing
-      - integration-test
+      - test-backend
+      - test-frontend
+      - test-codecov-orb:
+          matrix:
+            alias: test-codecov-orb-non-windows
+            parameters:
+              os: [linux, macos]
+              using_windows: [false]
+          requires:
+            - test-backend
+            - test-frontend
+      - test-codecov-orb:
+          matrix:
+            alias: test-codecov-orb-windows
+            parameters:
+              os: [windows]
+              using_windows: [true]
+          requires:
+            - test-backend
+            - test-frontend
 
       - orb-tools/dev-promote-prod-from-commit-subject:
           add-pr-comment: false
@@ -95,4 +150,5 @@ workflows:
           publish-version-tag: false
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
-            - integration-test
+            - test-codecov-orb-non-windows
+            - test-codecov-orb-windows
