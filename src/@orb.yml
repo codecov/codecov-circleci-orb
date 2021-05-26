@@ -51,7 +51,7 @@ commands:
           steps:
             - run:
                 name: Download Codecov Bash Uploader
-                command: curl -Outfile codecov -Uri << parameters.url >>
+                command: Invoke-WebRequest -Uri "<< parameters.url >>" -Outfile codecov
                 when: << parameters.when >>
             - when:
                 condition: << parameters.validate_url >>
@@ -61,10 +61,11 @@ commands:
                       command: |
                         $VERSION=((Select-String -path codecov 'VERSION=\"[0-9\.]*\"' | ForEach-Object {$_.Matches} | Foreach-Object {$_.Groups[0].Value})-split '"')[1]
                         foreach ($i in 1, 256, 512) {
-                          $hash = (((curl "https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA${i}SUM")[0])-split( " " ))[0]
+                          echo "Pulling public hashes from https://github.com/codecov/codecov-bash/releases/download/${VERSION}/SHA${i}SUM"
+                          $hash = (((Invoke-WebRequest -Uri "https://github.com/codecov/codecov-bash/releases/download/${VERSION}/SHA${i}SUM")[0])-split( " " ))[0]
                           $scripthash = (Get-FileHash -Algorithm "SHA${i}" codecov).hash.ToLower()
                           If ($scripthash -ne $hash) {
-                            echo "Script hash: ${scripthash}"
+                            echo "Script hash:   ${scripthash}"
                             echo "Published has: ${hash}"
                             echo "SHASUMs do not match, exiting."
                             exit 1
@@ -75,7 +76,7 @@ commands:
                   - run:
                       name: Upload Coverage Results
                       command: |
-                        $arguments = @( "-Q", "codecov-circleci-orb-1.2.1" )
+                        $arguments = @( "-Q", "codecov-circleci-orb-1.2.2" )
                         If ( "<< parameters.token >>" -ne "") {
                           $arguments += "-t"
                           $arguments += "<< parameters.token >>"
@@ -125,7 +126,7 @@ commands:
                         [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
                         [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
                         bash codecov \
-                          -Q "codecov-circleci-orb-1.2.1" \
+                          -Q "codecov-circleci-orb-1.2.2" \
                           -t "<< parameters.token >>" \
                           -n "<< parameters.upload_name >>" \
                           -F "<< parameters.flags >>" \
