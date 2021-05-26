@@ -1,3 +1,7 @@
+## 1.2.2
+**Fixes**
+- #88 Fixes issue with Windows curling the bash script
+
 ## 1.2.1
 **Fixes**
 - #87 Fix support for Windows executors
