@@ -51,7 +51,7 @@ commands:
           steps:
             - run:
                 name: Download Codecov Bash Uploader
-                command: curl -Uri "<< parameters.url >>" > codecov
+                command: Invoke-WebRequest -Uri "<< parameters.url >>" -Outfile codecov
                 when: << parameters.when >>
             - when:
                 condition: << parameters.validate_url >>
@@ -61,11 +61,11 @@ commands:
                       command: |
                         $VERSION=((Select-String -path codecov 'VERSION=\"[0-9\.]*\"' | ForEach-Object {$_.Matches} | Foreach-Object {$_.Groups[0].Value})-split '"')[1]
                         foreach ($i in 1, 256, 512) {
-                          echo "https://github.com/codecov/codecov-bash/releases/download/${VERSION}/SHA${i}SUM"
-                          $hash = (((curl -Uri "https://github.com/codecov/codecov-bash/releases/download/${VERSION}/SHA${i}SUM")[0])-split( " " ))[0]
+                          echo "Pulling public hashes from https://github.com/codecov/codecov-bash/releases/download/${VERSION}/SHA${i}SUM"
+                          $hash = (((Invoke-WebRequest -Uri "https://github.com/codecov/codecov-bash/releases/download/${VERSION}/SHA${i}SUM")[0])-split( " " ))[0]
                           $scripthash = (Get-FileHash -Algorithm "SHA${i}" codecov).hash.ToLower()
                           If ($scripthash -ne $hash) {
-                            echo "Script hash: ${scripthash}"
+                            echo "Script hash:   ${scripthash}"
                             echo "Published has: ${hash}"
                             echo "SHASUMs do not match, exiting."
                             exit 1
