@@ -1,3 +1,10 @@
+## 1.2.3
+**Backwards Incompatibility**
+`using_windows` has been deprecated
+
+**Fixes**
+- #89 Fixes issue with running bash on Windows machines
+
 ## 1.2.2
 **Fixes**
 - #88 Fixes issue with Windows curling the bash script
