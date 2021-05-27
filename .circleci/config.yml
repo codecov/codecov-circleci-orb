@@ -65,12 +65,10 @@ jobs:
           root: .
           paths:
             - coverage/coverage-final.json
-  test-codecov-orb:
+  test-codecov-orb-non-windows:
     parameters:
       os:
         type: executor
-      using_windows:
-        type: boolean
     executor: << parameters.os >>
     steps:
       - checkout
@@ -78,13 +76,24 @@ jobs:
           at: .
       - codecov/upload:
           flags: backend
-          using_windows: << parameters.using_windows >>
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
-          using_windows: << parameters.using_windows >>
           xtra_args: -v -Z
-
+  test-codecov-orb-windows:
+    executor:
+      name: win/default
+      shell: bash.exe
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - codecov/upload:
+          flags: backend
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: frontend
+          xtra_args: -v -Z
 
 workflows:
   test-pack:
@@ -120,21 +129,15 @@ workflows:
     jobs:
       - test-backend
       - test-frontend
-      - test-codecov-orb:
+      - test-codecov-orb-non-windows:
           matrix:
-            alias: test-codecov-orb-non-windows
             parameters:
               os: [linux, macos]
-              using_windows: [false]
           requires:
             - test-backend
             - test-frontend
-      - test-codecov-orb:
-          matrix:
-            alias: test-codecov-orb-windows
-            parameters:
-              os: [windows]
-              using_windows: [true]
+
+      - test-codecov-orb-windows:
           requires:
             - test-backend
             - test-frontend
