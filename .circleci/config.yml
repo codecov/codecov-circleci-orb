@@ -50,8 +50,7 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run: |
-          coverage python -m unittest discover
-          coverage xml
+          coverage python3 -m unittest discover
       - persist_to_workspace:
           root: .
           paths:
