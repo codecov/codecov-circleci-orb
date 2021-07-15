@@ -51,6 +51,7 @@ jobs:
           pkg-manager: pip
       - run: |
           coverage run -m unittest discover
+          coverage xml
       - persist_to_workspace:
           root: .
           paths:
