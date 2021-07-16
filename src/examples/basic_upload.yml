@@ -1,0 +1,12 @@
+description: >
+  Upload coverage with Codecov
+  Create a simple flow to upload coverage reports to Codecov
+usage:
+  version: 2.1
+  orbs:
+    codecov: codecov/codecov@1.2.4
+  workflows:
+    upload-to-codecov:
+      jobs:
+        - checkout
+        - codecov/upload
