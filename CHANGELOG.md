@@ -1,3 +1,11 @@
+## 1.2.5
+**Fixes**
+- #98 chore: Add basic usage example
+
+## 1.2.4
+**Fixes**
+- #95 chore: switch to using env_var_name for token type
+
 ## 1.2.3
 **Backwards Incompatibility**
 `using_windows` has been deprecated
