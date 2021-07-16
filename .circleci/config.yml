@@ -49,7 +49,9 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: pip
-      - run: python3 -m pytest --junitxml=junit/test-results.xml --cov=src --cov-report=xml --cov-report=html test/unit
+      - run: |
+          coverage run -m unittest discover
+          coverage xml
       - persist_to_workspace:
           root: .
           paths:
