@@ -19,8 +19,8 @@ commands:
         default: ""
       token:
         description: Set the private repository token as the value of the variable CODECOV_TOKEN using CircleCI Environment Variables.
-        type: string
-        default: ${CODECOV_TOKEN}
+        type: env_var_name
+        default: CODECOV_TOKEN
       upload_name:
         description: Custom defined name of the upload. Visible in Codecov UI
         type: string
@@ -75,7 +75,7 @@ commands:
                   [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
                   bash codecov \
                     -Q "codecov-circleci-orb-1.2.3" \
-                    -t "<< parameters.token >>" \
+                    -t "${<< parameters.token >>}" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \
                     ${args[@]}
