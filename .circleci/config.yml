@@ -77,8 +77,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
+          os: << parameters.os >>
           flags: backend
       - codecov/upload:
+          os: << parameters.os >>
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
@@ -91,8 +93,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
+          os: "windows"
           flags: backend
       - codecov/upload:
+          os: "windows"
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
