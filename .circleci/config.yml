@@ -76,6 +76,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: |
+          family=$(uname -s | tr '[:upper:]' '[:lower:]')
+          echo $family
       - codecov/upload:
           flags: backend
       - codecov/upload:
@@ -90,6 +93,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: |
+          family=$(uname -s | tr '[:upper:]' '[:lower:]')
+          echo $family
       - codecov/upload:
           flags: backend
       - codecov/upload:
@@ -101,9 +107,6 @@ workflows:
   test-pack:
     unless: << pipeline.parameters.run-integration-tests >>
     jobs:
-      - run: |
-          family=$(uname -s | tr '[:upper:]' '[:lower:]')
-          echo $family
       - orb-tools/lint
       - orb-tools/pack
       - hold:
