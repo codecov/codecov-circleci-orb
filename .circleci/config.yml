@@ -60,9 +60,8 @@ jobs:
           paths:
             - coverage/coverage-final.json
   test-codecov-orb-linux:
-    executor:
-      docker:
-        - image: cimg/base:stable
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
       - attach_workspace:
@@ -77,9 +76,8 @@ jobs:
           flags: frontend
           xtra_args: -v -Z
   test-codecov-orb-macos:
-    executor:
-      macos:
-        xcode: 11.4
+    macos:
+      xcode: 11.4
     steps:
       - checkout
       - attach_workspace:
