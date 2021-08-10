@@ -80,10 +80,10 @@ jobs:
           family=$(uname -s | tr '[:upper:]' '[:lower:]')
           echo $family
       - codecov/upload:
-          os: linux
+          os: "linux"
           flags: backend
       - codecov/upload:
-          os: linux
+          os: "linux"
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
@@ -100,10 +100,10 @@ jobs:
           family=$(uname -s | tr '[:upper:]' '[:lower:]')
           echo $family
       - codecov/upload:
-          os: macos
+          os: "macos"
           flags: backend
       - codecov/upload:
-          os: macos
+          os: "macos"
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
