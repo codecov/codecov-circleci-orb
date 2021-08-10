@@ -144,8 +144,6 @@ workflows:
       - test-backend
       - test-frontend
       - test-codecov-orb-linux:
-          docker:
-            - image: cimg/base:stable
           requires:
             - test-backend
             - test-frontend
