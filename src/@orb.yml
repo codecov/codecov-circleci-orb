@@ -60,6 +60,7 @@ commands:
 
                   filename="codecov"
                   [[ $os == "windows" ]] && filename+=".exe"
+                  [[ $os == "macos" ]] && brew install gpg
                   curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
                   curl -Os "https://uploader.codecov.io/latest/${os}/${filename}"
                   curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM"
