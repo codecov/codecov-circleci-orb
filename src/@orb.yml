@@ -71,7 +71,7 @@ commands:
                   args=()
                   [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
                   [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
-                  codecov \
+                  ./codecov \
                     -Q "codecov-circleci-orb-2.0.0" \
                     -t "${<< parameters.token >>}" \
                     -n "<< parameters.upload_name >>" \
