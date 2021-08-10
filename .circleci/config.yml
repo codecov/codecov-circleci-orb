@@ -67,10 +67,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: backend,linux
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend
+          flags: frontend,linux
           xtra_args: -v -Z
   test-codecov-orb-macos:
     macos:
@@ -80,10 +80,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: backend,macos
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend
+          flags: frontend,macos
           xtra_args: -v -Z
   test-codecov-orb-windows:
     executor:
@@ -94,10 +94,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: backend,windows
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend
+          flags: frontend,windows
           xtra_args: -v -Z
 
 workflows:

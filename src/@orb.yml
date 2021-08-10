@@ -66,7 +66,8 @@ commands:
                   curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM"
                   curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM.sig"
                   gpg --verify $filename.SHA256SUM.sig $filename.SHA256SUM
-                  shasum -a 256 -c $filename.SHA256SUM
+                  shasum -a 256 -c $filename.SHA256SUM ||
+                    sha256sum -c $filename.SHA256SUM
                   chmod +x $filename
             - run:
                 name: Upload Coverage Results
