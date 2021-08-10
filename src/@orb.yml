@@ -53,7 +53,7 @@ commands:
                 name: Validate Codecov Bash Uploader
                 command: |
                   family=$(uname -s | tr '[:upper:]' '[:lower:]')
-                  os="windows
+                  os="windows"
                   [[ $family == "darwin" ]] && os="macos"
                   [[ $family == "linux" ]] && os="linux"
                   echo "Detected ${os}"
