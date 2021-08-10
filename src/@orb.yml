@@ -9,9 +9,6 @@ display:
 commands:
   upload:
     parameters:
-      os:
-        description: Operating system name (options are linux, alpine, macos, and alpine)
-        type: string
       file:
         description: Path to the code coverage data file to upload.
         type: string
@@ -55,12 +52,18 @@ commands:
             - run:
                 name: Validate Codecov Bash Uploader
                 command: |
+                  family=$(uname -s | tr '[:upper:]' '[:lower:]')
+                  os="windows
+                  [[ $family == "darwin" ]] && os="macos"
+                  [[ $family == "linux" ]] && os="linux"
+                  echo "Detected ${os}"
+
                   filename="codecov"
-                  [[ << parameters.os >> == "windows" ]] && filename+=".exe"
+                  [[ $os == "windows" ]] && filename+=".exe"
                   curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
-                  curl -Os "https://uploader.codecov.io/latest/<< parameters.os >>/${filename}"
-                  curl -Os "https://uploader.codecov.io/latest/<< parameters.os >>/${filename}.SHA256SUM"
-                  curl -Os "https://uploader.codecov.io/latest/<< parameters.os >>/${filename}.SHA256SUM.sig"
+                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}"
+                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM"
+                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM.sig"
                   gpg --verify $filename.SHA256SUM.sig $filename.SHA256SUM
                   shasum -a 256 -c $filename.SHA256SUM
                   chmod +x $filename

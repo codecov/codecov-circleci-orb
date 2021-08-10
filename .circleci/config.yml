@@ -21,14 +21,6 @@ parameters:
     default: "dev:alpha"
 
 executors:
-  linux:
-    docker:
-      - image: cimg/base:stable
-  macos:
-    macos:
-      xcode: 11.4
-  windows: win/default
-
   python:
     docker:
       - image: cimg/python:3.9.5
@@ -68,10 +60,8 @@ jobs:
           paths:
             - coverage/coverage-final.json
   test-codecov-orb-linux:
-    parameters:
-      os:
-        type: executor
-    executor: << parameters.os >>
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
       - attach_workspace:
@@ -80,18 +70,14 @@ jobs:
           family=$(uname -s | tr '[:upper:]' '[:lower:]')
           echo $family
       - codecov/upload:
-          os: "linux"
           flags: backend
       - codecov/upload:
-          os: "linux"
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
   test-codecov-orb-macos:
-    parameters:
-      os:
-        type: executor
-    executor: << parameters.os >>
+    macos:
+      xcode: 11.4
     steps:
       - checkout
       - attach_workspace:
@@ -100,10 +86,8 @@ jobs:
           family=$(uname -s | tr '[:upper:]' '[:lower:]')
           echo $family
       - codecov/upload:
-          os: "macos"
           flags: backend
       - codecov/upload:
-          os: "macos"
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
@@ -119,10 +103,8 @@ jobs:
           family=$(uname -s | tr '[:upper:]' '[:lower:]')
           echo $family
       - codecov/upload:
-          os: windows
           flags: backend
       - codecov/upload:
-          os: windows
           file: coverage/coverage-final.json
           flags: frontend
           xtra_args: -v -Z
@@ -162,15 +144,13 @@ workflows:
       - test-backend
       - test-frontend
       - test-codecov-orb-linux:
-          environment:
-            os: linux
+          docker:
+            - image: cimg/base:stable
           requires:
             - test-backend
             - test-frontend
 
       - test-codecov-orb-macos:
-          environment:
-            os: macos
           requires:
             - test-backend
             - test-frontend
