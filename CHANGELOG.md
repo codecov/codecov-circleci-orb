@@ -1,3 +1,7 @@
+## 2.0.0
+Version 2.0.0 represents a move to the new Codecov uploader and away from the bash uploader
+Functionality should be roughly the same, but will follow the arguments laid out in the new uploader
+
 ## 1.2.5
 **Fixes**
 - #98 chore: Add basic usage example
