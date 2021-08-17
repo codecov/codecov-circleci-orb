@@ -52,29 +52,31 @@ commands:
             - run:
                 name: Validate Codecov Bash Uploader
                 command: |
-                  VERSION=$(grep 'VERSION=\"[0-9\.]*\"' codecov | cut -d'"' -f2);
-                  sha1sum -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA1SUM) ||
-                  sha1sum -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA1SUM | grep -w "codecov") ||
-                  shasum -a 1 -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA1SUM) ||
-                  shasum -a 1 -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA1SUM | grep -w "codecov")
+                  family=$(uname -s | tr '[:upper:]' '[:lower:]')
+                  os="windows"
+                  [[ $family == "darwin" ]] && os="macos"
+                  [[ $family == "linux" ]] && os="linux"
+                  echo "Detected ${os}"
 
-                  sha256sum -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA256SUM) ||
-                  sha256sum -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA256SUM | grep -w "codecov") ||
-                  shasum -a 256 -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA256SUM) ||
-                  shasum -a 256 -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA256SUM | grep -w "codecov")
-
-                  sha512sum -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA512SUM) ||
-                  sha512sum -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA512SUM | grep -w "codecov") ||
-                  shasum -a 512 -c --ignore-missing <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA512SUM) ||
-                  shasum -a 512 -c <(curl -s https://raw.githubusercontent.com/codecov/codecov-bash/${VERSION}/SHA512SUM | grep -w "codecov")
+                  filename="codecov"
+                  [[ $os == "windows" ]] && filename+=".exe"
+                  [[ $os == "macos" ]] && brew install gpg
+                  curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
+                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}"
+                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM"
+                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM.sig"
+                  gpg --verify $filename.SHA256SUM.sig $filename.SHA256SUM
+                  shasum -a 256 -c $filename.SHA256SUM ||
+                    sha256sum -c $filename.SHA256SUM
+                  chmod +x $filename
             - run:
                 name: Upload Coverage Results
                 command: |
                   args=()
                   [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
                   [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
-                  bash codecov \
-                    -Q "codecov-circleci-orb-1.2.3" \
+                  ./codecov \
+                    -Q "codecov-circleci-orb-2.0.0" \
                     -t "${<< parameters.token >>}" \
                     -n "<< parameters.upload_name >>" \
                     -F "<< parameters.flags >>" \

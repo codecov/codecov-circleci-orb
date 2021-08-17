@@ -21,14 +21,6 @@ parameters:
     default: "dev:alpha"
 
 executors:
-  linux:
-    docker:
-      - image: cimg/base:stable
-  macos:
-    macos:
-      xcode: 11.4
-  windows: win/default
-
   python:
     docker:
       - image: cimg/python:3.9.5
@@ -67,20 +59,31 @@ jobs:
           root: .
           paths:
             - coverage/coverage-final.json
-  test-codecov-orb-non-windows:
-    parameters:
-      os:
-        type: executor
-    executor: << parameters.os >>
+  test-codecov-orb-linux:
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: backend,linux
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend
+          flags: frontend,linux
+          xtra_args: -v -Z
+  test-codecov-orb-macos:
+    macos:
+      xcode: 11.4
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - codecov/upload:
+          flags: backend,macos
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: frontend,macos
           xtra_args: -v -Z
   test-codecov-orb-windows:
     executor:
@@ -91,10 +94,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: backend,windows
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend
+          flags: frontend,windows
           xtra_args: -v -Z
 
 workflows:
@@ -131,10 +134,12 @@ workflows:
     jobs:
       - test-backend
       - test-frontend
-      - test-codecov-orb-non-windows:
-          matrix:
-            parameters:
-              os: [linux, macos]
+      - test-codecov-orb-linux:
+          requires:
+            - test-backend
+            - test-frontend
+
+      - test-codecov-orb-macos:
           requires:
             - test-backend
             - test-frontend
@@ -155,5 +160,6 @@ workflows:
           publish-version-tag: false
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
-            - test-codecov-orb-non-windows
+            - test-codecov-orb-linux
+            - test-codecov-orb-macos
             - test-codecov-orb-windows
