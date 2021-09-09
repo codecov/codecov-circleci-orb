@@ -72,6 +72,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: frontend,linux
           xtra_args: -v -Z
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: version,linux
+          version: v0.1.0_8880
   test-codecov-orb-macos:
     macos:
       xcode: 11.4
@@ -85,6 +89,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: frontend,macos
           xtra_args: -v -Z
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: version,macos
+          version: v0.1.0_8880
   test-codecov-orb-windows:
     executor:
       name: win/default
@@ -99,6 +107,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: frontend,windows
           xtra_args: -v -Z
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: version,windows
+          version: v0.1.0_8880
 
 workflows:
   test-pack:
