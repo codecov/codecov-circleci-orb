@@ -25,12 +25,8 @@ commands:
         description: Custom defined name of the upload. Visible in Codecov UI
         type: string
         default: ${CIRCLE_BUILD_NUM}
-      url:
-        description: Custom url to submit the codecov result. Default to "https://codecov.io/bash"
-        type: string
-        default: "https://codecov.io/bash"
-      validate_url:
-        description: Validate the url before submitting the codecov result. https://docs.codecov.io/docs/about-the-codecov-bash-uploader#validating-the-bash-script
+      validate:
+        description: Validate the uploader before uploading the codecov result.
         type: boolean
         default: true
       when:
@@ -41,43 +37,49 @@ commands:
         description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`).
         type: string
         default: ""
+      version:
+        description: Which version of the Codecov Uploader to use (defaults to 'latest')
+        type: string
+        default: "latest"
     steps:
       - run:
-          name: Download Codecov Bash Uploader
-          command: curl -fLso codecov << parameters.url >>
+          name: Download Codecov Uploader
+          command: |
+            family=$(uname -s | tr '[:upper:]' '[:lower:]')
+            os="windows"
+            [[ $family == "darwin" ]] && os="macos"
+            [[ $family == "linux" ]] && os="linux"
+            echo "Detected ${os}"
+            echo "export os=${os}" >> $BASH_ENV
+
+            filename="codecov"
+            [[ $os == "windows" ]] && filename+=".exe"
+            echo "export filename=${filename}" >> $BASH_ENV
+            [[ $os == "macos" ]] && brew install gpg
+            curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}"
           when: << parameters.when >>
       - when:
-          condition: << parameters.validate_url >>
+          condition: << parameters.validate >>
           steps:
             - run:
-                name: Validate Codecov Bash Uploader
+                name: Validate Codecov Uploader
                 command: |
-                  family=$(uname -s | tr '[:upper:]' '[:lower:]')
-                  os="windows"
-                  [[ $family == "darwin" ]] && os="macos"
-                  [[ $family == "linux" ]] && os="linux"
-                  echo "Detected ${os}"
-
-                  filename="codecov"
-                  [[ $os == "windows" ]] && filename+=".exe"
-                  [[ $os == "macos" ]] && brew install gpg
-                  curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
-                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}"
-                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM"
-                  curl -Os "https://uploader.codecov.io/latest/${os}/${filename}.SHA256SUM.sig"
+                  curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --import # One-time step
+                  curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}.SHA256SUM"
+                  curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}.SHA256SUM.sig"
                   gpg --verify $filename.SHA256SUM.sig $filename.SHA256SUM
-                  shasum -a 256 -c $filename.SHA256SUM ||
-                    sha256sum -c $filename.SHA256SUM
-                  chmod +x $filename
-            - run:
-                name: Upload Coverage Results
-                command: |
-                  args=()
-                  [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
-                  [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
-                  ./codecov \
-                    -Q "codecov-circleci-orb-2.0.0" \
-                    -t "${<< parameters.token >>}" \
-                    -n "<< parameters.upload_name >>" \
-                    -F "<< parameters.flags >>" \
-                    ${args[@]}
+                  shasum -a 256 -c $filename.SHA256SUM || sha256sum -c $filename.SHA256SUM
+      - run:
+          name: Upload Coverage Results
+          command: |
+            chmod +x $filename
+            args=()
+            [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
+            [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+            curl -H "Accept: application/json" "https://uploader.codecov.io/${os}/<< parameters.version >>" | grep -o '\"version\":\"v[0-9\.\_]\+\"' | head -1
+            ./$filename \
+              -Q "codecov-circleci-orb-3.1.0" \
+              -t "${<< parameters.token >>}" \
+              -n "<< parameters.upload_name >>" \
+              -F "<< parameters.flags >>" \
+              ${args[@]}

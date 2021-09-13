@@ -1,3 +1,10 @@
+## 3.1.0
+**Features**
+- #108 feat: Allow specifying version of Codecov uploader
+
+## 3.0.0
+Version 3.0.0 was a result of an unexpected deployment, but mirrors 2.0.0
+
 ## 2.0.0
 Version 2.0.0 represents a move to the new Codecov uploader and away from the bash uploader
 Functionality should be roughly the same, but will follow the arguments laid out in the new uploader
