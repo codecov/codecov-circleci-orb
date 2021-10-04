@@ -74,8 +74,8 @@ commands:
           command: |
             chmod +x $filename
             args=()
-            [[ -n "<< parameters.file >>" ]] && args+=( '-f << parameters.file >>' )
-            [[ -n "<< parameters.xtra_args >>" ]] && args+=( '<< parameters.xtra_args >>' )
+            [[ -n "<< parameters.file >>" ]] && args+=( "-f << parameters.file >>" )
+            [[ -n "<< parameters.xtra_args >>" ]] && args+=( "<< parameters.xtra_args >>" )
             curl -H "Accept: application/json" "https://uploader.codecov.io/${os}/<< parameters.version >>" | grep -o '\"version\":\"v[0-9\.\_]\+\"' | head -1
             ./$filename \
               -Q "codecov-circleci-orb-3.1.0" \

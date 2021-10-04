@@ -1,3 +1,7 @@
+## 3.1.1
+**Fixes**
+- #111 fix: xtra_args and file not being parsed properly
+
 ## 3.1.0
 **Features**
 - #108 feat: Allow specifying version of Codecov uploader
