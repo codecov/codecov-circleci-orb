@@ -59,6 +59,27 @@ jobs:
           root: .
           paths:
             - coverage/coverage-final.json
+  test-codecov-orb-alpine:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: |
+          apk add coreutils curl gnupg
+          mkdir ~/.gnupg
+          touch ~/.gnupg/trustedkeys.gpg
+      - codecov/upload:
+          flags: backend,alpine
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: frontend,alpine
+          xtra_args: -v -Z
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          flags: version,alpine
+          version: v0.1.0_8880
   test-codecov-orb-linux:
     docker:
       - image: cimg/base:stable
@@ -146,6 +167,11 @@ workflows:
     jobs:
       - test-backend
       - test-frontend
+      - test-codecov-orb-alpine:
+          requires:
+            - test-backend
+            - test-frontend
+
       - test-codecov-orb-linux:
           requires:
             - test-backend
@@ -172,6 +198,7 @@ workflows:
           publish-version-tag: false
           publish-token-variable: ORB_PUBLISH_TOKEN
           requires:
+            - test-codecov-orb-alpine
             - test-codecov-orb-linux
             - test-codecov-orb-macos
             - test-codecov-orb-windows

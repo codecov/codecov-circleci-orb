@@ -1,3 +1,7 @@
+## 3.2.0
+**Features**
+- #117: feat: Add alpine build support
+
 ## 3.1.1
 **Fixes**
 - #111 fix: xtra_args and file not being parsed properly
