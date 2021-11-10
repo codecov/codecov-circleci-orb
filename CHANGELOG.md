@@ -1,4 +1,4 @@
-## 3.2.1
+## 3.2.2
 **Fixes
 - #120: fix: unset NODE_OPTIONS to prevent exit 4
 
