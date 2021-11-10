@@ -1,3 +1,7 @@
+## 3.2.1
+**Fixes
+- #120: fix: unset NODE_OPTIONS to prevent exit 4
+
 ## 3.2.0
 **Features**
 - #117: feat: Add alpine build support
