@@ -4,11 +4,11 @@
   "description": "Codecov CircleCI Orb",
   "main": "index.js",
   "devDependencies": {
-    "@types/mocha": "^5.2.5",
-    "chai": "^4.2.0",
-    "mocha": "^7.1.2",
-    "nyc": "^15.0.1",
-    "typescript": "^3.1.1"
+    "@types/mocha": "^9.1.0",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.0",
+    "nyc": "^15.1.0",
+    "typescript": "^4.5.5"
   },
   "scripts": {
     "pretest": "tsc -p .",
