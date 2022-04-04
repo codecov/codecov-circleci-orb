@@ -60,7 +60,7 @@ commands:
             filename="codecov"
             [[ $os == "windows" ]] && filename+=".exe"
             echo "export filename=${filename}" >> $BASH_ENV
-            [[ $os == "macos" ]] && brew install gpg
+            [[ $os == "macos" ]] && HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
             curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}"
           when: << parameters.when >>
       - when:
