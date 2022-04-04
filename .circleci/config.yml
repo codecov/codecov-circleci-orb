@@ -67,7 +67,7 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
-          apk add coreutils curl gnupg
+          apk add coreutils curl git gnupg
           mkdir ~/.gnupg
           touch ~/.gnupg/trustedkeys.gpg
       - codecov/upload:
