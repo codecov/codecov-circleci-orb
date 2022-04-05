@@ -46,7 +46,6 @@ commands:
     steps:
       - run:
           name: Download Codecov Uploader
-          shell: bash
           command: |
             family=$(uname -s | tr '[:upper:]' '[:lower:]')
             os="windows"
@@ -69,7 +68,6 @@ commands:
           steps:
             - run:
                 name: Validate Codecov Uploader
-                shell: bash
                 command: |
                   source $BASH_ENV
                   curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step
@@ -79,7 +77,6 @@ commands:
                   shasum -a 256 -c $filename.SHA256SUM || sha256sum -c $filename.SHA256SUM
       - run:
           name: Upload Coverage Results
-          shell: bash
           command: |
             unset NODE_OPTIONS  # See https://github.com/codecov/uploader/issues/475
             source $BASH_ENV
