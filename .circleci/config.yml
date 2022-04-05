@@ -4,10 +4,10 @@ version: 2.1
 # release must exist.);
 orbs:
   codecov: codecov/codecov@dev:alpha
-  node: circleci/node@4.4.0
-  orb-tools: circleci/orb-tools@10.0
-  python: circleci/python@1.4.0
-  win: circleci/windows@2.2.0
+  node: circleci/node@5
+  orb-tools: circleci/orb-tools@11
+  python: circleci/python@2
+  win: circleci/windows@4
 
 # Pipeline parameters
 parameters:
@@ -23,10 +23,10 @@ parameters:
 executors:
   python:
     docker:
-      - image: cimg/python:3.9.5
+      - image: cimg/python:3.10
   node:
     docker:
-      - image: cimg/node:16.2.0
+      - image: cimg/node:current
 
 jobs:
   # This job is an example of an integration testing job.
