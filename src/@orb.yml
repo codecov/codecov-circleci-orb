@@ -1,9 +1,12 @@
 version: 2.1
 
 description: >
-  Upload your coverage reports to Codecov without dealing with complex configurations. This orb helps you get coverage results quickly so that you can breathe easier and commit your code with confidence.
+  Upload your coverage reports to Codecov without dealing with complex
+  configurations. This orb helps you get coverage results quickly so that you
+  can breathe easier and commit your code with confidence.
 
-  If running on `alpine` builds, the orb will need `coreutils`, `curl`, and `gnupg` in order to validate.
+  If running on `alpine` builds, the orb will need `coreutils`, `curl`, and
+  `gnupg` in order to validate.
 display:
   source_url: https://github.com/codecov/codecov-circleci-orb
   home_url: https://codecov.io/
@@ -16,11 +19,13 @@ commands:
         type: string
         default: ""
       flags:
-        description: Flag the upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
+        description: Flag the upload to group coverage metrics (e.g. unittests
+          | integration | ui,chrome)
         type: string
         default: ""
       token:
-        description: Set the private repository token as the value of the variable CODECOV_TOKEN using CircleCI Environment Variables.
+        description: Set the private repository token as the value of the
+          variable CODECOV_TOKEN using CircleCI Environment Variables.
         type: env_var_name
         default: CODECOV_TOKEN
       upload_name:
@@ -36,11 +41,13 @@ commands:
         type: string
         default: "always"
       xtra_args:
-        description: Any extra flags as provided by the bash uploader (e.g. `-v -Z`).
+        description: Any extra flags as provided by the bash uploader
+          (e.g. `-v -Z`).
         type: string
         default: ""
       version:
-        description: Which version of the Codecov Uploader to use (defaults to 'latest')
+        description: Which version of the Codecov Uploader to use (defaults to
+          'latest')
         type: string
         default: "latest"
     steps:
