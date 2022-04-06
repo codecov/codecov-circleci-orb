@@ -1,6 +1,7 @@
 version: 2.1
 
 orbs:
+  codecov: codecov/codecov@dev:alpha
   node: circleci/node@5
   orb-tools: circleci/orb-tools@11
   python: circleci/python@2
