@@ -60,7 +60,8 @@ commands:
             [[ $family == "darwin" ]] && os="macos"
 
             [[ $family == "linux" ]] && os="linux"
-            [[ $os == "linux" ]] && osID=$(grep -e "^ID=" /etc/os-release | cut -c4-)
+            [[ $os == "linux" ]] && \
+              osID=$(grep -e "^ID=" /etc/os-release | cut -c4-)
             [[ $osID == "alpine" ]] && os="alpine"
             echo "Detected ${os}"
             echo "export os=${os}" >> $BASH_ENV
@@ -68,8 +69,10 @@ commands:
             filename="codecov"
             [[ $os == "windows" ]] && filename+=".exe"
             echo "export filename=${filename}" >> $BASH_ENV
-            [[ $os == "macos" ]] && HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
-            curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}"
+            [[ $os == "macos" ]] && \
+              HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
+            curl -Os "https://uploader.codecov.io/<< parameters.version >>/\
+              ${os}/${filename}"
           when: << parameters.when >>
       - when:
           condition: << parameters.validate >>
@@ -78,19 +81,27 @@ commands:
                 name: Validate Codecov Uploader
                 command: |
                   source $BASH_ENV
-                  curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step
-                  curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}.SHA256SUM"
-                  curl -Os "https://uploader.codecov.io/<< parameters.version >>/${os}/${filename}.SHA256SUM.sig"
+                  curl https://keybase.io/codecovsecurity/pgp_keys.asc | \
+                    gpg --no-default-keyring --keyring trustedkeys.gpg --import
+                  # One-time step
+                  curl -Os "https://uploader.codecov.io/<< parameters.version >>/\
+                    ${os}/${filename}.SHA256SUM"
+                  curl -Os "https://uploader.codecov.io/<< parameters.version >>/\
+                    ${os}/${filename}.SHA256SUM.sig"
                   gpgv $filename.SHA256SUM.sig $filename.SHA256SUM
-                  shasum -a 256 -c $filename.SHA256SUM || sha256sum -c $filename.SHA256SUM
+                  shasum -a 256 -c $filename.SHA256SUM || \
+                    sha256sum -c $filename.SHA256SUM
       - run:
           name: Upload Coverage Results
           command: |
-            unset NODE_OPTIONS  # See https://github.com/codecov/uploader/issues/475
+            unset NODE_OPTIONS
+            # See https://github.com/codecov/uploader/issues/475
             source $BASH_ENV
             chmod +x $filename
-            [ -n "<< parameters.file >>" ] && set - "${@}" "-f" "<< parameters.file >>"
-            [ -n "<< parameters.xtra_args >>" ] && set - "${@}" "<< parameters.xtra_args >>"
+            [ -n "<< parameters.file >>" ] && \
+              set - "${@}" "-f" "<< parameters.file >>"
+            [ -n "<< parameters.xtra_args >>" ] && \
+              set - "${@}" "<< parameters.xtra_args >>"
             ./$filename \
               -Q "codecov-circleci-orb-3.2.2" \
               -t "${<< parameters.token >>}" \
