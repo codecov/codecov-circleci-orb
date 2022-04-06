@@ -71,8 +71,8 @@ commands:
             echo "export filename=${filename}" >> $BASH_ENV
             [[ $os == "macos" ]] && \
               HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
-            curl -Os "https://uploader.codecov.io/<< parameters.version >>/\
-              ${os}/${filename}"
+            curl -Os "https://uploader.codecov.io/<< parameters.version >>/"\
+              "${os}/${filename}"
           when: << parameters.when >>
       - when:
           condition: << parameters.validate >>
@@ -84,10 +84,10 @@ commands:
                   curl https://keybase.io/codecovsecurity/pgp_keys.asc | \
                     gpg --no-default-keyring --keyring trustedkeys.gpg --import
                   # One-time step
-                  curl -Os "https://uploader.codecov.io/\
-                    << parameters.version >>/${os}/${filename}.SHA256SUM"
-                  curl -Os "https://uploader.codecov.io/\
-                    << parameters.version >>/${os}/${filename}.SHA256SUM.sig"
+                  curl -Os "https://uploader.codecov.io/"\
+                    "<< parameters.version >>/${os}/${filename}.SHA256SUM"
+                  curl -Os "https://uploader.codecov.io/"\
+                    "<< parameters.version >>/${os}/${filename}.SHA256SUM.sig"
                   gpgv $filename.SHA256SUM.sig $filename.SHA256SUM
                   shasum -a 256 -c $filename.SHA256SUM || \
                     sha256sum -c $filename.SHA256SUM
