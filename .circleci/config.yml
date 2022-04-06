@@ -1,204 +1,36 @@
 version: 2.1
 
-# add your orb below, to be used in integration tests (note: a @dev:alpha
-# release must exist.);
 orbs:
-  codecov: codecov/codecov@dev:alpha
-  node: circleci/node@5
   orb-tools: circleci/orb-tools@11
-  python: circleci/python@2
-  win: circleci/windows@4
-
-# Pipeline parameters
-parameters:
-  # These pipeline parameters are required by the "trigger-integration-tests-workflow"
-  # job, by default.
-  run-integration-tests:
-    type: boolean
-    default: false
-  dev-orb-version:
-    type: string
-    default: "dev:alpha"
-
-executors:
-  python:
-    docker:
-      - image: cimg/python:3.10
-  node:
-    docker:
-      - image: cimg/node:current
-
-jobs:
-  # This job is an example of an integration testing job.
-  # This job should execute a command from your orb and verify
-  # the output is as expected, otherwise the job should fail.
-  #
-  # Rename this job and add more as needed.
-  #
-  test-backend:
-    executor: python
-    steps:
-      - checkout
-      - python/install-packages:
-          pkg-manager: pip
-      - run: |
-          coverage run -m unittest discover
-          coverage xml
-      - persist_to_workspace:
-          root: .
-          paths:
-            - coverage.xml
-  test-frontend:
-    executor: node
-    steps:
-      - checkout
-      - node/install-npm
-      - run: npm install
-      - run: npm test
-      - persist_to_workspace:
-          root: .
-          paths:
-            - coverage/coverage-final.json
-  test-codecov-orb-alpine:
-    docker:
-      - image: alpine:latest
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: |
-          apk add coreutils curl git gnupg
-          mkdir ~/.gnupg
-          touch ~/.gnupg/trustedkeys.gpg
-      - codecov/upload:
-          flags: backend,alpine
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: frontend,alpine
-          xtra_args: -v -Z
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: version,alpine
-          version: v0.1.0_8880
-  test-codecov-orb-linux:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - codecov/upload:
-          flags: backend,linux
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: frontend,linux
-          xtra_args: -v -Z
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: version,linux
-          version: v0.1.0_8880
-  test-codecov-orb-macos:
-    macos:
-      xcode: 11.4
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - codecov/upload:
-          flags: backend,macos
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: frontend,macos
-          xtra_args: -v -Z
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: version,macos
-          version: v0.1.0_8880
-  test-codecov-orb-windows:
-    executor:
-      name: win/default
-      shell: bash.exe
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - codecov/upload:
-          flags: backend,windows
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: frontend,windows
-          xtra_args: -v -Z
-      - codecov/upload:
-          file: coverage/coverage-final.json
-          flags: version,windows
-          version: v0.1.0_8880
 
 workflows:
   test-pack:
-    unless: << pipeline.parameters.run-integration-tests >>
     jobs:
       - orb-tools/lint
       - orb-tools/pack
+      - orb-tools/review
       - hold:
           type: approval # presents manual approval button in the UI
           requires:
             - orb-tools/lint
             - orb-tools/pack
+            - orb-tools/review
 
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
-      - orb-tools/publish-dev:
+      - orb-tools/publish:
           context: Codecov Orb Context
           orb-name: codecov/codecov
+          pub-type: dev
           publish-token-variable: ORB_PUBLISH_TOKEN
+          vcs-type: << pipeline.project.type >>
           requires:
             - hold
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
-      - orb-tools/trigger-integration-tests-workflow:
-          context: Codecov Orb Context
-          name: trigger-integration-dev
+      - orb-tools/continue:
+          pipeline-number: << pipeline.number >>
+          vcs-type: << pipeline.project.type >>
           requires:
-            - orb-tools/publish-dev
-
-  integration-tests_deploy:
-    when: << pipeline.parameters.run-integration-tests >>
-    jobs:
-      - test-backend
-      - test-frontend
-      - test-codecov-orb-alpine:
-          requires:
-            - test-backend
-            - test-frontend
-
-      - test-codecov-orb-linux:
-          requires:
-            - test-backend
-            - test-frontend
-
-      - test-codecov-orb-macos:
-          requires:
-            - test-backend
-            - test-frontend
-
-      - test-codecov-orb-windows:
-          requires:
-            - test-backend
-            - test-frontend
-
-      - orb-tools/dev-promote-prod-from-commit-subject:
-          add-pr-comment: false
-          context: Codecov Orb Context
-          fail-if-semver-not-indicated: false
-          filters:
-            branches:
-              only: master
-          orb-name: codecov/codecov
-          publish-version-tag: false
-          publish-token-variable: ORB_PUBLISH_TOKEN
-          requires:
-            - test-codecov-orb-alpine
-            - test-codecov-orb-linux
-            - test-codecov-orb-macos
-            - test-codecov-orb-windows
+            - orb-tools/publish
