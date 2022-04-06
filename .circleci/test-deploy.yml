@@ -38,9 +38,9 @@ jobs:
     executor: node
     steps:
       - checkout
-      - node/install-npm
-      - run: npm install
-      - run: npm test
+      - node/install-packages
+      - run:
+          command: npm test
       - persist_to_workspace:
           root: .
           paths:
