@@ -1,6 +1,8 @@
+---
 description: >
   Upload coverage with Codecov
-  Create a simple flow to upload coverage reports to Codecov and use CircleCI's node/test job
+  Create a simple flow to upload coverage reports to Codecov and use CircleCI's
+  node/test job
 usage:
   version: 2.1
   orbs:
