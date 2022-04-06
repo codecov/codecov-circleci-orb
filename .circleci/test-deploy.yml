@@ -121,7 +121,6 @@ jobs:
 
 workflows:
   integration-tests_deploy:
-    when: << pipeline.parameters.run-integration-tests >>
     jobs:
       - test-backend
       - test-frontend
