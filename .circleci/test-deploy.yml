@@ -153,6 +153,7 @@ workflows:
               only: master
           orb-name: codecov/codecov
           pub-type: production
+          vcs-type: << pipeline.project.type >>
           requires:
             - test-codecov-orb-alpine
             - test-codecov-orb-linux
