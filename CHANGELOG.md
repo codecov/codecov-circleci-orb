@@ -1,5 +1,14 @@
+## 3.2.3
+**Fixes**
+- #105: Bump path-parse from 1.0.6 to 1.0.7
+- #126: Bump dependencies
+- #127: fix(ci): install Git
+- #130: Bump dependencies
+- #132: Disabling auto update on brew install
+- #135: ci: bump deps
+
 ## 3.2.2
-**Fixes
+**Fixes**
 - #120: fix: unset NODE_OPTIONS to prevent exit 4
 
 ## 3.2.0
