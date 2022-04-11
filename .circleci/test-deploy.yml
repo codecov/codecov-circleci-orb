@@ -119,6 +119,14 @@ jobs:
           file: coverage/coverage-final.json
           flags: version,windows
           version: v0.1.0_8880
+  prepare-to-publish:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          name: "Set CIRCLE_TAG to version in package.json"
+          command: |
+            CIRCLE_TAG=npm pkg get version
 
 workflows:
   integration-tests_deploy:
@@ -145,16 +153,19 @@ workflows:
             - test-backend
             - test-frontend
 
+      - prepare-to-publish
+
       - orb-tools/publish:
           circleci-token: ORB_PUBLISH_TOKEN
           context: Codecov Orb Context
           filters:
             branches:
-              only: master
+              only: release
           orb-name: codecov/codecov
           pub-type: production
           vcs-type: << pipeline.project.type >>
           requires:
+            - prepare-to-publish
             - test-codecov-orb-alpine
             - test-codecov-orb-linux
             - test-codecov-orb-macos
