@@ -126,7 +126,8 @@ jobs:
       - run:
           name: "Set CIRCLE_TAG to version in package.json"
           command: |
-            CIRCLE_TAG=npm pkg get version
+            CIRCLE_TAG=v$(npm pkg get version | tr -d '"')
+            echo $CIRCLE_TAG
 
 workflows:
   integration-tests_deploy:
