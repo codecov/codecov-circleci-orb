@@ -30,6 +30,7 @@ workflows:
             - run: |
                 ls
                 cat package.json
+                awk '/version/{gsub(/("|",)/,"",$2);print $2}' package.json
           pub-type: dev
           vcs-type: << pipeline.project.type >>
           requires:
