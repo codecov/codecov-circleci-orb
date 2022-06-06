@@ -1,39 +1,39 @@
 version: 2.1
-
 setup: true
-
 orbs:
   orb-tools: circleci/orb-tools@11
 
-workflows:
-  test-pack:
-    jobs:
-      - orb-tools/lint
-      - orb-tools/pack
-      - orb-tools/review
-      - hold:
-          type: approval # presents manual approval button in the UI
-          requires:
-            - orb-tools/lint
-            - orb-tools/pack
-            - orb-tools/review
+filters: &filters
+  tags:
+    only: /.*/
 
+workflows:
+  lint-pack:
+    jobs:
+      - orb-tools/lint:
+          filters: *filters
+      - orb-tools/pack:
+          filters: *filters
+      - orb-tools/review:
+          filters: *filters
+          #
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       - orb-tools/publish:
           circleci-token: ORB_PUBLISH_TOKEN
           context: Codecov Orb Context
           enable-pr-comment: false
+          filters: *filters
           orb-name: codecov/codecov
           pub-type: dev
-          vcs-type: github
+          vcs-type: << pipeline.project.type >>
           requires:
-            - hold
+            [orb-tools/lint, orb-tools/review, orb-tools/pack]
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/continue:
+          filters: *filters
           pipeline-number: << pipeline.number >>
-          vcs-type: github
-          requires:
-            - orb-tools/publish
+          vcs-type: << pipeline.project.type >>
+          requires: [orb-tools/publish]
