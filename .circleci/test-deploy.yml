@@ -155,7 +155,7 @@ workflows:
           pre-steps:
             - checkout
             - run: |
-                CIRCLE_TAG=$(awk '/version/{gsub(/("|",)/,"",$2);print $2}' package.json)
+                export CIRCLE_TAG=v$(awk '/version/{gsub(/("|",)/,"",$2);print $2}' package.json)
                 echo $CIRCLE_TAG
           pub-type: production
           requires:
