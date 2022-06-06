@@ -119,9 +119,9 @@ jobs:
 workflows:
   integration-tests_deploy:
     jobs:
-      - test-backend
+      - test-backend:
           filters: *filters
-      - test-frontend
+      - test-frontend:
           filters: *filters
       - test-codecov-orb-alpine:
           filters: *filters
