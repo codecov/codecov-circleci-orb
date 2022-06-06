@@ -158,7 +158,6 @@ workflows:
                 echo $CIRCLE_TAG
           pub-type: production
           requires:
-            - prepare-to-publish
             - test-codecov-orb-alpine
             - test-codecov-orb-linux
             - test-codecov-orb-macos
