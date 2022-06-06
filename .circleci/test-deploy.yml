@@ -42,7 +42,7 @@ jobs:
           root: .
           paths:
             - coverage/coverage-final.json
-  test-codecov-orb-alpine:
+  test-alpine:
     docker:
       - image: alpine:latest
     steps:
@@ -63,7 +63,7 @@ jobs:
           file: coverage/coverage-final.json
           flags: version,alpine
           version: v0.1.0_8880
-  test-codecov-orb-linux:
+  test-linux:
     docker:
       - image: cimg/base:stable
     steps:
@@ -80,7 +80,7 @@ jobs:
           file: coverage/coverage-final.json
           flags: version,linux
           version: v0.1.0_8880
-  test-codecov-orb-macos:
+  test-macos:
     macos:
       xcode: 11.4
     steps:
@@ -97,7 +97,7 @@ jobs:
           file: coverage/coverage-final.json
           flags: version,macos
           version: v0.1.0_8880
-  test-codecov-orb-windows:
+  test-windows:
     executor:
       name: win/default
       shell: bash.exe
@@ -123,29 +123,25 @@ workflows:
           filters: *filters
       - test-frontend:
           filters: *filters
-      - test-codecov-orb-alpine:
+      - test-alpine:
           filters: *filters
-          requires:
-            - test-backend
-            - test-frontend
+          requires: [test-backend, test-frontend]
 
-      - test-codecov-orb-linux:
+      - test-linux:
           filters: *filters
-          requires:
-            - test-backend
-            - test-frontend
+          requires: [test-backend, test-frontend]
 
-      - test-codecov-orb-macos:
+      - test-macos:
           filters: *filters
-          requires:
-            - test-backend
-            - test-frontend
+          requires: [test-backend, test-frontend]
 
-      - test-codecov-orb-windows:
+      - test-windows:
           filters: *filters
-          requires:
-            - test-backend
-            - test-frontend
+          requires: [test-backend, test-frontend]
+
+      - orb-tools/pack:
+          filters: *filters
+          requires: [test-alpine, test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
           circleci-token: ORB_PUBLISH_TOKEN
@@ -159,8 +155,5 @@ workflows:
           orb-name: codecov/codecov
           pub-type: production
           requires:
-            - test-codecov-orb-alpine
-            - test-codecov-orb-linux
-            - test-codecov-orb-macos
-            - test-codecov-orb-windows
+            - orb-tools/pack
           vcs-type: github

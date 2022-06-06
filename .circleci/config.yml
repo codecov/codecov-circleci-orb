@@ -16,7 +16,7 @@ workflows:
           filters: *filters
       - orb-tools/review:
           filters: *filters
-          #
+
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       - orb-tools/publish:
@@ -27,8 +27,7 @@ workflows:
           orb-name: codecov/codecov
           pub-type: dev
           vcs-type: << pipeline.project.type >>
-          requires:
-            [orb-tools/lint, orb-tools/review, orb-tools/pack]
+          requires: [orb-tools/lint, orb-tools/review, orb-tools/pack]
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
