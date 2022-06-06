@@ -23,6 +23,7 @@ workflows:
       - orb-tools/publish:
           circleci-token: ORB_PUBLISH_TOKEN
           context: Codecov Orb Context
+          enable-pr-comment: false
           orb-name: codecov/codecov
           pub-type: dev
           vcs-type: << pipeline.project.type >>

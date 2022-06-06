@@ -33,7 +33,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - coverage.xml
+            - .coverage
   test-frontend:
     executor: node
     steps:
