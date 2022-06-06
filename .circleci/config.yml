@@ -26,7 +26,7 @@ workflows:
           enable-pr-comment: false
           orb-name: codecov/codecov
           pub-type: dev
-          vcs-type: << pipeline.project.type >>
+          vcs-type: github
           requires:
             - hold
 
@@ -34,6 +34,6 @@ workflows:
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/continue:
           pipeline-number: << pipeline.number >>
-          vcs-type: << pipeline.project.type >>
+          vcs-type: github
           requires:
             - orb-tools/publish

@@ -157,4 +157,4 @@ workflows:
             - test-codecov-orb-linux
             - test-codecov-orb-macos
             - test-codecov-orb-windows
-          vcs-type: << pipeline.project.type >>
+          vcs-type: github
