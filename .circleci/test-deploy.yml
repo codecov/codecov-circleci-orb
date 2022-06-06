@@ -159,15 +159,16 @@ workflows:
       - orb-tools/publish:
           circleci-token: ORB_PUBLISH_TOKEN
           context: Codecov Orb Context
+          enable-pr-comment: false
           filters:
             branches:
               only: release
           orb-name: codecov/codecov
           pub-type: production
-          vcs-type: << pipeline.project.type >>
           requires:
             - prepare-to-publish
             - test-codecov-orb-alpine
             - test-codecov-orb-linux
             - test-codecov-orb-macos
             - test-codecov-orb-windows
+          vcs-type: << pipeline.project.type >>
