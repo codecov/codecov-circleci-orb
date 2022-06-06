@@ -154,7 +154,7 @@ workflows:
           orb-name: codecov/codecov
           pre-steps:
             - run: |
-                CIRCLE_TAG=v$(npm pkg get version | tr -d '"')
+                CIRCLE_TAG=awk '/version/{gsub(/("|",)/,"",$2);print $2}' package.json
                 echo $CIRCLE_TAG
           pub-type: production
           requires:
