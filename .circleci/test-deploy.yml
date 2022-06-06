@@ -153,6 +153,7 @@ workflows:
               only: release
           orb-name: codecov/codecov
           pre-steps:
+            - checkout
             - run: |
                 CIRCLE_TAG=awk '/version/{gsub(/("|",)/,"",$2);print $2}' package.json
                 echo $CIRCLE_TAG
