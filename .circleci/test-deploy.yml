@@ -30,7 +30,6 @@ jobs:
           pkg-manager: pip
       - run: |
           coverage run -m unittest discover
-          coverage xml
       - persist_to_workspace:
           root: .
           paths:
@@ -153,9 +152,10 @@ workflows:
             branches:
               only: release
           orb-name: codecov/codecov
-          pre-steps: |
-            CIRCLE_TAG=v$(npm pkg get version | tr -d '"')
-            echo $CIRCLE_TAG
+          pre-steps:
+            - run: |
+                CIRCLE_TAG=v$(npm pkg get version | tr -d '"')
+                echo $CIRCLE_TAG
           pub-type: production
           requires:
             - prepare-to-publish
