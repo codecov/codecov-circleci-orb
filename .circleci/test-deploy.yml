@@ -148,15 +148,9 @@ workflows:
           circleci-token: ORB_PUBLISH_TOKEN
           context: Codecov Orb Context
           enable-pr-comment: false
-          filters:
-            branches:
-              only: release
           orb-name: codecov/codecov
           pre-steps:
             - checkout
-            - run: |
-                export CIRCLE_TAG=v$(awk '/version/{gsub(/("|",)/,"",$2);print $2}' package.json)
-                echo $CIRCLE_TAG
           pub-type: production
           requires:
             - test-codecov-orb-alpine
