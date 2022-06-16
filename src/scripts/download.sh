@@ -8,6 +8,7 @@ os="windows"
 [[ $osID == "alpine" ]] && os="alpine"
 echo "Detected ${os}"
 echo "export os=${os}" >> $BASH_ENV
+echo "export version=${PARAM_VERSION}" >> $BASH_ENV
 
 filename="codecov"
 [[ $os == "windows" ]] && filename+=".exe"
