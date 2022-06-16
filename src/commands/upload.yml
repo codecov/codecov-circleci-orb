@@ -1,0 +1,106 @@
+description: >
+  Upload your coverage reports to Codecov without dealing with complex
+  configurations. This orb helps you get coverage results quickly so that you
+  can breathe easier and commit your code with confidence.
+
+  If running on `alpine` builds, the orb will need `coreutils`, `curl`, and
+  `gnupg` in order to validate.
+
+parameters:
+  file:
+    description: Path to the code coverage data file to upload.
+    type: string
+    default: ""
+  flags:
+    description: Flag the upload to group coverage metrics (e.g. unittests
+      | integration | ui,chrome)
+    type: string
+    default: ""
+  token:
+    description: Set the private repository token as the value of the
+      variable CODECOV_TOKEN using CircleCI Environment Variables.
+    type: env_var_name
+    default: CODECOV_TOKEN
+  upload_name:
+    description: Custom defined name of the upload. Visible in Codecov UI
+    type: string
+    default: ${CIRCLE_BUILD_NUM}
+  validate:
+    description: Validate the uploader before uploading the codecov result.
+    type: boolean
+    default: true
+  when:
+    description: When should this step run?
+    type: string
+    default: "always"
+  xtra_args:
+    description: Any extra flags as provided by the bash uploader
+      (e.g. `-v -Z`).
+    type: string
+    default: ""
+  version:
+    description: Which version of the Codecov Uploader to use (defaults to
+      'latest')
+    type: string
+    default: "latest"
+
+steps:
+  - run:
+      name: Download Codecov Uploader
+      command: |
+        family=$(uname -s | tr '[:upper:]' '[:lower:]')
+        os="windows"
+        [[ $family == "darwin" ]] && os="macos"
+
+        [[ $family == "linux" ]] && os="linux"
+        [[ $os == "linux" ]] && \
+          osID=$(grep -e "^ID=" /etc/os-release | cut -c4-)
+        [[ $osID == "alpine" ]] && os="alpine"
+        echo "Detected ${os}"
+        echo "export os=${os}" >> $BASH_ENV
+
+        filename="codecov"
+        [[ $os == "windows" ]] && filename+=".exe"
+        echo "export filename=${filename}" >> $BASH_ENV
+        [[ $os == "macos" ]] && \
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
+        codecov_url="https://uploader.codecov.io"
+        codecov_url="$codecov_url/<< parameters.version >>"
+        codecov_url="$codecov_url/${os}/${filename}"
+        curl -Os $codecov_url
+      when: << parameters.when >>
+  - when:
+      condition: << parameters.validate >>
+      steps:
+        - run:
+            name: Validate Codecov Uploader
+            command: |
+              source $BASH_ENV
+              curl https://keybase.io/codecovsecurity/pgp_keys.asc | \
+                gpg --no-default-keyring --keyring trustedkeys.gpg --import
+              # One-time step
+              sha_url="https://uploader.codecov.io"
+              sha_url="$sha_url/<< parameters.version>>/${os}"
+              sha_url="$sha_url/${filename}.SHA256SUM"
+              curl -Os $sha_url
+              curl -Os $sha_url".sig"
+              gpgv $filename.SHA256SUM.sig $filename.SHA256SUM
+              shasum -a 256 -c $filename.SHA256SUM || \
+                sha256sum -c $filename.SHA256SUM
+  - run:
+      name: Upload Coverage Results
+      command: |
+        unset NODE_OPTIONS
+        # See https://github.com/codecov/uploader/issues/475
+        source $BASH_ENV
+        chmod +x $filename
+        [ -n "<< parameters.file >>" ] && \
+          set - "${@}" "-f" "<< parameters.file >>"
+        [ -n "<< parameters.xtra_args >>" ] && \
+          set - "${@}" "<< parameters.xtra_args >>"
+        ./$filename \
+          -Q "codecov-circleci-orb-3.2.3" \
+          -t "${<< parameters.token >>}" \
+          -n "<< parameters.upload_name >>" \
+          -F "<< parameters.flags >>" \
+          ${@}
