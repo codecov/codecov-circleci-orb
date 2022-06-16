@@ -3,7 +3,6 @@ unset NODE_OPTIONS
 source $BASH_ENV
 chmod +x $filename
 echo "${!PARAM_TOKEN}"
-echo "${(P)PARAM_TOKEN}"
 [ -n "${PARAM_FILE}" ] && \
   set - "${@}" "-f" "${PARAM_FILE}"
 [ -n "${PARAM_XTRA_ARGS}" ] && \
