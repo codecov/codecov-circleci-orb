@@ -5,6 +5,7 @@ curl https://keybase.io/codecovsecurity/pgp_keys.asc | \
 sha_url="https://uploader.codecov.io"
 sha_url="$sha_url/${PARAM_VERSION}/${os}"
 sha_url="$sha_url/${filename}.SHA256SUM"
+echo "Downloading ${sha_url}"
 curl -Os $sha_url
 curl -Os $sha_url".sig"
 gpgv $filename.SHA256SUM.sig $filename.SHA256SUM
