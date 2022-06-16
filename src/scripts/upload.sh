@@ -6,9 +6,10 @@ chmod +x $filename
   set - "${@}" "-f" "${PARAM_FILE}"
 [ -n "${PARAM_XTRA_ARGS}" ] && \
   set - "${@}" "${PARAM_XTRA_ARGS}"
+token=$(eval echo \$"$PARAM_TOKEN")
 ./"$filename" \
   -Q "codecov-circleci-orb-3.2.3" \
-  -t "${eval echo \$$PARAM_TOKEN}" \  # alpine doesn't allow for indirect expansion
+  -t "$(eval echo \$$PARAM_TOKEN)" \  # alpine doesn't allow for indirect expansion
   -n "${PARAM_UPLOAD_NAME}" \
   -F "${PARAM_FLAGS}" \
   ${@}
