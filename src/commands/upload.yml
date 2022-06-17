@@ -1,0 +1,68 @@
+description: |
+  Upload your coverage reports to Codecov without dealing with complex
+  configurations. This orb helps you get coverage results quickly so that you
+  can breathe easier and commit your code with confidence.
+
+  If running on `alpine` builds, the orb will need `coreutils`, `curl`, and
+  `gnupg` in order to validate.
+
+parameters:
+  file:
+    description: Path to the code coverage data file to upload.
+    type: string
+    default: ""
+  flags:
+    description: Flag the upload to group coverage metrics (e.g. unittests
+      | integration | ui,chrome)
+    type: string
+    default: ""
+  token:
+    description: Set the private repository token as the value of the
+      variable CODECOV_TOKEN using CircleCI Environment Variables.
+    type: env_var_name
+    default: CODECOV_TOKEN
+  upload_name:
+    description: Custom defined name of the upload. Visible in Codecov UI
+    type: string
+    default: ${CIRCLE_BUILD_NUM}
+  validate:
+    description: Validate the uploader before uploading the codecov result.
+    type: boolean
+    default: true
+  when:
+    description: When should this step run?
+    type: string
+    default: "always"
+  xtra_args:
+    description: Any extra flags as provided by the bash uploader
+      (e.g. `-v -Z`).
+    type: string
+    default: ""
+  version:
+    description: Which version of the Codecov Uploader to use (defaults to
+      'latest')
+    type: string
+    default: "latest"
+
+steps:
+  - run:
+      name: Download Codecov Uploader
+      command: <<include(scripts/download.sh)>>
+      when: << parameters.when >>
+      environment:
+        PARAM_VERSION: << parameters.version >>
+  - when:
+      condition: << parameters.validate >>
+      steps:
+        - run:
+            name: Validate Codecov Uploader
+            command: <<include(scripts/validate.sh)>>
+  - run:
+      name: Upload Coverage Results
+      command: <<include(scripts/upload.sh)>>
+      environment:
+        PARAM_FILE: << parameters.file >>
+        PARAM_FLAGS: << parameters.flags >>
+        PARAM_TOKEN: << parameters.token >>
+        PARAM_UPLOAD_NAME: << parameters.upload_name >>
+        PARAM_XTRA_ARGS: << parameters.xtra_args >>

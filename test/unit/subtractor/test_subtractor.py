@@ -1,6 +1,6 @@
 import unittest
 
-from src.subtractor.subtractor import Subtractor
+from app.subtractor.subtractor import Subtractor
 
 
 class TestSubtractorMethods(unittest.TestCase):

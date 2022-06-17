@@ -1,6 +1,6 @@
 import unittest
 
-from src.adder.adder import Adder
+from app.adder.adder import Adder
 
 
 class TestAdderMethods(unittest.TestCase):
