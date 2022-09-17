@@ -1,0 +1,51 @@
+version: 2.1
+description: Upload code coverage reports to Codecov. Source https://github.com/kaluza-tech/codecov-circleci-orb
+
+commands:
+  upload:
+    parameters:
+      conf:
+        description: Used to specify the location of the .codecov.yml config file
+        type: string
+        default: ".codecov.yml"
+      file:
+        description: Path to the code coverage data file to upload.
+        type: string
+        default: "coverage.out"
+      flags:
+        description: Flag the upload to group coverage metrics (e.g. unittests | integration | ui,chrome)
+        type: string
+        default: ""
+      repo_token_env_var:
+        description: Name of the environment variable containing the private repository token. Takes precendence over auto fetched token.
+        type: env_var_name
+        default: CODECOV_REPO_TOKEN
+      api_token_env_var:
+        description: Name of the environment variable containing the api access token to automatically fetch repo token.
+        type: env_var_name
+        default: CODECOV_API_TOKEN
+      upload_name:
+        description: Custom defined name of the upload. Visible in Codecov UI
+        type: string
+        default: ${CIRCLE_BUILD_NUM}
+    steps:
+      - run:
+          name: Upload Coverage Results
+          command: |
+            set -e
+            REPO_TOKEN=${<< parameters.repo_token_env_var >>}
+            if [ -z "${REPO_TOKEN}" ]; then
+              # git@github.com:owner/repo.git
+              REPO_NAME="${CIRCLE_REPOSITORY_URL##*:}"
+              # owner/repo.git
+              REPO_NAME="${REPO_NAME%%.git}"
+              API_TOKEN=${<< parameters.api_token_env_var >>}
+              REPO_TOKEN=$(curl -X GET "https://codecov.io/api/pub/gh/${REPO_NAME}/settings" -H "Authorization: token ${API_TOKEN:?}" | jq .repo.upload_token --raw-output)
+            fi
+            curl -s https://codecov.io/bash --show-error | bash -s -- \
+              -f "<< parameters.file >>" \
+              -t "${REPO_TOKEN}" \
+              -n "<< parameters.upload_name >>" \
+              -y "<< parameters.conf >>" \
+              -F "<< parameters.flags >>" \
+              -Z || echo 'Codecov upload failed'
