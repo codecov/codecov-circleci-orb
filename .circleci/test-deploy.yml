@@ -82,7 +82,7 @@ jobs:
           version: v0.1.0_8880
   test-macos:
     macos:
-      xcode: 11.4
+      xcode: 14.1
     steps:
       - checkout
       - attach_workspace:
