@@ -1,5 +1,5 @@
 source $BASH_ENV
-curl https://keybase.io/codecovsecurity/pgp_keys.asc | \
+cat pgp_keys.asc | \
   gpg --no-default-keyring --keyring trustedkeys.gpg --import
 # One-time step
 sha_url="https://uploader.codecov.io"
