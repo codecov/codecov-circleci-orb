@@ -1,3 +1,8 @@
+## 3.2.4
+**Fixes**
+- #137 chore: refactor source with new commands subfolder
+- #142 fix: source pgp key in script
+
 ## 3.2.3
 **Fixes**
 - #105: Bump path-parse from 1.0.6 to 1.0.7
