@@ -57,7 +57,7 @@ steps:
         - run:
             name: Validate Codecov Uploader
             command: <<include(scripts/validate.sh)>>
-            enviornment:
+            environment:
               CODECOV_PUBLIC_PGP_KEY: <<include(scripts/pgp_keys.asc)>>
   - run:
       name: Upload Coverage Results
