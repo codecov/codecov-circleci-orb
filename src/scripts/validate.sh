@@ -1,6 +1,5 @@
 source $BASH_ENV
-ls
-cat ./pgp_keys.asc | \
+cat src/scripts/pgp_keys.asc | \
   gpg --no-default-keyring --keyring trustedkeys.gpg --import
 # One-time step
 sha_url="https://uploader.codecov.io"
