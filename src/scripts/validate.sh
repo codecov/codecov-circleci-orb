@@ -1,5 +1,6 @@
 source $BASH_ENV
-echo $CODECOV_PUBLIC_PGP_KEY | \
+echo "${CODECOV_PUBLIC_PGP_KEY}"
+echo "${CODECOV_PUBLIC_PGP_KEY}" | \
   gpg --no-default-keyring --keyring trustedkeys.gpg --import
 # One-time step
 sha_url="https://uploader.codecov.io"
