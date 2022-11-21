@@ -14,6 +14,11 @@ parameters:
   flags:
     description: Flag the upload to group coverage metrics (e.g. unittests
       | integration | ui,chrome)
+    type: string
+    default: ""
+  flags_by_env:
+    description: Flag the upload to group coverage metrics (e.g. unittests
+      | integration | ui,chrome)
     type: env_var_name
     default: CODECOV_FLAGS
   token:
@@ -65,6 +70,7 @@ steps:
       environment:
         PARAM_FILE: << parameters.file >>
         PARAM_FLAGS: << parameters.flags >>
+        PARAM_FLAGS_BY_ENV: << parameters.flags_by_env >>
         PARAM_TOKEN: << parameters.token >>
         PARAM_UPLOAD_NAME: << parameters.upload_name >>
         PARAM_XTRA_ARGS: << parameters.xtra_args >>

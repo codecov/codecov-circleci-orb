@@ -8,8 +8,8 @@ chmod +x $filename
   set - "${@}" "${PARAM_XTRA_ARGS}"
 # alpine doesn't allow for indirect expansion
 ./"$filename" \
-  -Q "codecov-circleci-orb-4.0.0" \
+  -Q "codecov-circleci-orb-3.2.5" \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "$(eval echo \$$PARAM_UPLOAD_NAME)" \
-  -F "$(eval echo \$$PARAM_FLAGS)" \
+  -F "${PARAM_FLAGS}" "$(eval echo \$$PARAM_FLAGS_BY_ENV)" \
   ${@}

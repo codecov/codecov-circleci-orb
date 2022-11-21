@@ -54,18 +54,26 @@ jobs:
           mkdir ~/.gnupg
           touch ~/.gnupg/trustedkeys.gpg
       - codecov/upload:
-          environment:
-            CODECOV_FLAGS: backend,alpine
+          flags: backend,alpine
       - codecov/upload:
           file: coverage/coverage-final.json
           xtra_args: -v -Z
-          environment:
-            CODECOV_FLAGS: frontend,alpine
+          flags: frontend,alpine
       - codecov/upload:
           file: coverage/coverage-final.json
           version: v0.1.0_8880
-          environment:
-            CODECOV_FLAGS: version,alpine
+          flags: version,alpine
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          version: v0.1.0_8880
+          flags_by_env: FLAGS
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          version: v0.1.0_8880
+          flags: version,alpine
+          flags_by_env: FLAGS
+    environment:
+      FLAGS: env_flag
   test-linux:
     docker:
       - image: cimg/base:stable
@@ -74,18 +82,15 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          environment:
-            CODECOV_FLAGS: backend,linux
+          flags: backend,linux
       - codecov/upload:
           file: coverage/coverage-final.json
           xtra_args: -v -Z
-          environment:
-            CODECOV_FLAGS: frontend,linux
+          flags: frontend,linux
       - codecov/upload:
           file: coverage/coverage-final.json
           version: v0.1.0_8880
-          environment:
-            CODECOV_FLAGS: version,linux
+          flags: version,linux
   test-macos:
     macos:
       xcode: 14.1
@@ -94,18 +99,26 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          environment:
-            CODECOV_FLAGS: backend,macos
+          flags: backend,macos
       - codecov/upload:
           file: coverage/coverage-final.json
-          environemnt:
-            CODECOV_FLAGS: frontend,macos
+          flags: frontend,macos
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
-          environemnt:
-            CODECOV_FLAGS: version,macos
+          flags: version,macos
           version: v0.1.0_8880
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          version: v0.1.0_8880
+          flags_by_env: FLAGS
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          version: v0.1.0_8880
+          flags: version,alpine
+          flags_by_env: FLAGS
+    environment:
+      FLAGS: env_flag
   test-windows:
     executor:
       name: win/default
@@ -115,18 +128,26 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          environemnt:
-            CODECOV_FLAGS: backend,windows
+          flags: backend,windows
       - codecov/upload:
           file: coverage/coverage-final.json
-          environemnt:
-            CODECOV_FLAGS: frontend,windows
+          flags: frontend,windows
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
-          environemnt:
-            CODECOV_FLAGS: version,windows
+          flags: version,windows
           version: v0.1.0_8880
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          version: v0.1.0_8880
+          flags_by_env: FLAGS
+      - codecov/upload:
+          file: coverage/coverage-final.json
+          version: v0.1.0_8880
+          flags: version,alpine
+          flags_by_env: FLAGS
+    environment:
+      FLAGS: env_flag
 
 workflows:
   integration-tests_deploy:
