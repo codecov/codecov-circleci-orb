@@ -41,8 +41,8 @@ parameters:
   xtra_args:
     description: Any extra flags as provided by the bash uploader
       (e.g. `-v -Z`).
-    type: env_var_name
-    default: CODECOV_ARGS
+    type: string
+    default: ""
   version:
     description: Which version of the Codecov Uploader to use (defaults to
       'latest')
