@@ -99,12 +99,12 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           environemnt:
-        CODECOV_FLAGS: frontend,macos
+            CODECOV_FLAGS: frontend,macos
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
           environemnt:
-        CODECOV_FLAGS: version,macos
+            CODECOV_FLAGS: version,macos
           version: v0.1.0_8880
   test-windows:
     executor:
