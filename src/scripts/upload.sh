@@ -10,10 +10,8 @@ chmod +x $filename
 echo 1
 echo $PARAM_FLAGS_BY_ENV
 echo 2
-$(eval echo \$$PARAM_FLAGS_BY_ENV)
-echo 3
 eval echo \$$PARAM_FLAGS_BY_ENV
-echo 4
+echo 3
 ./"$filename" \
   -Q "codecov-circleci-orb-3.2.5" \
   -t "$(eval echo \$$PARAM_TOKEN)" \
