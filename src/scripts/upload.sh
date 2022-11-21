@@ -12,9 +12,13 @@ echo $PARAM_FLAGS_BY_ENV
 echo 2
 eval echo \$$PARAM_FLAGS_BY_ENV
 echo 3
+ENV_FLAGS=$(eval echo \$PARAM_FLAGS_BY_ENV)
+echo $ENV_FLAGS
+echo 4
+
 ./"$filename" \
   -Q "codecov-circleci-orb-3.2.5" \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "$(eval echo \$$PARAM_UPLOAD_NAME)" \
-  -F "${PARAM_FLAGS}" "$(eval echo \$$PARAM_FLAGS_BY_ENV)" \
+  -F "${PARAM_FLAGS}" "${ENV_FLAGS}" \
   ${@}
