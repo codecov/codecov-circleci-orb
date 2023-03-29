@@ -45,6 +45,16 @@ parameters:
     default: "latest"
 
 steps:
+  - when:
+      name: "Restore Codecov Uploader from CircleCI Cache"
+      condition:
+        not:
+          equal: [<< parameters.version >>, "latest"]
+      steps:
+        - restore_cache:
+            name: "Restoring Codecov Uploader from Cache"
+            keys:
+              - "v1-codecov-uploader-<< parameters.version >>-{{ arch }}"
   - run:
       name: Download Codecov Uploader
       command: <<include(scripts/download.sh)>>
@@ -59,6 +69,15 @@ steps:
             command: <<include(scripts/validate.sh)>>
             environment:
               CODECOV_PUBLIC_PGP_KEY: <<include(scripts/pgp_keys.asc)>>
+  - when:
+      condition:
+        not:
+          equal: [<< parameters.version >>, "latest"]
+      steps:
+        - save_cache:
+            name: Caching Codecov Uploader
+            key: "v1-codecov-uploader-<< parameters.version >>-{{ arch }}"
+            paths: "downloads"
   - run:
       name: Upload Coverage Results
       command: <<include(scripts/upload.sh)>>

@@ -18,5 +18,10 @@ echo "export filename=${filename}" >> $BASH_ENV
 codecov_url="https://uploader.codecov.io"
 codecov_url="$codecov_url/${PARAM_VERSION}"
 codecov_url="$codecov_url/${os}/${filename}"
-echo "Downloading ${codecov_url}"
-curl -Os $codecov_url -v
+executable_path="downloads/${os}/${filename}"
+[[ $version != "latest" && -f "${executable_path}" ]] && \
+  echo "Using cached executable at ${executable_path}" || ( \
+    echo "Downloading ${codecov_url} to ${executable_path}" && \
+    curl $codecov_url -o "${executable_path}" -s -v --create-dirs
+  )
+cp "$executable_path" .
