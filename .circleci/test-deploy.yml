@@ -54,14 +54,14 @@ jobs:
           mkdir ~/.gnupg
           touch ~/.gnupg/trustedkeys.gpg
       - codecov/upload:
-          flags: backend,alpine
+          flags: backend
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend,alpine
+          flags: frontend
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: version,alpine
+          flags: alpine
           version: v0.1.0_8880
   test-linux:
     docker:
@@ -71,14 +71,14 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend,linux
+          flags: backend
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend,linux
+          flags: frontend
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: version,linux
+          flags: linux
           version: v0.1.0_8880
   test-macos:
     macos:
@@ -88,14 +88,14 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend,macos
+          flags: backend
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend,macos
+          flags: frontend
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: version,macos
+          flags: macos
           version: v0.1.0_8880
   test-windows:
     executor:
@@ -106,14 +106,14 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend,windows
+          flags: backend
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: frontend,windows
+          flags: frontend
           xtra_args: -v -Z
       - codecov/upload:
           file: coverage/coverage-final.json
-          flags: version,windows
+          flags: windows
           version: v0.1.0_8880
 
 workflows:
