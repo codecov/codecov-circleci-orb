@@ -144,8 +144,6 @@ workflows:
           requires: [test-alpine, test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
-          circleci-token: ORB_PUBLISH_TOKEN
-          context: Codecov Orb Context
           enable-pr-comment: false
           filters:
             branches:
