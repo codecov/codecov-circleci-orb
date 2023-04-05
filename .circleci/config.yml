@@ -20,8 +20,6 @@ workflows:
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       - orb-tools/publish:
-          context: Codecov Orb Context
-          circleci-token: ORB_PUBLISH_TOKEN
           enable-pr-comment: false
           filters: *filters
           orb-name: codecov/codecov
