@@ -34,7 +34,7 @@ parameters:
     type: string
     default: "always"
   xtra_args:
-    description: Any extra flags as provided by the bash uploader
+    description: Any extra flags as provided by the universal uploader
       (e.g. `-v -Z`).
     type: string
     default: ""
