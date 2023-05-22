@@ -1,3 +1,13 @@
+## 3.2.5
+**Fixes**
+- #145 Create LICENSE.md
+- #149 fix: prefix codecov to bash vars
+- #160 fix: update bash ref
+
+**Dependencies**
+- #147 chore(deps): bump minimatch and mocha
+- #146 chore(deps): bump json5 from 2.2.0 to 2.2.3
+
 ## 3.2.4
 **Fixes**
 - #137 chore: refactor source with new commands subfolder
