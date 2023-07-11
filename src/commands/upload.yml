@@ -24,7 +24,7 @@ parameters:
   upload_name:
     description: Custom defined name of the upload. Visible in Codecov UI
     type: string
-    default: ${CIRCLE_BUILD_NUM}
+    default: ""
   validate:
     description: Validate the uploader before uploading the codecov result.
     type: boolean
