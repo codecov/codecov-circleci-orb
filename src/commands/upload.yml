@@ -13,7 +13,9 @@ parameters:
     default: ""
   flags:
     description: Flag the upload to group coverage metrics (e.g. unittests
-      | integration | ui,chrome)
+      | integration | ui,chrome). If the name of an environment
+      variable is provided as a flag then the value of that environment
+      environment variable will be used.
     type: string
     default: ""
   token:
@@ -48,7 +50,7 @@ steps:
   - run:
       name: Download Codecov Uploader
       command: <<include(scripts/download.sh)>>
-      when: << parameters.when >>
+      when: always
       environment:
         PARAM_VERSION: << parameters.version >>
   - when:
