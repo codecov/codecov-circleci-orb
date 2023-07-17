@@ -50,7 +50,7 @@ steps:
   - run:
       name: Download Codecov Uploader
       command: <<include(scripts/download.sh)>>
-      when: always
+      when: << parameters.when >>
       environment:
         PARAM_VERSION: << parameters.version >>
   - when:
