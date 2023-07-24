@@ -64,9 +64,9 @@ jobs:
           flags: alpine
           version: v0.1.0_8880
       - codecov/upload:
-          flags: frontend,ENV_VAR_FLAG
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
-      ENV_VAR_FLAG: backend
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-linux:
     docker:
       - image: cimg/base:stable
@@ -85,9 +85,9 @@ jobs:
           flags: linux
           version: v0.1.0_8880
       - codecov/upload:
-          flags: frontend,ENV_VAR_FLAG
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
-      ENV_VAR_FLAG: backend
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-macos:
     macos:
       xcode: 14.1
@@ -106,9 +106,9 @@ jobs:
           flags: macos
           version: v0.1.0_8880
       - codecov/upload:
-          flags: frontend,ENV_VAR_FLAG
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
-      ENV_VAR_FLAG: backend
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-windows:
     executor:
       name: win/default
@@ -128,9 +128,9 @@ jobs:
           flags: windows
           version: v0.1.0_8880
       - codecov/upload:
-          flags: frontend,ENV_VAR_FLAG
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
-      ENV_VAR_FLAG: backend
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
 
 workflows:
   integration-tests_deploy:
