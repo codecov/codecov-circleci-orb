@@ -13,9 +13,8 @@ parameters:
     default: ""
   flags:
     description: Flag the upload to group coverage metrics (e.g. unittests
-      | integration | ui,chrome). If the name of an environment
-      variable is provided as a flag then the value of that environment
-      environment variable will be used.
+      | integration | ui,chrome). Flags can be input as strings or
+      environment variables.
     type: string
     default: ""
   token:
