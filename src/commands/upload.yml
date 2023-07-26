@@ -13,7 +13,8 @@ parameters:
     default: ""
   flags:
     description: Flag the upload to group coverage metrics (e.g. unittests
-      | integration | ui,chrome)
+      | integration | ui,chrome). Flags can be input as strings or
+      environment variables.
     type: string
     default: ""
   token:
@@ -24,7 +25,7 @@ parameters:
   upload_name:
     description: Custom defined name of the upload. Visible in Codecov UI
     type: string
-    default: ${CIRCLE_BUILD_NUM}
+    default: ""
   validate:
     description: Validate the uploader before uploading the codecov result.
     type: boolean

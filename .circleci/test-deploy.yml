@@ -63,6 +63,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: alpine
           version: v0.1.0_8880
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+    environment:
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-linux:
     docker:
       - image: cimg/base:stable
@@ -80,6 +84,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: linux
           version: v0.1.0_8880
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+    environment:
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-macos:
     macos:
       xcode: 14.1
@@ -97,6 +105,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: macos
           version: v0.1.0_8880
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+    environment:
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-windows:
     executor:
       name: win/default
@@ -115,6 +127,10 @@ jobs:
           file: coverage/coverage-final.json
           flags: windows
           version: v0.1.0_8880
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+    environment:
+      ENV_VAR_CONTAINING_FLAG: env_var_flag
 
 workflows:
   integration-tests_deploy:
