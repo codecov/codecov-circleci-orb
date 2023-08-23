@@ -6,8 +6,17 @@ usage:
   version: 2.1
   orbs:
     codecov: codecov/codecov@3.2.5
+  jobs:
+    test-and-upload-python:
+      docker:
+        - image: cimg/python:3.10
+      steps:
+        - checkout
+        - run: pip install -r requirements.txt
+        - run: pytest --cov .
+        - codecov/upload
+
   workflows:
     upload-to-codecov:
       jobs:
-        - checkout
-        - codecov/upload
+        - test-and-upload-python
