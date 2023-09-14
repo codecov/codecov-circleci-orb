@@ -63,7 +63,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: alpine
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -85,7 +85,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: linux
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -107,7 +107,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: macos
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -130,7 +130,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: windows
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
