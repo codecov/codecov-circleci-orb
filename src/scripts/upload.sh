@@ -1,4 +1,5 @@
 unset NODE_OPTIONS
+set +x
 # See https://github.com/codecov/uploader/issues/475
 source $BASH_ENV
 chmod +x $codecov_filename
