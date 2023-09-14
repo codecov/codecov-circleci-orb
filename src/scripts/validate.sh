@@ -3,8 +3,8 @@ echo "${CODECOV_PUBLIC_PGP_KEY}" | \
   gpg --no-default-keyring --keyring trustedkeys.kbx --import
 # One-time step
 sha_url="https://cli.codecov.io"
-sha_url="$sha_url/${version}/${os}"
-sha_url="$sha_url/${filename}.SHA256SUM"
+sha_url="$sha_url/${codecov_version}/${codecov_os}"
+sha_url="$sha_url/${codecov_filename}.SHA256SUM"
 echo "Downloading ${sha_url}"
 curl -Os $sha_url
 curl -Os $sha_url".sig"
