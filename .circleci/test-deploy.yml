@@ -70,7 +70,7 @@ jobs:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-linux:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/base:current
     steps:
       - checkout
       - attach_workspace:
