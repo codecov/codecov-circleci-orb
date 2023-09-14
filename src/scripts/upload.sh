@@ -24,4 +24,5 @@ chmod +x $codecov_filename
   do-upload \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "${PARAM_UPLOAD_NAME}" \
+  -F "${FLAGS}" \
   ${@}
