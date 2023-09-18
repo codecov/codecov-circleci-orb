@@ -1,6 +1,14 @@
 family=$(uname -s | tr '[:upper:]' '[:lower:]')
 codecov_os="windows"
-[[ $family == "darwin" ]] && codecov_os="macos"
+
+if [[ $family == "darwin" ]]; then
+  arch=$(uname -m)
+  if [[ $arch == "arm64" ]]; then
+    codecov_os="aarch64"
+  else
+    codecov_os="macos"
+  fi
+fi
 
 [[ $family == "linux" ]] && codecov_os="linux"
 [[ $codecov_os == "linux" ]] && \
