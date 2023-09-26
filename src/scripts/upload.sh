@@ -28,7 +28,7 @@ IFS=$OLDIFS
 
 # alpine doesn't allow for indirect expansion
 ./"$codecov_filename" \
-  -Q "codecov-circleci-orb-3.2.5" \
+  -Q "codecov-circleci-orb-3.3.0" \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "${PARAM_UPLOAD_NAME}" \
   -F "${FLAGS}" \
