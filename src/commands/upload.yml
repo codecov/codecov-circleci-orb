@@ -62,7 +62,6 @@ steps:
         PARAM_VERSION: << parameters.version >>
 
   - when:
-      name: Restore Codecov Uploader from CircleCI Cache
       condition:
         and:
           - << parameters.cache_uploader >>
