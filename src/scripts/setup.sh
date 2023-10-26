@@ -14,7 +14,7 @@ echo "export codecov_os=${codecov_os}" >> $BASH_ENV
 
 if [ ${PARAM_VERSION} = "latest" ]
 then
-  version=$(curl https://uploader.codecov.io/${codecov_os}/latest | grep 'uploader.codecov.io/v' | head -1 | sed 's/^.*uploader.codecov.io\///g' | sed 's/\/.*$//g')
+  version=$(curl https://uploader.codecov.io/${codecov_os}/latest | grep 'uploader.codecov.io/v' | head -1 | sed -e 's/^.*uploader.codecov.io\///g' | sed -e 's/\/.*$//g')
 else
   version=${PARAM_VERSION}
 fi
