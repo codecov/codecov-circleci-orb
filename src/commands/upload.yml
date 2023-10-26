@@ -12,7 +12,7 @@ parameters:
       downloaded every run.
     type: boolean
     default: false
-  cache_uploader_key_prefix:
+  cache_prefix:
     description: Cache key name prefix to use to store the uploader.
     type: string
     default: "codecov-uploader-"
@@ -71,7 +71,7 @@ steps:
         - restore_cache:
             keys:
             keys:
-              - "<< parameters.cache_uploader_key_prefix >>-${codecov_version}-${codecov_os}"
+              - "<< parameters.cache_prefix >>-${codecov_version}-${codecov_os}"
 
   - run:
       name: Download Codecov Uploader
@@ -101,5 +101,5 @@ steps:
       steps:
         - save_cache:
             name: Caching Codecov Uploader
-            key: "<< parameters.cache_uploader_key_prefix >>-${codecov_version}-${codecov_os}"
+            key: "<< parameters.cache_prefix >>-${codecov_version}-${codecov_os}"
             paths: "codecov_uploader"
