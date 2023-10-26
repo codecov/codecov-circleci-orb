@@ -72,7 +72,7 @@ steps:
             keys:
               - >
                   << parameters.cache_uploader_key_prefix >>-
-                  ${codecov_version}-${codecov_os}"
+                  ${codecov_version}-${codecov_os}
 
   - run:
       name: Download Codecov Uploader
@@ -105,5 +105,5 @@ steps:
             key:
               - >
                   << parameters.cache_uploader_key_prefix >>-
-                  ${codecov_version}-${codecov_os}"
+                  ${codecov_version}-${codecov_os}
             paths: "codecov_uploader"
