@@ -64,10 +64,11 @@ jobs:
           flags: alpine
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
-      - codecov/upload:
           cache_uploader: true
           flags: cached
+          version: v0.7.0
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-linux:
@@ -88,10 +89,11 @@ jobs:
           flags: linux
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
-      - codecov/upload:
           cache_uploader: true
           flags: cached
+          version: v0.7.0
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-macos:
@@ -112,10 +114,11 @@ jobs:
           flags: macos
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
-      - codecov/upload:
           cache_uploader: true
           flags: cached
+          version: v0.7.0
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-windows:
@@ -137,10 +140,11 @@ jobs:
           flags: windows
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
-      - codecov/upload:
           cache_uploader: true
           flags: cached
+          version: v0.7.0
+      - codecov/upload:
+          flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
 
