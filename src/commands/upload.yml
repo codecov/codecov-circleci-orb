@@ -66,7 +66,7 @@ steps:
         and:
           - equal: [<< parameters.cache_uploader >>, true]
           - not:
-              - equal: [<< parameters.version >>, "latest"]
+              equal: [<< parameters.version >>, "latest"]
       steps:
         - restore_cache:
             keys:
