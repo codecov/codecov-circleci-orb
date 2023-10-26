@@ -54,7 +54,7 @@ jobs:
           mkdir ~/.gnupg
           touch ~/.gnupg/trustedkeys.gpg
       - codecov/upload:
-          flags: backend
+          flags: back-end
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
@@ -64,7 +64,7 @@ jobs:
           flags: alpine
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+          flags: string.flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-linux:
@@ -75,7 +75,7 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: back-end
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
@@ -85,7 +85,7 @@ jobs:
           flags: linux
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+          flags: string.flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-macos:
@@ -96,7 +96,7 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: back-end
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
@@ -106,7 +106,7 @@ jobs:
           flags: macos
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+          flags: string.flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-windows:
@@ -118,7 +118,7 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
-          flags: backend
+          flags: back-end
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: frontend
@@ -128,7 +128,7 @@ jobs:
           flags: windows
           version: v0.1.0_8880
       - codecov/upload:
-          flags: string_flag,ENV_VAR_CONTAINING_FLAG
+          flags: string.flag,ENV_VAR_CONTAINING_FLAG
     environment:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
 
