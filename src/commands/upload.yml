@@ -64,7 +64,7 @@ steps:
   - when:
       condition:
         and:
-          - << parameters.cache_uploader >>
+          - equal: [<< parameters.cache_uploader >>, true]
           - not:
               - equal: [<< parameters.version >>, "latest"]
       steps:
