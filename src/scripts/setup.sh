@@ -15,6 +15,7 @@ then
 else
   version=${PARAM_VERSION}
 fi
+echo "Using version ${version}"
 echo "export codecov_version=${version}" >> $BASH_ENV
 
 codecov_filename="codecov"
