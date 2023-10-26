@@ -63,7 +63,11 @@ steps:
 
   - when:
       name: Restore Codecov Uploader from CircleCI Cache
-      condition: << parameters.cache_uploader >>
+      condition:
+        and:
+          - << parameters.cache_uploader >>
+          not:
+            equal: [<< parameters.version >>, "latest"]
       steps:
         - restore_cache:
             keys:
@@ -73,8 +77,7 @@ steps:
       name: Download Codecov Uploader
       command: <<include(scripts/download.sh)>>
       when: << parameters.when >>
-      environment:
-        PARAM_VERSION: << parameters.version >>
+
   - when:
       condition: << parameters.validate >>
       steps:
