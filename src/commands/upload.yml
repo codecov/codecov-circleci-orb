@@ -70,9 +70,8 @@ steps:
       steps:
         - restore_cache:
             keys:
-              - >
-                  << parameters.cache_uploader_key_prefix >>-
-                  ${codecov_version}-${codecov_os}
+            keys:
+              - "<< parameters.cache_uploader_key_prefix >>-${codecov_version}-${codecov_os}"
 
   - run:
       name: Download Codecov Uploader
@@ -102,8 +101,5 @@ steps:
       steps:
         - save_cache:
             name: Caching Codecov Uploader
-            key:
-              - >
-                  << parameters.cache_uploader_key_prefix >>-
-                  ${codecov_version}-${codecov_os}
+            key: "<< parameters.cache_uploader_key_prefix >>-${codecov_version}-${codecov_os}"
             paths: "codecov_uploader"
