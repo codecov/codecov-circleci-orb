@@ -64,7 +64,7 @@ steps:
   - when:
       name: Restore Codecov Uploader from CircleCI Cache
       condition:
-        - and:
+        and:
           - << parameters.cache_uploader >>
           - not:
              - equal: [<< parameters.version >>, "latest"]
