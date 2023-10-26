@@ -1,3 +1,6 @@
+set -x
+set -e
+
 unset NODE_OPTIONS
 # See https://github.com/codecov/uploader/issues/475
 source $BASH_ENV
