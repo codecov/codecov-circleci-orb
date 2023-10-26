@@ -55,22 +55,18 @@ parameters:
     default: "latest"
 
 steps:
-  - run:
-      name: Setup Codecov env variables
-      command: <<include(scripts/setup.sh)>>
-      environment:
-        PARAM_VERSION: << parameters.version >>
-
   - when:
       condition:
         and:
           - equal: [<< parameters.cache_uploader >>, true]
           - not:
-              equal: [<< parameters.version >>, "latest"]
+              equal: [<< parameters.version >> , "latest"]
       steps:
         - restore_cache:
             keys:
-              - "<< parameters.cache_prefix >>${codecov_version}-${codecov_os}"
+              - << parameters.cache_prefix >>${PARAM_VERSION}-${codecov_os}
+            environment:
+              - PARAM_VERSION: << parameters.version >>
 
   - run:
       name: Download Codecov Uploader
@@ -100,5 +96,7 @@ steps:
       steps:
         - save_cache:
             name: Caching Codecov Uploader
-            key: "<< parameters.cache_prefix >>${codecov_version}-${codecov_os}"
+            key: << parameters.cache_prefix >>${PARAM_VERSION}-${codecov_os}
             paths: "codecov_uploader"
+            environment:
+              - PARAM_VERSION: << parameters.version >>
