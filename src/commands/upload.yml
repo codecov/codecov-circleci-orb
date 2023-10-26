@@ -7,6 +7,15 @@ description: |
   `gnupg` in order to validate.
 
 parameters:
+  cache_uploader:
+    description: Whether or not the uploader should be cached instead of
+      downloaded every run.
+    type: boolean
+    default: false
+  cache_uploader_key_prefix:
+    description: Cache key name prefix to use to store the uploader.
+    type: string
+    default: "codecov-uploader-"
   file:
     description: Path to the code coverage data file to upload.
     type: string
@@ -47,6 +56,20 @@ parameters:
 
 steps:
   - run:
+      name: Setup Codecov env variables
+      command: <<include(scripts/setup.sh)>>
+      environment:
+        PARAM_VERSION: << parameters.version >>
+
+  - when:
+      name: Restore Codecov Uploader from CircleCI Cache
+      condition: << parameters.cache_uploader >>
+      steps:
+        - restore_cache:
+            keys:
+              - "<< parameters.cache_uploader_key_prefix >>-${codecov_version}-${codecov_os}"
+
+  - run:
       name: Download Codecov Uploader
       command: <<include(scripts/download.sh)>>
       when: << parameters.when >>
@@ -69,3 +92,11 @@ steps:
         PARAM_TOKEN: << parameters.token >>
         PARAM_UPLOAD_NAME: << parameters.upload_name >>
         PARAM_XTRA_ARGS: << parameters.xtra_args >>
+
+  - when:
+      condition: << parameters.cache_uploader >>
+      steps:
+        - save_cache:
+            name: Caching Codecov Uploader
+            key: "<< parameters.cache_uploader_key_prefix >>-${codecov_version}-${codecov_os}"
+            paths: "codecov_uploader"
