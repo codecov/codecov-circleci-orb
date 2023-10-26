@@ -7,6 +7,15 @@ description: |
   `gnupg` in order to validate.
 
 parameters:
+  cache_uploader:
+    description: Whether or not the uploader should be cached instead of
+      downloaded every run.
+    type: boolean
+    default: false
+  cache_prefix:
+    description: Cache key name prefix to use to store the uploader.
+    type: string
+    default: "codecov-uploader-"
   file:
     description: Path to the code coverage data file to upload.
     type: string
@@ -46,12 +55,24 @@ parameters:
     default: "latest"
 
 steps:
+  - when:
+      condition:
+        and:
+          - equal: [<< parameters.cache_uploader >>, true]
+          - not:
+              equal: [<< parameters.version >> , "latest"]
+      steps:
+        - restore_cache:
+            keys:
+              - << parameters.cache_prefix >>${PARAM_VERSION}-${codecov_os}
+            environment:
+              - PARAM_VERSION: << parameters.version >>
+
   - run:
       name: Download Codecov Uploader
       command: <<include(scripts/download.sh)>>
       when: << parameters.when >>
-      environment:
-        PARAM_VERSION: << parameters.version >>
+
   - when:
       condition: << parameters.validate >>
       steps:
@@ -69,3 +90,13 @@ steps:
         PARAM_TOKEN: << parameters.token >>
         PARAM_UPLOAD_NAME: << parameters.upload_name >>
         PARAM_XTRA_ARGS: << parameters.xtra_args >>
+
+  - when:
+      condition: << parameters.cache_uploader >>
+      steps:
+        - save_cache:
+            name: Caching Codecov Uploader
+            key: << parameters.cache_prefix >>${PARAM_VERSION}-${codecov_os}
+            paths: "codecov_uploader"
+            environment:
+              - PARAM_VERSION: << parameters.version >>

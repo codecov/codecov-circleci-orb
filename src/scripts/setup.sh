@@ -1,3 +1,6 @@
+set -e
+set -x
+
 family=$(uname -s | tr '[:upper:]' '[:lower:]')
 codecov_os="windows"
 [[ $family == "darwin" ]] && codecov_os="macos"
@@ -9,19 +12,15 @@ codecov_os="windows"
 echo "Detected ${codecov_os}"
 echo "export codecov_os=${codecov_os}" >> $BASH_ENV
 
+if [ ${PARAM_VERSION} = "latest" ]
+then
+  version="$(curl https://uploader.codecov.io/${codecov_os}/latest | grep 'uploader.codecov.io/v' | head -1 | sed -e 's/^.*uploader.codecov.io\///g' | sed -e 's/\/.*$//g')"
+else
+  version="${PARAM_VERSION}"
+fi
+echo "Using version ${version}"
+echo "export codecov_version=${version}" >> $BASH_ENV
+
 codecov_filename="codecov"
 [[ $codecov_os == "windows" ]] && codecov_filename+=".exe"
 echo "export codecov_filename=${codecov_filename}" >> $BASH_ENV
-
-if [ -f ${codecov_filename} ]; then
-  echo "${codecov_filename} already exists"
-  exit 0
-fi
-
-[[ $codecov_os == "macos" ]] && \
-  HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
-codecov_url="https://uploader.codecov.io"
-codecov_url="$codecov_url/${PARAM_VERSION}"
-codecov_url="$codecov_url/${codecov_os}/${codecov_filename}"
-echo "Downloading ${codecov_url}"
-curl -Os $codecov_url -v

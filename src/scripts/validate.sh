@@ -1,4 +1,8 @@
 source $BASH_ENV
+if [ -f ${codecov_filename} ]; then
+  exit 0
+fi
+
 echo "${CODECOV_PUBLIC_PGP_KEY}" | \
   gpg --no-default-keyring --import
 # One-time step
