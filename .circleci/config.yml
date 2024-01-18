@@ -31,6 +31,7 @@ workflows:
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/continue:
           filters: *filters
+          orb_name: codecov/codecov
           pipeline_number: << pipeline.number >>
-          vcs_type: << pipeline.project.type >>
           requires: [orb-tools/publish]
+          vcs_type: << pipeline.project.type >>
