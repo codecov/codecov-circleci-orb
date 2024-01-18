@@ -1,7 +1,7 @@
 version: 2.1
 setup: true
 orbs:
-  orb-tools: circleci/orb-tools@11
+  orb-tools: circleci/orb-tools@12
 
 filters: &filters
   tags:
@@ -34,4 +34,3 @@ workflows:
           pipeline-number: << pipeline.number >>
           vcs-type: << pipeline.project.type >>
           requires: [orb-tools/publish]
-
