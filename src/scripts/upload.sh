@@ -9,7 +9,7 @@ chmod +x $codecov_filename
 [ -n "${PARAM_UPLOAD_ARGS}" ] && \
   set - "${@}" "${PARAM_UPLOAD_ARGS}"
 
-if [ -n "${PARAM_UPLOAD_NAME}" ]; then
+if [ -z "${PARAM_UPLOAD_NAME}" ]; then
   PARAM_UPLOAD_NAME="${CIRCLE_BUILD_NUM}"
 fi
 
