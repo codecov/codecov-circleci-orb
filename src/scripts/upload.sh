@@ -1,7 +1,6 @@
 unset NODE_OPTIONS
 # See https://github.com/codecov/uploader/issues/475
 source $BASH_ENV
-set -x
 
 chmod +x $codecov_filename
 [ -n "${PARAM_FILE}" ] && \
