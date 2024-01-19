@@ -41,9 +41,10 @@ IFS=$OLDIFS
 #upload reports
 # alpine doesn't allow for indirect expansion
 ./"$codecov_filename" \
-  ${PARAM_UPLOAD_ARGS} \
   do-upload \
+  "${PARAM_CLI_ARGS}" \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "${PARAM_UPLOAD_NAME}" \
   -F "${FLAGS}" \
+  "${PARAM_UPLOAD_ARGS}" \
   ${@}
