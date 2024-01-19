@@ -4,6 +4,7 @@ source $BASH_ENV
 set -x
 
 chmod +x $codecov_filename
+echo ${CIRCLE_BUILD_NUM}
 [ -n "${PARAM_FILE}" ] && \
   set - "${@}" "-f" "${PARAM_FILE}"
 [ -n "${PARAM_UPLOAD_ARGS}" ] && \
