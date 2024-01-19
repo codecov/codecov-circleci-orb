@@ -30,13 +30,13 @@ IFS=$OLDIFS
 
 #create commit
 ./"$codecov_filename" \
-  $(eval echo \$${PARAM_CLI_ARGS}) \
+  ${PARAM_CLI_ARGS} \
   create-commit \
   -t "$(eval echo \$$PARAM_TOKEN)"
 
 #create report
 ./"$codecov_filename" \
-  $(eval echo \$${PARAM_CLI_ARGS}) \
+  ${PARAM_CLI_ARGS} \
   create-report \
   -t "$(eval echo \$$PARAM_TOKEN)"
 
@@ -44,9 +44,9 @@ IFS=$OLDIFS
 # alpine doesn't allow for indirect expansion
 ./"$codecov_filename" \
   do-upload \
-  $(eval echo \$${PARAM_CLI_ARGS}) \
+  ${PARAM_CLI_ARGS} \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "${PARAM_UPLOAD_NAME}" \
   -F "${FLAGS}" \
-  "${PARAM_UPLOAD_ARGS}" \
+  ${PARAM_UPLOAD_ARGS} \
   ${@}
