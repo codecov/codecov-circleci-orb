@@ -9,8 +9,9 @@ echo ${CIRCLE_BUILD_NUM}
   set - "${@}" "-f" "${PARAM_FILE}"
 [ -n "${PARAM_UPLOAD_ARGS}" ] && \
   set - "${@}" "${PARAM_UPLOAD_ARGS}"
-[ -n "${PARAM_UPLOAD_NAME}" ] && \
+if [ -n "${PARAM_UPLOAD_NAME}" ]; then
   PARAM_UPLOAD_NAME="${CIRCLE_BUILD_NUM}"
+fi
 
 FLAGS=""
 OLDIFS=$IFS;IFS=,
