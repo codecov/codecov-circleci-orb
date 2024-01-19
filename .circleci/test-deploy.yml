@@ -143,11 +143,9 @@ workflows:
           filters: *filters
       - test-frontend:
           filters: *filters
-
 #      - test-alpine:
 #          filters: *filters
 #          requires: [test-backend, test-frontend]
-
       - test-linux:
           filters: *filters
           requires: [test-backend, test-frontend]
