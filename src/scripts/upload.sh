@@ -1,6 +1,8 @@
 unset NODE_OPTIONS
 # See https://github.com/codecov/uploader/issues/475
 source $BASH_ENV
+set -x
+
 chmod +x $codecov_filename
 [ -n "${PARAM_FILE}" ] && \
   set - "${@}" "-f" "${PARAM_FILE}"
@@ -37,6 +39,8 @@ IFS=$OLDIFS
   -t "$(eval echo \$$PARAM_TOKEN)"
 
 #upload reports
+echo \$$PARAM_UPLOAD_ARGS
+echo $PARAM_UPLOAD_ARGS
 # alpine doesn't allow for indirect expansion
 ./"$codecov_filename" \
   \$$PARAM_UPLOAD_ARGS \
