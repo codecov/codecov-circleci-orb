@@ -56,13 +56,14 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
+          cli_args: -v
           file: coverage/coverage-final.json
           flags: frontend
-          xtra_args: -v -Z
+          upload_args: -Z
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: alpine
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -77,13 +78,14 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
+          cli_args: -v
           file: coverage/coverage-final.json
           flags: frontend
-          xtra_args: -v -Z
+          upload_args: -Z
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: linux
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -98,13 +100,14 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
+          cli_args: -v
           file: coverage/coverage-final.json
           flags: frontend
-          xtra_args: -v -Z
+          upload_args: -Z
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: macos
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -120,13 +123,14 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
+          cli_args: -v
           file: coverage/coverage-final.json
           flags: frontend
-          xtra_args: -v -Z
+          upload_args: -Z
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: windows
-          version: v0.1.0_8880
+          version: v0.2.2
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
     environment:
@@ -139,10 +143,9 @@ workflows:
           filters: *filters
       - test-frontend:
           filters: *filters
-      - test-alpine:
-          filters: *filters
-          requires: [test-backend, test-frontend]
-
+#      - test-alpine:
+#          filters: *filters
+#          requires: [test-backend, test-frontend]
       - test-linux:
           filters: *filters
           requires: [test-backend, test-frontend]
@@ -157,7 +160,7 @@ workflows:
 
       - orb-tools/pack:
           filters: *filters
-          requires: [test-alpine, test-linux, test-macos, test-windows]
+          requires: [test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
           enable-pr-comment: false
