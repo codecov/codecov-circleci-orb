@@ -29,13 +29,21 @@ for flag in $PARAM_FLAGS; do
 done
 IFS=$OLDIFS
 
+if [ -n "$FLAGS" ]; then
+  FLAGS="-F ${FLAGS}"
+fi
+
 #create commit
+echo "./\"$codecov_filename\" ${PARAM_CLI_ARGS} create-commit -t <redacted>"
+
 ./"$codecov_filename" \
   ${PARAM_CLI_ARGS} \
   create-commit \
   -t "$(eval echo \$$PARAM_TOKEN)"
 
 #create report
+echo "./\"$codecov_filename\" ${PARAM_CLI_ARGS} create-report -t <redacted>"
+
 ./"$codecov_filename" \
   ${PARAM_CLI_ARGS} \
   create-report \
@@ -43,11 +51,14 @@ IFS=$OLDIFS
 
 #upload reports
 # alpine doesn't allow for indirect expansion
+
+echo "./${codecov_filename} ${PARAM_CLI_ARGS} do-upload -t <redacted> -n \"${PARAM_UPLOAD_NAME}\" ${FLAGS} ${PARAM_UPLOAD_ARGS} ${@}"
+
 ./"$codecov_filename" \
   ${PARAM_CLI_ARGS} \
   do-upload \
   -t "$(eval echo \$$PARAM_TOKEN)" \
   -n "${PARAM_UPLOAD_NAME}" \
-  -F "${FLAGS}" \
+  ${FLAGS} \
   ${PARAM_UPLOAD_ARGS} \
   ${@}
