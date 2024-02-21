@@ -15,7 +15,10 @@ fi
 FLAGS=""
 OLDIFS=$IFS;IFS=,
 for flag in $PARAM_FLAGS; do
-  eval e="\$$flag"
+  e=""
+  if [[ -n ${!flag+x} ]]; then
+    eval e="\$$flag"
+  fi
   for param in "${e}" "${flag}"; do
     if [ -n "${param}" ]; then
       if [ -n "${FLAGS}" ]; then
