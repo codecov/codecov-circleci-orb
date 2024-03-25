@@ -79,7 +79,7 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
-          cli_args: -v
+          cli_args: -v --slug codecov/example-python
           file: coverage/coverage-final.json
           flags: frontend
           upload_args: -Z
