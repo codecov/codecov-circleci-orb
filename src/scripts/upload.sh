@@ -39,7 +39,8 @@ echo "./\"$codecov_filename\" ${PARAM_CLI_ARGS} create-commit -t <redacted>"
 ./"$codecov_filename" \
   ${PARAM_CLI_ARGS} \
   create-commit \
-  -t "$(eval echo \$$PARAM_TOKEN)"
+  -t "$(eval echo \$$PARAM_TOKEN)" \
+  ${PARAM_COMMIT_ARGS}
 
 #create report
 echo "./\"$codecov_filename\" ${PARAM_CLI_ARGS} create-report -t <redacted>"
@@ -48,6 +49,7 @@ echo "./\"$codecov_filename\" ${PARAM_CLI_ARGS} create-report -t <redacted>"
   ${PARAM_CLI_ARGS} \
   create-report \
   -t "$(eval echo \$$PARAM_TOKEN)"
+  ${PARAM_REPORT_ARGS}
 
 #upload reports
 # alpine doesn't allow for indirect expansion
