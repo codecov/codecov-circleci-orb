@@ -12,6 +12,11 @@ parameters:
       (e.g. `-v`).
     type: string
     default: ""
+  commit_args:
+    description: Any arguments provided to the create-commit step of the CLI
+      (e.g. `--git-service github-enterprise`).
+    type: string
+    default: ""
   file:
     description: Path to the code coverage data file to upload.
     type: string
@@ -20,6 +25,11 @@ parameters:
     description: Flag the upload to group coverage metrics (e.g. unittests
       | integration | ui,chrome). Flags can be input as strings or
       environment variables.
+    type: string
+    default: ""
+  report_args:
+    description: Any arguments provided to the create-report step of the CLI
+      (e.g. `--git-service github-enterprise`).
     type: string
     default: ""
   token:
@@ -69,8 +79,10 @@ steps:
       command: <<include(scripts/upload.sh)>>
       environment:
         PARAM_CLI_ARGS: << parameters.cli_args >>
+        PARAM_COMMIT_ARGS: << parameters.commit_args >>
         PARAM_FILE: << parameters.file >>
         PARAM_FLAGS: << parameters.flags >>
+        PARAM_REPORT_ARGS: << parameters.report_args >>
         PARAM_TOKEN: << parameters.token >>
         PARAM_UPLOAD_ARGS: << parameters.upload_args >>
         PARAM_UPLOAD_NAME: << parameters.upload_name >>
