@@ -48,7 +48,7 @@ echo "./\"$codecov_filename\" ${PARAM_CLI_ARGS} create-report -t <redacted>"
 ./"$codecov_filename" \
   ${PARAM_CLI_ARGS} \
   create-report \
-  -t "$(eval echo \$$PARAM_TOKEN)"
+  -t "$(eval echo \$$PARAM_TOKEN)" \
   ${PARAM_REPORT_ARGS}
 
 #upload reports
