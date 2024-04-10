@@ -172,7 +172,7 @@ workflows:
           requires: [test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
-          enable-pr-comment: false
+          enable_pr_comment: false
           filters:
             branches:
               ignore: /.*/
