@@ -178,8 +178,8 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-          orb-name: codecov/codecov
-          pub-type: production
+          orb_name: codecov/codecov
+          pub_type: production
           requires:
             - orb-tools/pack
-          vcs-type: github
+          vcs_type: github
