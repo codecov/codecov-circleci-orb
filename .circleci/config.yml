@@ -13,19 +13,19 @@ workflows:
       - orb-tools/lint:
           pre-steps:
             - checkout
-            - git submodule update --remote
+            - run: git submodule update --remote
           checkout: false
           filters: *filters
       - orb-tools/pack:
           pre-steps:
             - checkout
-            - git submodule update --remote
+            - run: git submodule update --remote
           checkout: false
           filters: *filters
       - orb-tools/review:
           pre-steps:
             - checkout
-            - git submodule update --remote
+            - run: git submodule update --remote
           checkout: false
           filters: *filters
 
