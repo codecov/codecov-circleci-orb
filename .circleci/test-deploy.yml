@@ -80,8 +80,10 @@ jobs:
           flags: backend
       - codecov/upload:
           cli_args: -v
+          commit_args: -Z
           file: coverage/coverage-final.json
           flags: frontend
+          report_args: -Z
           upload_args: -Z
       - codecov/upload:
           file: coverage/coverage-final.json
