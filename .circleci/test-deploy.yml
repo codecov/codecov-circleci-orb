@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@dev:alpha
   node: circleci/node@5
-  orb-tools: circleci/orb-tools@11
+  orb-tools: circleci/orb-tools@12
   python: circleci/python@2
   win: circleci/windows@4
 
@@ -165,18 +165,23 @@ workflows:
           requires: [test-backend, test-frontend]
 
       - orb-tools/pack:
+          pre-steps:
+            - checkout
+            - run: git submodule init
+            - run: git submodule update --remote
+          checkout: false
           filters: *filters
           requires: [test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
-          enable-pr-comment: false
+          enable_pr_comment: false
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
-          orb-name: codecov/codecov
-          pub-type: production
+          orb_name: codecov/codecov
+          pub_type: production
           requires:
             - orb-tools/pack
-          vcs-type: github
+          vcs_type: github
