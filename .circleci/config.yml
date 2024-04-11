@@ -11,10 +11,25 @@ workflows:
   lint-pack:
     jobs:
       - orb-tools/lint:
+          pre-steps:
+            - checkout
+            - run: git submodule init
+            - run: git submodule update --remote
+          checkout: false
           filters: *filters
       - orb-tools/pack:
+          pre-steps:
+            - checkout
+            - run: git submodule init
+            - run: git submodule update --remote
+          checkout: false
           filters: *filters
       - orb-tools/review:
+          pre-steps:
+            - checkout
+            - run: git submodule init
+            - run: git submodule update --remote
+          checkout: false
           filters: *filters
 
       # release dev version of orb, for testing & possible publishing.
