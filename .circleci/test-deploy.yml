@@ -6,10 +6,6 @@ orbs:
   python: circleci/python@2
   win: circleci/windows@4
 
-filters: &filters
-  tags:
-    only: /.*/
-
 executors:
   python:
     docker:
@@ -145,23 +141,32 @@ jobs:
 workflows:
   integration-tests_deploy:
     jobs:
-      - test-backend:
-          filters: *filters
-      - test-frontend:
-          filters: *filters
+      - test-backend
+      - test-frontend
 #      - test-alpine:
 #          filters: *filters
 #          requires: [test-backend, test-frontend]
       - test-linux:
-          filters: *filters
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
           requires: [test-backend, test-frontend]
-
       - test-macos:
-          filters: *filters
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
           requires: [test-backend, test-frontend]
 
       - test-windows:
-          filters: *filters
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
           requires: [test-backend, test-frontend]
 
       - orb-tools/pack:
@@ -170,7 +175,6 @@ workflows:
             - run: git submodule init
             - run: git submodule update --remote
           checkout: false
-          filters: *filters
           requires: [test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
