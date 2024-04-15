@@ -157,6 +157,7 @@ workflows:
             tags:
               ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
           requires: [test-backend, test-frontend]
+
       - test-macos:
           filters:
             branches:
