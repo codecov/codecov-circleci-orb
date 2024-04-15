@@ -214,5 +214,5 @@ workflows:
           orb_name: codecov/codecov
           pub_type: production
           requires:
-            - orb-tools/pack
+            - Pack (deploy)
           vcs_type: github
