@@ -177,6 +177,7 @@ workflows:
           requires: [test-backend, test-frontend]
 
       - orb-tools/pack:
+          name: Pack (no-deploy)
           filters:
             branches:
               only: /.*/
@@ -190,6 +191,7 @@ workflows:
           requires: [test-linux, test-macos, test-windows]
 
       - orb-tools/pack:
+          name: Pack (deploy)
           filters:
             branches:
               ignore: /.*/
