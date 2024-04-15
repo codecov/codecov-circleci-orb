@@ -7,8 +7,10 @@ orbs:
   win: circleci/windows@4
 
 filters: &filters
-  tags:
+  branches:
     only: /.*/
+  tags:
+    ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
 
 executors:
   python:
@@ -170,7 +172,6 @@ workflows:
             - run: git submodule init
             - run: git submodule update --remote
           checkout: false
-          filters: *filters
           requires: [test-linux, test-macos, test-windows]
 
       - orb-tools/publish:
