@@ -6,6 +6,10 @@ orbs:
   python: circleci/python@2
   win: circleci/windows@4
 
+filters: &filters
+  tags:
+    only: /.*/
+
 executors:
   python:
     docker:
@@ -13,10 +17,6 @@ executors:
   node:
     docker:
       - image: cimg/node:current
-
-filters: &filters
-  tags:
-    only: /.*/
 
 jobs:
   test-backend:
@@ -145,8 +145,10 @@ jobs:
 workflows:
   integration-tests_deploy:
     jobs:
-      - test-backend
-      - test-frontend
+      - test-backend:
+          filters: *filters
+      - test-frontend:
+          filters: *filters
 #      - test-alpine:
 #          filters: *filters
 #          requires: [test-backend, test-frontend]
