@@ -153,6 +153,7 @@ workflows:
 #          filters: *filters
 #          requires: [test-backend, test-frontend]
       - test-linux:
+          filters:
             branches:
               only: /.*/
             tags:
