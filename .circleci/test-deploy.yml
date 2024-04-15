@@ -50,6 +50,13 @@ jobs:
       - attach_workspace:
           at: .
       - run: |
+          if [ -Z ${{ env.CIRCLE_BRANCH }} ];
+          then
+            COMMIT=$(git show-ref ${CIRCLE_TAG} | awk '{print $1}')
+                   && TMP=$(git branch -a --contains $COMMIT)
+                   && CIRCLE_BRANCH=${TMP##*/}
+          fi
+      - run: |
           apk add coreutils curl git gnupg
           mkdir ~/.gnupg
           touch ~/.gnupg/trustedkeys.gpg
@@ -76,6 +83,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: |
+          if [ -Z ${{ env.CIRCLE_BRANCH }} ];
+          then
+            COMMIT=$(git show-ref ${CIRCLE_TAG} | awk '{print $1}')
+                   && TMP=$(git branch -a --contains $COMMIT)
+                   && CIRCLE_BRANCH=${TMP##*/}
+          fi
       - codecov/upload:
           flags: backend
       - codecov/upload:
@@ -101,6 +115,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: |
+          if [ -Z ${{ env.CIRCLE_BRANCH }} ];
+          then
+            COMMIT=$(git show-ref ${CIRCLE_TAG} | awk '{print $1}')
+                   && TMP=$(git branch -a --contains $COMMIT)
+                   && CIRCLE_BRANCH=${TMP##*/}
+          fi
       - codecov/upload:
           flags: backend
       - codecov/upload:
@@ -125,6 +146,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: |
+          if [ -Z ${{ env.CIRCLE_BRANCH }} ];
+          then
+            COMMIT=$(git show-ref ${CIRCLE_TAG} | awk '{print $1}')
+                   && TMP=$(git branch -a --contains $COMMIT)
+                   && CIRCLE_BRANCH=${TMP##*/}
+          fi
       - codecov/upload:
           flags: backend
       - codecov/upload:
@@ -153,27 +181,15 @@ workflows:
 #          filters: *filters
 #          requires: [test-backend, test-frontend]
       - test-linux:
-          filters:
-            branches:
-              only: /.*/
-            tags:
-              ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+          filters: *filters
           requires: [test-backend, test-frontend]
 
       - test-macos:
-          filters:
-            branches:
-              only: /.*/
-            tags:
-              ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+          filters: *filters
           requires: [test-backend, test-frontend]
 
       - test-windows:
-          filters:
-            branches:
-              only: /.*/
-            tags:
-              ignore: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+          filters: *filters
           requires: [test-backend, test-frontend]
 
       - orb-tools/pack:
