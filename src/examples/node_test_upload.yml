@@ -7,7 +7,7 @@ usage:
   version: 2.1
   orbs:
     node: circleci/node@4.7.0
-    codecov: codecov/codecov@4.0.1
+    codecov: codecov/codecov@4.1.0
   workflows:
     upload-to-codecov:
       jobs:
