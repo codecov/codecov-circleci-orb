@@ -72,11 +72,13 @@ steps:
         - run:
             name: Validate Codecov Uploader
             command: <<include(scripts/validate.sh)>>
+            when: << parameters.when >>
             environment:
               CODECOV_PUBLIC_PGP_KEY: <<include(scripts/pgp_keys.asc)>>
   - run:
       name: Upload Coverage Results
       command: <<include(scripts/upload.sh)>>
+      when: << parameters.when >>
       environment:
         PARAM_CLI_ARGS: << parameters.cli_args >>
         PARAM_COMMIT_ARGS: << parameters.commit_args >>
