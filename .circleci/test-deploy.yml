@@ -88,7 +88,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: linux
-          version: v0.2.2
+          version: v0.7.4
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
       - codecov/upload
@@ -111,7 +111,7 @@ jobs:
       - codecov/upload:
           file: coverage/coverage-final.json
           flags: macos
-          version: v0.2.2
+          version: v0.7.4
       - codecov/upload:
           flags: string_flag,ENV_VAR_CONTAINING_FLAG
       - codecov/upload
