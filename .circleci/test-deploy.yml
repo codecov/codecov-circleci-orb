@@ -96,7 +96,7 @@ jobs:
       ENV_VAR_CONTAINING_FLAG: env_var_flag
   test-macos:
     macos:
-      xcode: 14.1
+      xcode: 14.3.1
     steps:
       - checkout
       - attach_workspace:
