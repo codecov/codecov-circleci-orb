@@ -1,6 +1,6 @@
 {
   "name": "codecov-circleci-orb",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Codecov CircleCI Orb",
   "main": "index.js",
   "devDependencies": {
