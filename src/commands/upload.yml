@@ -63,7 +63,8 @@ parameters:
 steps:
   - run:
       name: Upload to Codecov
-      command: <<include(scripts/run.sh)>>
+      command: <<include(run.sh)>>
       when: << parameters.when >>
+      working_directory: scripts/
       environment:
         CODECOV_TOKEN: << parameters.token >>
