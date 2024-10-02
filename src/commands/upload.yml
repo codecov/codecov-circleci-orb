@@ -61,28 +61,8 @@ parameters:
 
 steps:
   - run:
-      name: Download Codecov Uploader
-      command: <<include(scripts/download.sh)>>
+      name: Upload to Codecov
+      command: <<include(scripts/run.sh)>>
       when: << parameters.when >>
       environment:
-        PARAM_VERSION: << parameters.version >>
-  - when:
-      condition: << parameters.validate >>
-      steps:
-        - run:
-            name: Validate Codecov Uploader
-            command: <<include(scripts/validate.sh)>>
-            environment:
-              CODECOV_PUBLIC_PGP_KEY: <<include(scripts/pgp_keys.asc)>>
-  - run:
-      name: Upload Coverage Results
-      command: <<include(scripts/upload.sh)>>
-      environment:
-        PARAM_CLI_ARGS: << parameters.cli_args >>
-        PARAM_COMMIT_ARGS: << parameters.commit_args >>
-        PARAM_FILE: << parameters.file >>
-        PARAM_FLAGS: << parameters.flags >>
-        PARAM_REPORT_ARGS: << parameters.report_args >>
-        PARAM_TOKEN: << parameters.token >>
-        PARAM_UPLOAD_ARGS: << parameters.upload_args >>
-        PARAM_UPLOAD_NAME: << parameters.upload_name >>
+        CODECOV_TOKEN: << parameters.token >>
