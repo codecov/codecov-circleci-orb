@@ -63,17 +63,7 @@ parameters:
 steps:
   - run:
       name: Upload to Codecov
-      command: <<include(scripts/run.sh)>>
+      command: <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
-      working_directory: scripts/
       environment:
-        script_download: <<include(scripts/scripts/download.sh)>>
-        script_set_cli_args: <<include(scripts/scripts/set_cli_args.sh)>>
-        script_set_create_commit_args: <<include(scripts/scripts/set_create_commit_args.sh)>>  # yamllint disable-line rule:line-length
-        script_set_create_report_args: <<include(scripts/scripts/set_create_report_args.sh)>>  # yamllint disable-line rule:line-length
-        script_set_defaults: <<include(scripts/scripts/set_defaults.sh)>>
-        script_set_do_upload_args: <<include(scripts/scripts/set_do_upload_args.sh)>>  # yamllint disable-line rule:line-length
-        script_upload: <<include(scripts/scripts/upload.sh)>>
-        script_validate: <<include(scripts/scripts/validate.sh)>>
-        script_version: <<include(scripts/scripts/version.sh)>>
         CODECOV_TOKEN: << parameters.token >>
