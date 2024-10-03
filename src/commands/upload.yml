@@ -66,4 +66,4 @@ steps:
       command: <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
       environment:
-        CODECOV_TOKEN: ${<< parameters.token >>}
+        CODECOV_TOKEN_VAR: << parameters.token >>
