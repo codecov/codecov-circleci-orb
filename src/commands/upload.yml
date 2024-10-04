@@ -14,7 +14,7 @@ parameters:
     type: string
     default: ""
   branch:
-    description: Branch to which this commit belongs to
+    description: Branch to which this commit belongs
     type: string
     default: ""
   build:
