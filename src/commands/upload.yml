@@ -34,17 +34,17 @@ parameters:
     type: string
     default: ""
   disable_file_fixes:
-    description: Disable file fixes to ignore common lines from coverage (e.g. blank lines or empty brackets). Set to "true", defaults to "false".
-    type: string
-    default: "false"
+    description: Disable file fixes to ignore common lines from coverage (e.g. blank lines or empty brackets).
+    type: boolean
+    default: false
   disable_search:
-    description: Disable search for coverage files. This is helpful when specifying what files you want to upload with the files option. Set to "true", defaults to "false".
-    type: string
-    default: "false"
+    description: Disable search for coverage files. This is helpful when specifying what files you want to upload with the files option.
+    type: boolean
+    default: false
   dry_run:
-    description: Don't upload files to Codecov. Set to "true", defaults to "false".
-    type: string
-    default: "false"
+    description: Don't upload files to Codecov.
+    type: boolean
+    default: false
   enterprise_url:
     description: (Enterprise only). Set to the Codecov instance URL.
     type: string
@@ -58,9 +58,9 @@ parameters:
     type: string
     default: ""
   fail_on_error:
-    description: Exit with non-zero code in case of error. Set to "true", defaults to "false".
-    type: string
-    default: "false"
+    description: Exit with non-zero code in case of error.
+    type: boolean
+    default: false
   files:
     description: Comma-separated list of explicit files to upload. These will be added to the coverage files found for upload. If you wish to only upload the specified files, please consider using disable-search to disable uploading other files.
     type: string
@@ -74,17 +74,17 @@ parameters:
     type: string
     default: ""
   handle_no_reports_found:
-    description: Raise no exceptions when no coverage reports are found. Set to "true", defaults to "false".
-    type: string
-    default: "false"
+    description: Raise no exceptions when no coverage reports are found.
+    type: boolean
+    default: false
   job_code:
     description:
     type: string
     default: ""
   legacy:
-    description: Use the legacy upload endpoint. Set to "true", defaults to "false"
-    type: string
-    default: "false"
+    description: Use the legacy upload endpoint.
+    type: boolean
+    default: false
   network_filter:
     description: Specify a filter on the files listed in the network section of the Codecov report. This will only add files whose path begin with the specified filter. Useful for upload-specific path fixing.
     type: string
@@ -118,9 +118,9 @@ parameters:
     type: string
     default: ""
   skip_validation:
-    description: Skip integrity checking of the CLI. This is NOT recommended. Set to "true", default is "false"
-    type: string
-    default: "false"
+    description: Skip integrity checking of the CLI. This is NOT recommended.
+    type: boolean
+    default: false
   slug:
     description: (Enterprise only) owner/repo slug used instead of the private repo token
     type: string
