@@ -134,6 +134,10 @@ parameters:
     description: Custom defined name of the upload. Visible in the Codecov UI
     type: string
     default: ""
+  verbose:
+    description: Use verbose logging in the CLI
+    type: boolean
+    default: false
   version:
     description: Which version of the Codecov CLI to use (defaults to
       'latest')
@@ -181,4 +185,5 @@ steps:
         CC_SKIP_VALIDATION: << parameters.skip_validation >>
         CC_SLUG: << parameters.slug >>
         CC_TOKEN_VAR: << parameters.token >>
+        CC_VERBOSE: << parameters.verbose >>
         CC_VERSION: << parameters.version >>
