@@ -125,7 +125,7 @@ parameters:
     description: (Enterprise only) owner/repo slug used instead of the private repo token
     type: string
     default: ""
-  token_var:
+  token:
     description: Set the private repository token as the value of the
       variable CODECOV_TOKEN using CircleCI Environment Variables.
     type: env_var_name
@@ -150,7 +150,6 @@ steps:
       command: <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
       environment:
-        CC_AUTO_LOAD_PARAMS_FROM: << parameters.auto_load_params_from >>
         CC_BINARY: << parameters.binary >>
         CC_BRANCH: << parameters.branch >>
         CC_BUILD: << parameters.build >>
@@ -177,8 +176,6 @@ steps:
         CC_PARENT_SHA: << parameters.parent_sha >>
         CC_PLUGINS: << parameters.plugins >>
         CC_PR: << parameters.pr >>
-        CC_PUBLIC_PGP_KEY: << parameters.public_pgp_key >>
-        CC_PULL_REQUEST: << parameters.pull_request >>
         CC_REPORT_TYPE: << parameters.report_type >>
         CC_SHA: << parameters.sha >>
         CC_SKIP_VALIDATION: << parameters.skip_validation >>
