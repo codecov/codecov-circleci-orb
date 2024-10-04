@@ -102,7 +102,7 @@ parameters:
     type: string
     default: ""
   plugins:
-    description: Comma-separated list of plugins to run. Specify `noop` to turn of all plugins
+    description: Comma-separated list of plugins to run. Specify `noop` to turn off all plugins
     type: string
     default: ""
   pr:
