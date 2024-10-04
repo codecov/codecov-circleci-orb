@@ -85,10 +85,6 @@ parameters:
     description: Use the legacy upload endpoint. Set to "true", defaults to "false"
     type: string
     default: "false"
-  name:
-    description: Custom defined name of the upload. Visible in the Codecov UI
-    type: string
-    default: ""
   network_filter:
     description: Specify a filter on the files listed in the network section of the Codecov report. This will only add files whose path begin with the specified filter. Useful for upload-specific path fixing.
     type: string
@@ -134,6 +130,10 @@ parameters:
       variable CODECOV_TOKEN using CircleCI Environment Variables.
     type: env_var_name
     default: CODECOV_TOKEN
+  upload_name:
+    description: Custom defined name of the upload. Visible in the Codecov UI
+    type: string
+    default: ""
   version:
     description: Which version of the Codecov CLI to use (defaults to
       'latest')
@@ -170,7 +170,7 @@ steps:
         CC_HANDLE_NO_REPORTS_FOUND: << parameters.handle_no_reports_found >>
         CC_JOB_CODE: << parameters.job_code >>
         CC_LEGACY: << parameters.legacy >>
-        CC_NAME: << parameters.name >>
+        CC_NAME: << parameters.upload_name >>
         CC_NETWORK_FILTER: << parameters.network_filter >>
         CC_NETWORK_PREFIX: << parameters.network_prefix >>
         CC_NETWORK_ROOT_FOLDER: << parameters.network_root_folder >>
