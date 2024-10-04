@@ -8,50 +8,133 @@ description: |
   `gnupg` in order to validate.
 
 parameters:
-  cli_args:
-    description: Any extra arguments provided to the CLI the CLI
-      (e.g. `-v`).
+  binary:
+    description: The file location of a pre-downloaded version of the CLI. If specified, integrity checking will be bypassed.
     type: string
     default: ""
-  commit_args:
-    description: Any arguments provided to the create-commit step of the CLI
-      (e.g. `--git-service github-enterprise`).
+  branch:
+    description: Branch to which this commit belongs to
     type: string
     default: ""
-  file:
-    description: Path to the code coverage data file to upload.
+  build:
+    description: Specify the build number manually
+    type: string
+    default: ""
+  build_url:
+    description: The URL of the build where this is running
+    type: string
+    default: ""
+  code:
+    description: The code of the report. If unsure, leave default.
+    type: string
+    default: ""
+  dir:
+    description: Folder where to search for coverage files. Default to current working directory
+    type: string
+    default: ""
+  disable_file_fixes:
+    description: Disable file fixes to ignore common lines from coverage (e.g. blank lines or empty brackets). Set to "true", defaults to "false".
+    type: string
+    default: "false"
+  disable_search:
+    description: Disable search for coverage files. This is helpful when specifying what files you want to upload with the files option. Set to "true", defaults to "false".
+    type: string
+    default: "false"
+  dry_run:
+    description: Don't upload files to Codecov. Set to "true", defaults to "false".
+    type: string
+    default: "false"
+  enterprise_url:
+    description: (Enterprise only). Set to the Codecov instance URL.
+    type: string
+    default: ""
+  env:
+    description: Specify environment variables to be included with this build
+    type: string
+    default: ""
+  excludes:
+    description: Comma-separated list of folders to exclude from search.
+    type: string
+    default: ""
+  fail_on_error:
+    description: Exit with non-zero code in case of error. Set to "true", defaults to "false".
+    type: string
+    default: "false"
+  files:
+    description: Comma-separated list of explicit files to upload. These will be added to the coverage files found for upload. If you wish to only upload the specified files, please consider using disable-search to disable uploading other files.
     type: string
     default: ""
   flags:
-    description: Flag the upload to group coverage metrics (e.g. unittests
-      | integration | ui,chrome). Flags can be input as strings or
-      environment variables.
+    description: Comma-separated list of flags to upload to group coverage metrics.
     type: string
     default: ""
-  report_args:
-    description: Any arguments provided to the create-report step of the CLI
-      (e.g. `--git-service github-enterprise`).
+  git_service:
+    description: One of [github|gitlab|bitbucket|github_enterprise|gitlab_enterprise|bitbucket_server]
     type: string
     default: ""
-  token:
+  handle_no_reports_found:
+    description: Raise no exceptions when no coverage reports are found. Set to "true", defaults to "false".
+    type: string
+    default: "false"
+  job_code:
+    description:
+    type: string
+    default: ""
+  legacy:
+    description: Use the legacy upload endpoint. Set to "true", defaults to "false"
+    type: string
+    default: "false"
+  name:
+    description: Custom defined name of the upload. Visible in the Codecov UI
+    type: string
+    default: ""
+  network_filter:
+    description: Specify a filter on the files listed in the network section of the Codecov report. This will only add files whose path begin with the specified filter. Useful for upload-specific path fixing.
+    type: string
+    default: ""
+  network_prefix: Specify a prefix on files listed in the network section of the Codecov report. Useful to help resolve path fixing.
+    description:
+    type: string
+    default: ""
+  network_root_folder:
+    description: Root folder from which to consider paths on the network section. Defaults to current working directory.
+    type: string
+    default: ""
+  parent_sha:
+    description: SHA (with 40 chars) of what should be the parent of this commit.
+    type: string
+    default: ""
+  plugins:
+    description: Comma-separated list of plugins to run. Specify `noop` to turn of all plugins
+    type: string
+    default: ""
+  pr:
+    description: Specify the pull request number manually. Used to override pre-existing CI environment variables.
+    type: string
+    default: ""
+  report_type:
+    description: The type of file to upload, coverage by default. Possible values are: testing, coverage.
+    type: string
+    default: "coverage"
+  sha:
+    description: Commit SHA (with 40 chars)
+    type: string
+    default: ""
+  skip_validation:
+    description: Skip integrity checking of the CLI. This is NOT recommended. Set to "true", default is "false"
+    type: string
+    default: "false"
+  slug:
+    description: (Enterprise only) owner/repo slug used instead of the private repo token
+    type: string
+    default: ""
+  token_var:
     description: Set the private repository token as the value of the
       variable CODECOV_TOKEN using CircleCI Environment Variables.
     type: env_var_name
     default: CODECOV_TOKEN
-  upload_name:
-    description: Custom defined name of the upload. Visible in Codecov UI
-    type: string
-    default: ""
-  upload_args:
-    description: Any extra flags as provided to the `do-upload` step of the CLI
-    type: string
-    default: ""
-  validate:
-    description: Validate the uploader before uploading the codecov result.
-    type: boolean
-    default: true
   version:
-    description: Which version of the Codecov Uploader to use (defaults to
+    description: Which version of the Codecov CLI to use (defaults to
       'latest')
     type: string
     default: "latest"
@@ -66,4 +149,38 @@ steps:
       command: <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
       environment:
+        CC_AUTO_LOAD_PARAMS_FROM: << parameters.auto_load_params_from >>
+        CC_BINARY: << parameters.binary >>
+        CC_BRANCH: << parameters.branch >>
+        CC_BUILD: << parameters.build >>
+        CC_BUILD_URL: << parameters.build_url >>
+        CC_CODE: << parameters.code >>
+        CC_DIR: << parameters.dir >>
+        CC_DISABLE_FILE_FIXES: << parameters.disable_file_fixes >>
+        CC_DISABLE_SEARCH: << parameters.disable_search >>
+        CC_DRY_RUN: << parameters.dry_run >>
+        CC_ENTERPRISE_URL: << parameters.enterprise_url >>
+        CC_ENV: << parameters.env >>
+        CC_EXCLUDES: << parameters.excludes >>
+        CC_FAIL_ON_ERROR: << parameters.fail_on_error >>
+        CC_FILES: << parameters.files >>
+        CC_FLAGS: << parameters.flags >>
+        CC_GIT_SERVICE: << parameters.git_service >>
+        CC_HANDLE_NO_REPORTS_FOUND: << parameters.handle_no_reports_found >>
+        CC_JOB_CODE: << parameters.job_code >>
+        CC_LEGACY: << parameters.legacy >>
+        CC_NAME: << parameters.name >>
+        CC_NETWORK_FILTER: << parameters.network_filter >>
+        CC_NETWORK_PREFIX: << parameters.network_prefix >>
+        CC_NETWORK_ROOT_FOLDER: << parameters.network_root_folder >>
+        CC_PARENT_SHA: << parameters.parent_sha >>
+        CC_PLUGINS: << parameters.plugins >>
+        CC_PR: << parameters.pr >>
+        CC_PUBLIC_PGP_KEY: << parameters.public_pgp_key >>
+        CC_PULL_REQUEST: << parameters.pull_request >>
+        CC_REPORT_TYPE: << parameters.report_type >>
+        CC_SHA: << parameters.sha >>
+        CC_SKIP_VALIDATION: << parameters.skip_validation >>
+        CC_SLUG: << parameters.slug >>
         CC_TOKEN_VAR: << parameters.token >>
+        CC_VERSION: << parameters.version >>
