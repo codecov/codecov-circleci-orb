@@ -139,8 +139,7 @@ parameters:
     type: boolean
     default: false
   version:
-    description: Which version of the Codecov CLI to use (defaults to
-      'latest')
+    description: Which version of the Codecov CLI to use (defaults to 'latest')
     type: string
     default: "latest"
   when:
@@ -151,7 +150,7 @@ parameters:
 steps:
   - run:
       name: Upload to Codecov
-      command: <<include(scripts/dist/codecov.sh)>>
+      command: <<include(codecov.sh)>>
       when: << parameters.when >>
       environment:
         CC_BINARY: << parameters.binary >>
