@@ -1,3 +1,4 @@
+---
 version: 2.1
 orbs:
   codecov: codecov/codecov@dev:alpha
@@ -57,11 +58,11 @@ jobs:
           flags: backend
       - codecov/upload:
           fail_on_error: true
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: frontend
           verbose: true
       - codecov/upload:
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: alpine
           version: v0.2.2
       - codecov/upload:
@@ -80,11 +81,11 @@ jobs:
           flags: backend
       - codecov/upload:
           fail_on_error: true
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: frontend
           verbose: true
       - codecov/upload:
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: linux
           version: v0.7.4
       - codecov/upload:
@@ -103,11 +104,11 @@ jobs:
           flags: backend
       - codecov/upload:
           fail_on_error: true
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: frontend
           verbose: true
       - codecov/upload:
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: macos
           version: v0.7.4
       - codecov/upload:
@@ -127,11 +128,11 @@ jobs:
           flags: backend
       - codecov/upload:
           fail_on_error: true
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: frontend
           verbose: true
       - codecov/upload:
-          file: coverage/coverage-final.json
+          files: coverage/coverage-final.json
           flags: windows
           version: v0.2.2
       - codecov/upload:
@@ -147,9 +148,9 @@ workflows:
           filters: *filters
       - test-frontend:
           filters: *filters
-#      - test-alpine:
-#          filters: *filters
-#          requires: [test-backend, test-frontend]
+          # - test-alpine:
+          #   filters: *filters
+          #   requires: [test-backend, test-frontend]
       - test-linux:
           filters:
             branches:
