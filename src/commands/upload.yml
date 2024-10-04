@@ -26,7 +26,7 @@ parameters:
     type: string
     default: ""
   code:
-    description: The code of the report. If unsure, leave default.
+    description: The code of the report if using local upload. If unsure, leave default. Read more here https://docs.codecov.com/docs/the-codecov-cli#how-to-use-local-upload
     type: string
     default: ""
   dir:
@@ -34,7 +34,7 @@ parameters:
     type: string
     default: ""
   disable_file_fixes:
-    description: Disable file fixes to ignore common lines from coverage (e.g. blank lines or empty brackets).
+    description: Disable file fixes to ignore common lines from coverage (e.g. blank lines or empty brackets). Read more here https://docs.codecov.com/docs/fixing-reports
     type: boolean
     default: false
   disable_search:
@@ -46,7 +46,7 @@ parameters:
     type: boolean
     default: false
   enterprise_url:
-    description: (Enterprise only). Set to the Codecov instance URL.
+    description: Set to the Codecov instance URl. Only applicable to some Enterprise users.
     type: string
     default: ""
   env:
@@ -122,7 +122,7 @@ parameters:
     type: boolean
     default: false
   slug:
-    description: (Enterprise only) owner/repo slug used instead of the private repo token
+    description: Set to the owner/repo slug used instead of the private repo token. Only applicable to some Enterprise users.
     type: string
     default: ""
   token:
