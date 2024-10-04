@@ -21,7 +21,7 @@ write_existing_args() {
   fi
 }
 write_truthy_args() {
-  if [ "$(eval echo \$$1)" = "true" ];
+  if [ "$(eval echo \$$1)" = "true" ] || [ "$(eval echo \$$1)" = "1" ];
   then
     echo " -$(lower $1)"
   fi
@@ -107,7 +107,7 @@ cc_cli_args=()
 cc_cli_args+=( $(write_existing_args CC_AUTO_LOAD_PARAMS_FROM) )
 cc_cli_args+=( $(write_existing_args CC_ENTERPRISE_URL) )
 cc_cli_args+=( $(write_existing_args CC_YML_PATH) )
-say "$rCC_VERBOSE = $CC_VERBOSE$x"
+say "$r CC_VERBOSE = $CC_VERBOSE$x"
 cc_cli_args+=( $(write_truthy_args CC_VERBOSE) )
 cc_cc_args=()
 cc_cc_args+=( $(write_truthy_args CC_FAIL_ON_ERROR) )
