@@ -30,7 +30,7 @@ parameters:
     type: string
     default: ""
   dir:
-    description: Folder where to search for coverage files. Default to current working directory
+    description: Folder to search for coverage files. Default to the current working directory
     type: string
     default: ""
   disable_file_fixes:
