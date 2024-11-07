@@ -97,6 +97,10 @@ parameters:
     description: Root folder from which to consider paths on the network section. Defaults to current working directory.
     type: string
     default: ""
+  os:
+    description: Override the calculated os. Can use "linux" | "macos" | "windows" | "linux-arm64" | "alpine" | "alpine-arm64"
+    type: string
+    default: ""
   parent_sha:
     description: SHA (with 40 chars) of what should be the parent of this commit.
     type: string
@@ -176,6 +180,7 @@ steps:
         CC_NETWORK_FILTER: << parameters.network_filter >>
         CC_NETWORK_PREFIX: << parameters.network_prefix >>
         CC_NETWORK_ROOT_FOLDER: << parameters.network_root_folder >>
+        CC_OS: << parameters.os >>
         CC_PARENT_SHA: << parameters.parent_sha >>
         CC_PLUGINS: << parameters.plugins >>
         CC_PR: << parameters.pr >>
