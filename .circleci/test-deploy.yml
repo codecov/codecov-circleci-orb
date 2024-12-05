@@ -80,7 +80,7 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
-          fail_on_error: true
+          fail_on_error: false
           files: coverage/coverage-final.json
           flags: frontend
           verbose: true
@@ -103,7 +103,7 @@ jobs:
       - codecov/upload:
           flags: backend
       - codecov/upload:
-          fail_on_error: true
+          fail_on_error: false
           files: coverage/coverage-final.json
           flags: frontend
           verbose: true
