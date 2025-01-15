@@ -41,6 +41,10 @@ parameters:
     description: Disable search for coverage files. This is helpful when specifying what files you want to upload with the files option.
     type: boolean
     default: false
+  disable_telem:
+    description: Disable sending telemetry data to Codecov.
+    type: boolean
+    default: false
   dry_run:
     description: Don't upload files to Codecov.
     type: boolean
@@ -165,6 +169,7 @@ steps:
         CC_DIR: << parameters.dir >>
         CC_DISABLE_FILE_FIXES: << parameters.disable_file_fixes >>
         CC_DISABLE_SEARCH: << parameters.disable_search >>
+        CC_DISABLE_TELEM: << parameters.disable_telem >>
         CC_DRY_RUN: << parameters.dry_run >>
         CC_ENTERPRISE_URL: << parameters.enterprise_url >>
         CC_ENV: << parameters.env >>
