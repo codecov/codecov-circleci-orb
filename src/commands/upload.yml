@@ -118,7 +118,7 @@ parameters:
     type: string
     default: ""
   report_type:
-    description: The type of file to upload, coverage by default. Possible values are "testing", "coverage".
+    description: The type of file to upload, coverage by default. Possible values are "test_results", "coverage".
     type: string
     default: "coverage"
   sha:
