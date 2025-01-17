@@ -78,6 +78,10 @@ jobs:
       - attach_workspace:
           at: .
       - codecov/upload:
+          flags: backend-meow
+      - codecov/upload:
+          flags: backend.meow
+      - codecov/upload:
           flags: backend
       - codecov/upload:
           fail_on_error: true
