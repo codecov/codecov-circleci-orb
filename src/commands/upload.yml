@@ -9,6 +9,10 @@ description: |
   `gnupg` in order to validate.
 
 parameters:
+  base_sha:
+    description: The base SHA to select. This is only used in the "pr-base-picking" run command
+    type: string
+    default: ""
   binary:
     description: The file location of a pre-downloaded version of the CLI. If specified, integrity checking will be bypassed.
     type: string
@@ -73,6 +77,10 @@ parameters:
     description: Comma-separated list of flags to upload to group coverage metrics.
     type: string
     default: ""
+  force:
+    description: Only used for empty-upload run command
+    type: boolean
+    default: false
   git_service:
     description: One of [github|gitlab|bitbucket|github_enterprise|gitlab_enterprise|bitbucket_server]
     type: string
@@ -121,6 +129,10 @@ parameters:
     description: The type of file to upload, coverage by default. Possible values are "test_results", "coverage".
     type: string
     default: "coverage"
+  run_command:
+    description: Choose which CLI command to run. Options are "upload-coverage", "empty-upload", "pr-base-picking", "send-notifications". "upload-coverage" is run by default.
+    type: string
+    default: "upload-coverage"
   sha:
     description: Commit SHA (with 40 chars)
     type: string
@@ -142,6 +154,10 @@ parameters:
     description: Custom defined name of the upload. Visible in the Codecov UI
     type: string
     default: ""
+  use_pypi:
+    description: Use the pypi version of the CLI instead of from cli.codecov.io
+    type: boolean
+    default: false
   verbose:
     description: Use verbose logging in the CLI
     type: boolean
@@ -161,6 +177,7 @@ steps:
       command: <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
       environment:
+        CC_BASE_SHA: << parameters.base_sha >>
         CC_BINARY: << parameters.binary >>
         CC_BRANCH: << parameters.branch >>
         CC_BUILD: << parameters.build >>
@@ -177,6 +194,7 @@ steps:
         CC_FAIL_ON_ERROR: << parameters.fail_on_error >>
         CC_FILES: << parameters.files >>
         CC_FLAGS: << parameters.flags >>
+        CC_FORCE: << parameters.force >>
         CC_GIT_SERVICE: << parameters.git_service >>
         CC_HANDLE_NO_REPORTS_FOUND: << parameters.handle_no_reports_found >>
         CC_JOB_CODE: << parameters.job_code >>
@@ -190,9 +208,12 @@ steps:
         CC_PLUGINS: << parameters.plugins >>
         CC_PR: << parameters.pr >>
         CC_REPORT_TYPE: << parameters.report_type >>
+        CC_RUN_COMMAND: << parameters.run_command >>
+        CC_SERVICE: << parameters.git_service >>
         CC_SHA: << parameters.sha >>
         CC_SKIP_VALIDATION: << parameters.skip_validation >>
         CC_SLUG: << parameters.slug >>
         CC_TOKEN_VAR: << parameters.token >>
+        CC_USE_PYPI: << parameters.use_pypi >>
         CC_VERBOSE: << parameters.verbose >>
         CC_VERSION: << parameters.version >>
