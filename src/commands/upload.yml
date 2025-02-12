@@ -208,7 +208,7 @@ steps:
         CC_PLUGINS: << parameters.plugins >>
         CC_PR: << parameters.pr >>
         CC_REPORT_TYPE: << parameters.report_type >>
-        CC_RUN_COMMAND: << parameters.run_command >>
+        CC_RUN_CMD: << parameters.run_command >>
         CC_SERVICE: << parameters.git_service >>
         CC_SHA: << parameters.sha >>
         CC_SKIP_VALIDATION: << parameters.skip_validation >>
