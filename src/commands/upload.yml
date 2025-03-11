@@ -125,6 +125,10 @@ parameters:
     description: Specify the pull request number manually. Used to override pre-existing CI environment variables.
     type: string
     default: ""
+  recurse_submodules:
+    description: Whether to enumerate files inside of submodules for path-fixing purposes. Off by default.
+    type: boolean
+    default: false
   report_type:
     description: The type of file to upload, coverage by default. Possible values are "test_results", "coverage".
     type: string
@@ -207,6 +211,7 @@ steps:
         CC_PARENT_SHA: << parameters.parent_sha >>
         CC_PLUGINS: << parameters.plugins >>
         CC_PR: << parameters.pr >>
+        CC_RECURSE_SUBMODULES: << parameters.recurse_submodules >>
         CC_REPORT_TYPE: << parameters.report_type >>
         CC_RUN_CMD: << parameters.run_command >>
         CC_SERVICE: << parameters.git_service >>
