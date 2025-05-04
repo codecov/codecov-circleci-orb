@@ -183,12 +183,10 @@ steps:
         chmod u+rwx codecov_envs
   - run:
       name: Upload version
-      command: |
-        <<include(dist/version.sh)>>
+      command: <<include(dist/version.sh)>>
   - run:
       name: Upload version
-      command: |
-        <<include(dist/set_defaults.sh)>>
+      command: <<include(dist/set_defaults.sh)>>
   - run:
       name: Test
       command: |
@@ -196,8 +194,7 @@ steps:
         echo $CODECOV_VERSION
   - run:
       name: Upload to Codecov
-      command: |
-        <<include(scripts/dist/codecov.sh)>>
+      command: <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
       environment:
         CC_BASE_SHA: << parameters.base_sha >>
