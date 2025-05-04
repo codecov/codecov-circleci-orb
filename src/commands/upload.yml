@@ -177,8 +177,28 @@ parameters:
 
 steps:
   - run:
+      name: Upload version
+      command: |
+        <<include(scripts/scripts/version.sh)>>
+        for i in $(env | grep "CODECOV_");
+        do
+          echo 'export "$i"' >> "$BASH_ENV"
+        done
+        cat "$BASH_ENV"
+  - run:
+      name: Upload version
+      command: |
+        cat "$BASH_ENV"
+        <<include(scripts/scripts/set_defaults.sh)>>
+        for i in $(env | grep "CODECOV_");
+        do
+          echo 'export "$i"' >> "$BASH_ENV"
+        done
+        cat "$BASH_ENV"
+  - run:
       name: Upload to Codecov
-      command: <<include(scripts/dist/codecov.sh)>>
+      command: |
+        <<include(scripts/dist/codecov.sh)>>
       when: << parameters.when >>
       environment:
         CC_BASE_SHA: << parameters.base_sha >>
