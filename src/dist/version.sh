@@ -2,5 +2,5 @@
 source ./codecov_envs
 CODECOV_WRAPPER_VERSION="0.2.2"
 
-codecov_envs=""
-env | grep "CODECOV_" > ./codecov_envs
+env | grep "CODECOV_" | tee ./codecov_envs
+cat ./codecov_envs
