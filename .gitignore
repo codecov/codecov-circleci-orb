@@ -1,3 +1,4 @@
 *.sw[op]
 node_modules/
 __pycache__
+codecov_envs

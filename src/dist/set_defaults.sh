@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+env | grep "CODECOV_"
+cat ./codecov_envs
 source ./codecov_envs
 set +u
 say() {
