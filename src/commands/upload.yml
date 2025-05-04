@@ -185,15 +185,11 @@ steps:
       name: Upload version
       command: <<include(dist/version.sh)>>
   - run:
-      name: Upload version
+      name: Set Defaults
       command: <<include(dist/set_defaults.sh)>>
   - run:
       name: Test
-      command: |
-        source codecov_envs
-        env | grep "CODECOV_"
-        cat ./codecov_envs
-        echo $CODECOV_VERSION
+      command: <<include(dist/test.sh)>>
   - run:
       name: Upload to Codecov
       command: <<include(scripts/dist/codecov.sh)>>
