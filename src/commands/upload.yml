@@ -177,24 +177,23 @@ parameters:
 
 steps:
   - run:
-      name: Upload version
+      name: Setup envs file
       command: |
-        <<include(scripts/scripts/version.sh)>>
-        for i in $(env | grep "CODECOV_");
-        do
-          echo 'export "$i"' >> "$BASH_ENV"
-        done
-        cat "$BASH_ENV"
+        touch codecov_envs
+        chmod u+rwx codecov_envs
   - run:
       name: Upload version
       command: |
-        cat "$BASH_ENV"
-        <<include(scripts/scripts/set_defaults.sh)>>
-        for i in $(env | grep "CODECOV_");
-        do
-          echo 'export "$i"' >> "$BASH_ENV"
-        done
-        cat "$BASH_ENV"
+        <<include(dist/version.sh)>>
+  - run:
+      name: Upload version
+      command: |
+        <<include(dist/set_defaults.sh)>>
+  - run:
+      name: Test
+      command: |
+        source codecov_envs
+        echo $CODECOV_VERSION
   - run:
       name: Upload to Codecov
       command: |
