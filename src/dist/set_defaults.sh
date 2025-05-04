@@ -57,7 +57,7 @@ say "     _____          _
                            $r Wrapper-$CODECOV_WRAPPER_VERSION$x
                                   "
 
-export CODECOV_VERSION="${CODECOV_VERSION:-latest}"
-export CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
-export CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
+CODECOV_VERSION="${CODECOV_VERSION:-latest}"
+CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
+CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
 env | grep "CODECOV_" > ./codecov_envs
