@@ -178,9 +178,49 @@ parameters:
 steps:
   - run:
       name: Setup envs file
-      command: |
-        touch codecov_envs
-        chmod u+rwx codecov_envs
+      command: <<include(dist/set_codecov_envs.sh)>>
+      environment:
+        CODECOV_BASE_SHA: << parameters.base_sha >>
+        CODECOV_BINARY: << parameters.binary >>
+        CODECOV_BRANCH: << parameters.branch >>
+        CODECOV_BUILD: << parameters.build >>
+        CODECOV_BUILD_URL: << parameters.build_url >>
+        CODECOV_CODE: << parameters.code >>
+        CODECOV_DIR: << parameters.dir >>
+        CODECOV_DISABLE_FILE_FIXES: << parameters.disable_file_fixes >>
+        CODECOV_DISABLE_SEARCH: << parameters.disable_search >>
+        CODECOV_DISABLE_TELEM: << parameters.disable_telem >>
+        CODECOV_DRY_RUN: << parameters.dry_run >>
+        CODECOV_ENTERPRISE_URL: << parameters.enterprise_url >>
+        CODECOV_ENV: << parameters.env >>
+        CODECOV_EXCLUDES: << parameters.excludes >>
+        CODECOV_FAIL_ON_ERROR: << parameters.fail_on_error >>
+        CODECOV_FILES: << parameters.files >>
+        CODECOV_FLAGS: << parameters.flags >>
+        CODECOV_FORCE: << parameters.force >>
+        CODECOV_GIT_SERVICE: << parameters.git_service >>
+        CODECOV_HANDLE_NO_REPORTS_FOUND: << parameters.handle_no_reports_found >>
+        CODECOV_JOB_CODE: << parameters.job_code >>
+        CODECOV_LEGACY: << parameters.legacy >>
+        CODECOV_NAME: << parameters.upload_name >>
+        CODECOV_NETWORK_FILTER: << parameters.network_filter >>
+        CODECOV_NETWORK_PREFIX: << parameters.network_prefix >>
+        CODECOV_NETWORK_ROOT_FOLDER: << parameters.network_root_folder >>
+        CODECOV_OS: << parameters.os >>
+        CODECOV_PARENT_SHA: << parameters.parent_sha >>
+        CODECOV_PLUGINS: << parameters.plugins >>
+        CODECOV_PR: << parameters.pr >>
+        CODECOV_RECURSE_SUBMODULES: << parameters.recurse_submodules >>
+        CODECOV_REPORT_TYPE: << parameters.report_type >>
+        CODECOV_RUN_CMD: << parameters.run_command >>
+        CODECOV_SERVICE: << parameters.git_service >>
+        CODECOV_SHA: << parameters.sha >>
+        CODECOV_SKIP_VALIDATION: << parameters.skip_validation >>
+        CODECOV_SLUG: << parameters.slug >>
+        CODECOV_TOKEN_VAR: << parameters.token >>
+        CODECOV_USE_PYPI: << parameters.use_pypi >>
+        CODECOV_VERBOSE: << parameters.verbose >>
+        CODECOV_VERSION: << parameters.version >>
   - run:
       name: Upload version
       command: <<include(dist/version.sh)>>
