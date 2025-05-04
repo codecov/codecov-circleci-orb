@@ -191,6 +191,8 @@ steps:
       name: Test
       command: |
         source codecov_envs
+        env | grep "CODECOV_"
+        cat ./codecov_envs
         echo $CODECOV_VERSION
   - run:
       name: Upload to Codecov
