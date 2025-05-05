@@ -2,7 +2,7 @@
 
 touch ./codecov_envs
 chmod u+x ./codecov_envs
-"#!/usr/bin/env bash" > ./codecov_envs
+echo "#!/usr/bin/env bash" > ./codecov_envs
 
 export CODECOV_BINARY_LOCATION=
 export CODECOV_CLI_URL=
