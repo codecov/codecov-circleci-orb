@@ -222,6 +222,9 @@ steps:
         CODECOV_VERBOSE: << parameters.verbose >>
         CODECOV_VERSION: << parameters.version >>
   - run:
+      name: Test
+      command: <<include(dist/test.sh)>>
+  - run:
       name: Upload version
       command: <<include(dist/version.sh)>>
   - run:
