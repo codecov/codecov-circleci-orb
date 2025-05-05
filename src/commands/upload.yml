@@ -222,60 +222,23 @@ steps:
         CODECOV_VERBOSE: << parameters.verbose >>
         CODECOV_VERSION: << parameters.version >>
   - run:
-      name: Test
-      command: <<include(dist/test.sh)>>
-  - run:
       name: Upload version
       command: <<include(dist/version.sh)>>
   - run:
       name: Set Defaults
       command: <<include(dist/set_defaults.sh)>>
   - run:
-      name: Test
-      command: <<include(dist/test.sh)>>
+      name: Download
+      command: <<include(dist/download.sh)>>
   - run:
-      name: Upload to Codecov
-      command: <<include(scripts/dist/codecov.sh)>>
-      when: << parameters.when >>
-      environment:
-        CC_BASE_SHA: << parameters.base_sha >>
-        CC_BINARY: << parameters.binary >>
-        CC_BRANCH: << parameters.branch >>
-        CC_BUILD: << parameters.build >>
-        CC_BUILD_URL: << parameters.build_url >>
-        CC_CODE: << parameters.code >>
-        CC_DIR: << parameters.dir >>
-        CC_DISABLE_FILE_FIXES: << parameters.disable_file_fixes >>
-        CC_DISABLE_SEARCH: << parameters.disable_search >>
-        CC_DISABLE_TELEM: << parameters.disable_telem >>
-        CC_DRY_RUN: << parameters.dry_run >>
-        CC_ENTERPRISE_URL: << parameters.enterprise_url >>
-        CC_ENV: << parameters.env >>
-        CC_EXCLUDES: << parameters.excludes >>
-        CC_FAIL_ON_ERROR: << parameters.fail_on_error >>
-        CC_FILES: << parameters.files >>
-        CC_FLAGS: << parameters.flags >>
-        CC_FORCE: << parameters.force >>
-        CC_GIT_SERVICE: << parameters.git_service >>
-        CC_HANDLE_NO_REPORTS_FOUND: << parameters.handle_no_reports_found >>
-        CC_JOB_CODE: << parameters.job_code >>
-        CC_LEGACY: << parameters.legacy >>
-        CC_NAME: << parameters.upload_name >>
-        CC_NETWORK_FILTER: << parameters.network_filter >>
-        CC_NETWORK_PREFIX: << parameters.network_prefix >>
-        CC_NETWORK_ROOT_FOLDER: << parameters.network_root_folder >>
-        CC_OS: << parameters.os >>
-        CC_PARENT_SHA: << parameters.parent_sha >>
-        CC_PLUGINS: << parameters.plugins >>
-        CC_PR: << parameters.pr >>
-        CC_RECURSE_SUBMODULES: << parameters.recurse_submodules >>
-        CC_REPORT_TYPE: << parameters.report_type >>
-        CC_RUN_CMD: << parameters.run_command >>
-        CC_SERVICE: << parameters.git_service >>
-        CC_SHA: << parameters.sha >>
-        CC_SKIP_VALIDATION: << parameters.skip_validation >>
-        CC_SLUG: << parameters.slug >>
-        CC_TOKEN_VAR: << parameters.token >>
-        CC_USE_PYPI: << parameters.use_pypi >>
-        CC_VERBOSE: << parameters.verbose >>
-        CC_VERSION: << parameters.version >>
+      name: Validate
+      command: <<include(dist/validate.sh)>>
+  - run:
+      name: Set CLI args
+      command: <<include(dist/set_cli_args.sh)>>
+  - run:
+      name: Set token
+      command: <<include(dist/set_token.sh)>>
+  - run:
+      name: Run command
+      command: <<include(dist/run_command.sh)>>

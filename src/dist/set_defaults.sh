@@ -58,4 +58,4 @@ say "     _____          _
 CODECOV_VERSION="${CODECOV_VERSION:-latest}"
 CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
 CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
-env | grep "CODECOV_" | sed -e 's/^/export /' | tee ./codecov_envs
+env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
