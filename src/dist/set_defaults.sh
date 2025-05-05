@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-env | grep "CODECOV_"
-cat ./codecov_envs
 source ./codecov_envs
 set +u
 say() {
@@ -60,4 +58,4 @@ say "     _____          _
 CODECOV_VERSION="${CODECOV_VERSION:-latest}"
 CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
 CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
-env | grep "CODECOV_" > ./codecov_envs
+env | grep "CODECOV_" | sed -e 's/^/export /' | tee ./codecov_envs
