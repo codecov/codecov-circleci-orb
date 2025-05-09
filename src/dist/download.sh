@@ -96,6 +96,10 @@ else
   say "      Version: $b$v$x"
   say " "
 fi
+echo "here"
+echo $codecov_url
+echo $CODECOV_OS
+echo "here"
 export CODECOV_URL=$codecov_url
 export CODECOV_OS=$CODECOV_OS
 export CODECOV_FILENAME=$codecov_filename
