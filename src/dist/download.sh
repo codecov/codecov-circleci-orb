@@ -96,13 +96,9 @@ else
   say "      Version: $b$v$x"
   say " "
 fi
-echo "here"
-echo $codecov_url
-echo $CODECOV_OS
-echo "here"
-export CODECOV_URL=$codecov_url
-export CODECOV_OS=$CODECOV_OS
-export CODECOV_FILENAME=$codecov_filename
-export CODECOV_COMMAND=$codecov_command
-env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
+export codecov_url="$codecov_url"
+export codecov_filename="$codecov_filename"
+export codecov_command="$codecov_command"
+export CODECOV_OS="$CODECOV_OS"
+env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs
