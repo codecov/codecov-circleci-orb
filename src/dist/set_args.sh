@@ -86,7 +86,5 @@ else
   exit_if_error "Invalid run command specified: $CODECOV_RUN_CMD"
   exit
 fi
-export codecov_args="$codecov_args"
-export codecov_cli_args="$codecov_cli_args"
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs

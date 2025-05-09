@@ -40,15 +40,7 @@ def _copy_all_files(funcs):
             contents = [HEADER, funcs]
             codecov_vars_set = set()
             with open(new_file, 'r') as f:
-                for line in f:
-                    contents.append(line)
-                    contains_codecov_var = re.search(r'\s*(codecov_[a-zA-Z_]+)=', line, re.IGNORECASE)
-                    if not contains_codecov_var:
-                        continue
-                    codecov_vars_set.add(contains_codecov_var.groups()[0])
                 contents.append(f.read())
-            for var in codecov_vars_set:
-                contents.append(f'export {var}="${var}"\n')
             contents.append(FOOTER)
 
             contents = ''.join(contents).replace(BASH, "")

@@ -90,6 +90,5 @@ if [ "$CODECOV_DOWNLOAD_ONLY" = "true" ];
 then
   say "$g==>$x Codecov download only called. Exiting..."
 fi
-export CODECOV_PUBLIC_PGP_KEY="$CODECOV_PUBLIC_PGP_KEY"
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs
