@@ -1,17 +1,59 @@
 import os
+import re
+import shutil
+
+BASH="#!/usr/bin/env bash\n"
+HEADER="source ./codecov_envs\n"
+FOOTER="env | grep -i \"CODECOV_\" | sed -e 's/^/export /' > tee ./codecov_envs\n"
 
 def package():
-    rows = []
-    with open('src/scripts/env', 'r') as f:
-        for row in f:
-            filtered_row = _filter_row(row)
-            if filtered_row:
-                rows.append(filtered_row)
-        f.readline()
+    funcs = _get_funcs()
+    _copy_all_files(funcs)
 
-    with open('src/scripts/dist/env.sh', 'w+') as f:
-        for row in rows:
-            f.write(f'echo "export {row}=${row}" >> "$BASH_ENV"\n')
+def _get_funcs():
+    with open('src/scripts/scripts/set_funcs.sh', 'r') as f:
+        funcs=f.read()
+    return funcs
+
+def _copy_all_files(funcs):
+    files = []
+    file_matcher = r'.*\/(\w+\.sh)'
+
+    original_dir = os.path.join('src', 'scripts', 'scripts')
+    new_dir = os.path.join('src', 'dist')
+
+    with open('src/scripts/scripts/run.sh', 'r') as f:
+        for line in f:
+            if not line.strip().endswith('.sh'):
+                continue
+            match = re.search(file_matcher, line)
+            if match is None:
+                continue
+
+            filename = match.groups()[0].strip()
+            old_file = os.path.join(original_dir, filename)
+            new_file = os.path.join(new_dir, filename)
+            shutil.copyfile(old_file, new_file)
+            os.chmod(new_file, 0o711)
+
+            # Update contents
+            contents = [HEADER, funcs]
+            with open(new_file, 'r') as f:
+                contents.append(f.read())
+            contents.append(FOOTER)
+
+            contents = ''.join(contents).replace(BASH, "")
+            contents = BASH + contents
+
+            if len(''.join(contents)) >= 8191:
+                print(f'Due to Windows limitations, script {new_file} must be less than 8192 chars')
+                exit(1)
+
+            with open(new_file, 'w') as f:
+                f.write(''.join(contents))
+
+            print(f'Copied {old_file} to {new_file} ({len(contents)} chars)')
+
 
 def _filter_row(row):
     exclude_rows = set([
