@@ -59,5 +59,9 @@ say "     _____          _
     \\_____\\___/ \\__,_|\\___|\\___\\___/ \\_/
                            $r Wrapper-$CODECOV_WRAPPER_VERSION$x
                            "
+export CODECOV_FAIL_ON_ERROR=$CODECOV_FAIL_ON_ERROR
+export CODECOV_RUN_CMD=$CODECOV_RUN_CMD
+export CODECOV_VERSION=$CODECOV_VERSION
+export CODECOV_WRAPPER_VERSION=$CODECOV_WRAPPER_VERSION
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
 cat ./codecov_envs
