@@ -48,7 +48,7 @@ def _copy_all_files(funcs):
                     codecov_vars_set.add(contains_codecov_var.groups()[0])
                 contents.append(f.read())
             for var in codecov_vars_set:
-                contents.append(f'export {var.upper()}=${var}\n')
+                contents.append(f'export {var}="${var}"\n')
             contents.append(FOOTER)
 
             contents = ''.join(contents).replace(BASH, "")
