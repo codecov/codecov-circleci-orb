@@ -59,5 +59,5 @@ if ! $codecov_command \
 then
   exit_if_error "Failed to run $CODECOV_RUN_CMD"
 fi
-env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
+env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs
