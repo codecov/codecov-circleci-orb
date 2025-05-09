@@ -18,3 +18,4 @@ export CODECOV_WRAPPER_VERSION=
 export CODECOV_YML_PATH=
 
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
+cat ./codecov_envs
