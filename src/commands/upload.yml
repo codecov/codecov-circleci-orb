@@ -222,9 +222,6 @@ steps:
         CODECOV_VERBOSE: << parameters.verbose >>
         CODECOV_VERSION: << parameters.version >>
   - run:
-      name: Upload version
-      command: <<include(dist/version.sh)>>
-  - run:
       name: Set Defaults
       command: <<include(dist/set_defaults.sh)>>
   - run:
@@ -234,11 +231,8 @@ steps:
       name: Validate
       command: <<include(dist/validate.sh)>>
   - run:
-      name: Set CLI args
-      command: <<include(dist/set_cli_args.sh)>>
-  - run:
-      name: Set token
-      command: <<include(dist/set_token.sh)>>
+      name: Set Args
+      command: <<include(dist/set_args.sh)>>
   - run:
       name: Run command
       command: <<include(dist/run_command.sh)>>
