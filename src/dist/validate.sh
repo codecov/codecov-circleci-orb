@@ -91,3 +91,4 @@ then
   say "$g==>$x Codecov download only called. Exiting..."
 fi
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
+cat ./codecov_envs

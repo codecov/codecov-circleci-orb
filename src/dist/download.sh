@@ -97,3 +97,4 @@ else
   say " "
 fi
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
+cat ./codecov_envs

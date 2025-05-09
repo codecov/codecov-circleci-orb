@@ -46,7 +46,7 @@ r="\033[0;31m"  # errors
 x="\033[0m"
 retry="--retry 5 --retry-delay 2"
 
-CODECOV_WRAPPER_VERSION="0.2.3"
+CODECOV_WRAPPER_VERSION="0.2.4"
 CODECOV_VERSION="${CODECOV_VERSION:-latest}"
 CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
 CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
@@ -60,3 +60,4 @@ say "     _____          _
                            $r Wrapper-$CODECOV_WRAPPER_VERSION$x
                            "
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
+cat ./codecov_envs
