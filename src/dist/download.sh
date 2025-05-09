@@ -96,5 +96,9 @@ else
   say "      Version: $b$v$x"
   say " "
 fi
+export CODECOV_URL=$codecov_url
+export CODECOV_OS=$CODECOV_OS
+export CODECOV_FILENAME=$codecov_filename
+export CODECOV_COMMAND=$codecov_command
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > tee ./codecov_envs
 cat ./codecov_envs
