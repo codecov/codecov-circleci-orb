@@ -59,5 +59,4 @@ say "     _____          _
     \\_____\\___/ \\__,_|\\___|\\___\\___/ \\_/
                            $r Wrapper-$CODECOV_WRAPPER_VERSION$x
                            "
-env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
-cat ./codecov_envs
+env | grep -io "CODECOV_.*=" | tr = " " | while read val; do echo "export $val="$(eval echo "\$$val")""; done
