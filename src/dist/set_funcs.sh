@@ -90,5 +90,5 @@ g="\033[0;32m"  # info/debug
 r="\033[0;31m"  # errors
 x="\033[0m"
 retry="--retry 5 --retry-delay 2"
-env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=\"$(eval echo \"\$$val\")\""; done; > ./codecov_envs
+env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \"\$$val\")"; done; > ./codecov_envs
 cat ./codecov_envs

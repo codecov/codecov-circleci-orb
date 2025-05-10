@@ -59,5 +59,5 @@ if ! $codecov_command \
 then
   exit_if_error "Failed to run $CODECOV_RUN_CMD"
 fi
-env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=\"$(eval echo \"\$$val\")\""; done; > ./codecov_envs
+env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \"\$$val\")"; done; > ./codecov_envs
 cat ./codecov_envs
