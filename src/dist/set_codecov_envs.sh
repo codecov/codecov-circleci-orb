@@ -16,6 +16,7 @@ export CODECOV_SWIFT_PROJECT=
 export CODECOV_TOKEN=
 export CODECOV_WRAPPER_VERSION=
 export CODECOV_YML_PATH=
+export codecov_filename="codecov"
 
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs
