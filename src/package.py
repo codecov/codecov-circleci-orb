@@ -40,7 +40,16 @@ def _copy_all_files(funcs):
             contents = [HEADER, funcs]
             codecov_vars_set = set()
             with open(new_file, 'r') as f:
-                contents.append(f.read())
+                for line in f:
+                    script_match = re.search(r'\S+\.sh', line)
+                    if not script_match:
+                        contents.append(line)
+                        continue
+
+                    script_path = script_match.group()
+                    with open(os.path.join(original_dir, script_path), 'r') as f:
+                        contents.append(f.read())
+
             contents.append(FOOTER)
 
             contents = ''.join(contents).replace(BASH, "")
