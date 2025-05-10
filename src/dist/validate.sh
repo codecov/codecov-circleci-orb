@@ -90,4 +90,4 @@ if [ "$CODECOV_DOWNLOAD_ONLY" = "true" ];
 then
   say "$g==>$x Codecov download only called. Exiting..."
 fi
-env | grep -io "CODECOV_.*=" | tr = " " | while read val; do echo "export $val="$(eval echo "\$$val")""; done
+env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=\"$(eval echo \"\$$val\")\""; done; > ./codecov_envs

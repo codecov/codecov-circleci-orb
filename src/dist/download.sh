@@ -96,4 +96,4 @@ else
   say "      Version: $b$v$x"
   say " "
 fi
-env | grep -io "CODECOV_.*=" | tr = " " | while read val; do echo "export $val="$(eval echo "\$$val")""; done
+env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=\"$(eval echo \"\$$val\")\""; done; > ./codecov_envs

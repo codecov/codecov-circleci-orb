@@ -86,4 +86,4 @@ else
   exit_if_error "Invalid run command specified: $CODECOV_RUN_CMD"
   exit
 fi
-env | grep -io "CODECOV_.*=" | tr = " " | while read val; do echo "export $val="$(eval echo "\$$val")""; done
+env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=\"$(eval echo \"\$$val\")\""; done; > ./codecov_envs
