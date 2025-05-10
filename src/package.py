@@ -4,7 +4,7 @@ import shutil
 
 BASH="#!/usr/bin/env bash\n"
 HEADER="source ./codecov_envs\n"
-FOOTER="env | grep -i \"CODECOV_\" | sed -e 's/^/export /' > ./codecov_envs\ncat ./codecov_envs\n"
+FOOTER='env | grep -io "CODECOV_.*=" | tr = " " | while read val; do echo "export $val=\"$(eval echo \"\$$val\")\""; done'
 
 def package():
     funcs = _get_funcs()
