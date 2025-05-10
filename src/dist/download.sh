@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+ls -alrt
 cat ./codecov_envs
 source ./codecov_envs
 env | grep -i "CODECOV_"
