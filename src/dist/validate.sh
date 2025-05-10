@@ -50,8 +50,7 @@ if [ "$CODECOV_SKIP_VALIDATION" == "true" ] || [ -n "$CODECOV_BINARY" ] || [ "$C
 then
   say "$r==>$x Bypassing validation..."
 else
-  CODECOV_PUBLIC_PGP_KEY=$(curl -s https://keybase.io/codecovsecurity/pgp_keys.asc)
-  echo "${CODECOV_PUBLIC_PGP_KEY}"  | \
+  "$(curl -s https://keybase.io/codecovsecurity/pgp_keys.asc)" | \
     gpg --no-default-keyring --import
   # One-time step
   say "$g==>$x Verifying GPG signature integrity"
