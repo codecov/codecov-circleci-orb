@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 source ./codecov_envs
+env | grep -i "CODECOV_"
 
 set +u
 say() {
@@ -84,6 +85,10 @@ else
   [[ $CODECOV_OS == "macos" ]]  && \
     ! command -v gpg 2>&1 >/dev/null && \
     HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
+  echo "here"
+  echo "$CODECOV_VERSION"
+  echo "${CODECOV_VERSION}"
+  echo "there"
   codecov_url="${CODECOV_CLI_URL:-https://cli.codecov.io}"
   codecov_url="$codecov_url/${CODECOV_VERSION}"
   codecov_url="$codecov_url/${CODECOV_OS}/${codecov_filename}"
