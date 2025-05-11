@@ -217,7 +217,6 @@ steps:
         CODECOV_SHA: << parameters.sha >>
         CODECOV_SKIP_VALIDATION: << parameters.skip_validation >>
         CODECOV_SLUG: << parameters.slug >>
-        CODECOV_TOKEN_VAR: << parameters.token >>
         CODECOV_USE_PYPI: << parameters.use_pypi >>
         CODECOV_VERBOSE: << parameters.verbose >>
         CODECOV_VERSION: << parameters.version >>
@@ -236,3 +235,5 @@ steps:
   - run:
       name: (Codecov) Run CLI command
       command: <<include(dist/run_command.sh)>>
+      envs:
+        CODECOV_TOKEN_VAR: << parameters.token >>
