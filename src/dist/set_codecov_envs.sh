@@ -6,7 +6,9 @@ echo "#!/usr/bin/env bash" > ./codecov_envs
 
 export CODECOV_BINARY_LOCATION=
 export CODECOV_CLI_URL=
+export CODECOV_COMMAND=
 export CODECOV_DOWNLOAD_ONLY=
+export CODECOV_FILENAME=
 export CODECOV_GCOV_ARGS=
 export CODECOV_GCOV_EXECUTABLE=
 export CODECOV_GCOV_IGNORE=
@@ -16,8 +18,6 @@ export CODECOV_SWIFT_PROJECT=
 export CODECOV_TOKEN=
 export CODECOV_WRAPPER_VERSION=
 export CODECOV_YML_PATH=
-export codecov_command=
-export codecov_filename="codecov"
 
 env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs

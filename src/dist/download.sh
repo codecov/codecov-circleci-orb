@@ -50,8 +50,8 @@ if [ -n "$CODECOV_BINARY" ];
 then
   if [ -f "$CODECOV_BINARY" ];
   then
-    codecov_filename=$CODECOV_BINARY
-    codecov_command=$CODECOV_BINARY
+    CODECOV_FILENAME=$CODECOV_BINARY
+    CODECOV_COMMAND=$CODECOV_BINARY
   else
     exit_if_error "Could not find binary file $CODECOV_BINARY"
   fi
@@ -61,7 +61,7 @@ then
     exit_if_error "Could not install via pypi."
     exit
   fi
-  codecov_command="codecovcli"
+  CODECOV_COMMAND="codecovcli"
 else
   if [ -n "$CODECOV_OS" ];
   then
@@ -78,17 +78,17 @@ else
     say "$g==>$x Detected $b${CODECOV_OS}$x"
   fi
 
-  codecov_filename="codecov"
-  [[ $CODECOV_OS == "windows" ]] && codecov_filename+=".exe"
-  codecov_command="./$codecov_filename"
+  CODECOV_FILENAME="codecov"
+  [[ $CODECOV_OS == "windows" ]] && CODECOV_FILENAME+=".exe"
+  CODECOV_COMMAND="./$CODECOV_FILENAME"
   [[ $CODECOV_OS == "macos" ]]  && \
     ! command -v gpg 2>&1 >/dev/null && \
     HOMEBREW_NO_AUTO_UPDATE=1 brew install gpg
-  codecov_url="${CODECOV_CLI_URL:-https://cli.codecov.io}"
-  codecov_url="$codecov_url/${CODECOV_VERSION}"
-  codecov_url="$codecov_url/${CODECOV_OS}/${codecov_filename}"
-  say "$g ->$x Downloading $b${codecov_url}$x"
-  curl -O $retry "$codecov_url"
+  CODECOV_URL="${CODECOV_CLI_URL:-https://cli.codecov.io}"
+  CODECOV_URL="$CODECOV_URL/${CODECOV_VERSION}"
+  CODECOV_URL="$CODECOV_URL/${CODECOV_OS}/${CODECOV_FILENAME}"
+  say "$g ->$x Downloading $b${CODECOV_URL}$x"
+  curl -O $retry "$CODECOV_URL"
   say "$g==>$x Finishing downloading $b${CODECOV_OS}:${CODECOV_VERSION}$x"
 
   v_url="https://cli.codecov.io/api/${CODECOV_OS}/${CODECOV_VERSION}"
