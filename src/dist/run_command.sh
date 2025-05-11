@@ -74,3 +74,4 @@ if ! $CODECOV_COMMAND \
 then
   exit_if_error "Failed to run $CODECOV_RUN_CMD"
 fi
+rm ./codecov_envs
