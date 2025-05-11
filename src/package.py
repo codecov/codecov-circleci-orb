@@ -5,6 +5,7 @@ import shutil
 BASH="#!/usr/bin/env bash\n"
 HEADER="source ./codecov_envs\n"
 FOOTER='env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \\\"\$$val\\\")"; done > ./codecov_envs\n'
+CLEANUP="rm ./codecov_envs\n"
 
 def package():
     funcs = _get_funcs()
@@ -52,6 +53,8 @@ def _copy_all_files(funcs):
 
             if filename != 'run_command.sh':  # has the token, dont store the token
                 contents.append(FOOTER)
+            else:
+                contents.append(CLEANUP)
 
             contents = ''.join(contents).replace(BASH, "")
             contents = BASH + contents
