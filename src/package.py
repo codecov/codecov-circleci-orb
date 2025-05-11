@@ -50,7 +50,8 @@ def _copy_all_files(funcs):
                     with open(os.path.join(original_dir, script_path), 'r') as f:
                         contents.append(f.read())
 
-            contents.append(FOOTER)
+            if filename != 'run_command.sh':  # has the token, dont store the token
+                contents.append(FOOTER)
 
             contents = ''.join(contents).replace(BASH, "")
             contents = BASH + contents
