@@ -235,5 +235,5 @@ steps:
   - run:
       name: (Codecov) Run CLI command
       command: <<include(dist/run_command.sh)>>
-      envs:
+      environment:
         CODECOV_TOKEN_VAR: << parameters.token >>
