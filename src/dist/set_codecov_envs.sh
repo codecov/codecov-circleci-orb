@@ -19,5 +19,5 @@ export CODECOV_TOKEN=
 export CODECOV_WRAPPER_VERSION=
 export CODECOV_YML_PATH=
 
-env | grep -i "CODECOV_" | sed -e 's/^/export /' > ./codecov_envs
+env | grep -i "CODECOV_" | grep -iv "CODECOV_TOKEN" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs
