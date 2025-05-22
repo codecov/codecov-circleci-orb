@@ -230,9 +230,6 @@ steps:
       name: (Codecov) Validate CLI
       command: <<include(dist/validate.sh)>>
   - run:
-      name: (Codecov) Set CLI Arguments
-      command: <<include(dist/set_args.sh)>>
-  - run:
       name: (Codecov) Run CLI command
       command: <<include(dist/run_command.sh)>>
       environment:

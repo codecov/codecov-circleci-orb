@@ -10,6 +10,7 @@ CLEANUP="rm ./codecov_envs\n"
 def package():
     funcs = _get_funcs()
     _copy_all_files(funcs)
+    _combine_set_args_and_run(funcs)
 
 def _get_funcs():
     with open('src/scripts/scripts/set_funcs.sh', 'r') as f:
@@ -38,7 +39,7 @@ def _copy_all_files(funcs):
             os.chmod(new_file, 0o711)
 
             # Update contents
-            contents = [HEADER, funcs]
+            contents = []
             codecov_vars_set = set()
             with open(new_file, 'r') as f:
                 for line in f:
@@ -51,13 +52,14 @@ def _copy_all_files(funcs):
                     with open(os.path.join(original_dir, script_path), 'r') as f:
                         contents.append(f.read())
 
-            if filename != 'run_command.sh':  # has the token, dont store the token
+            if filename not in ['run_command.sh', 'set_args.sh']:
+                contents.insert(0, HEADER)
+                contents.insert(1, funcs)
                 contents.append(FOOTER)
+                contents = ''.join(contents).replace(BASH, "")
+                contents = BASH + contents
             else:
-                contents.append(CLEANUP)
-
-            contents = ''.join(contents).replace(BASH, "")
-            contents = BASH + contents
+                contents = ''.join(contents).replace(BASH, "")
 
             if len(''.join(contents)) >= 8191:
                 print(f'Due to Windows limitations, script {new_file} must be less than 8192 chars')
@@ -67,6 +69,28 @@ def _copy_all_files(funcs):
                 f.write(''.join(contents))
 
             print(f'Copied {old_file} to {new_file} ({len(contents)} chars)')
+
+def _combine_set_args_and_run(funcs):
+    contents = [BASH, HEADER, funcs]
+    with open('src/dist/set_args.sh', 'r') as f:
+        for line in f:
+            contents.append(line)
+    with open('src/dist/run_command.sh', 'r') as f:
+        for line in f:
+            contents.append(line)
+
+    contents.append(CLEANUP)
+    contents = ''.join(contents)
+
+    if len(contents) >= 8191:
+        print(f'Due to Windows limitations, script {new_file} must be less than 8192 chars')
+        exit(1)
+
+    with open('src/dist/run_command.sh', 'w') as f:
+        f.write(contents)
+
+    print(f'Combined set_args.sh and run_command.sh into run_command.sh ({len(contents)} chars)')
+
 
 if __name__=="__main__":
     package()
