@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 source ./codecov_envs
-#!/usr/bin/env bash
 
 set +u
 say() {
