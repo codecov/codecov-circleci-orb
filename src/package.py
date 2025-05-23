@@ -71,7 +71,7 @@ def _copy_all_files(funcs):
             print(f'Copied {old_file} to {new_file} ({len(contents)} chars)')
 
 def _combine_set_args_and_run(funcs):
-    contents = [BASH, HEADER, funcs]
+    contents = [BASH, HEADER, funcs.replace(BASH, "")]
     with open('src/dist/set_args.sh', 'r') as f:
         for line in f:
             contents.append(line)
