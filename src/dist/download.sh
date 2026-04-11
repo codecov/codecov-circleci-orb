@@ -91,8 +91,7 @@ else
   curl -O $retry "$CODECOV_URL"
   say "$g==>$x Finishing downloading $b${CODECOV_OS}:${CODECOV_VERSION}$x"
 
-  v_url="https://cli.codecov.io/api/${CODECOV_OS}/${CODECOV_VERSION}"
-  v=$(curl $retry --retry-all-errors -s "$v_url" -H "Accept:application/json" | tr \{ '\n' | tr , '\n' | tr \} '\n' | grep "\"version\"" | awk  -F'"' '{print $4}' | tail -1)
+  v=$(codecov --version 2>&1 | awk -F', version ' '{print $2}' || echo "unknown")                                                                                           
   say "      Version: $b$v$x"
   say " "
 fi
