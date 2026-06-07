@@ -50,7 +50,7 @@ CODECOV_WRAPPER_VERSION="0.2.9"
 CODECOV_VERSION="${CODECOV_VERSION:-latest}"
 CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
 CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
-export CODECOV_CLI_TYPE=${CODECOV_CLI_TYPE:-"codecov-cli"}
+CODECOV_CLI_TYPE=${CODECOV_CLI_TYPE:-"codecov-cli"}
 
 say "     _____          _
     / ____|        | |
