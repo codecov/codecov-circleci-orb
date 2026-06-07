@@ -49,8 +49,12 @@ retry="--retry 5 --retry-delay 2"
 if [ "$CODECOV_SKIP_VALIDATION" == "true" ] || [ -n "$CODECOV_BINARY" ] || [ "$CODECOV_USE_PYPI" == "true" ];
 then
   say "$r==>$x Bypassing validation..."
+  if [ "$CODECOV_SKIP_VALIDATION" == "true" ];
+  then
+    chmod +x "$CODECOV_COMMAND"
+  fi
 else
-  echo "$(curl -s https://keybase.io/codecovsecurity/pgp_keys.asc)" | \
+  echo "$(curl -s https://keybase.io/codecovsecops/pgp_keys.asc)" | \
     gpg --no-default-keyring --import
   # One-time step
   say "$g==>$x Verifying GPG signature integrity"
@@ -82,11 +86,12 @@ fi
 if [ -n "$CODECOV_BINARY_LOCATION" ];
 then
   mkdir -p "$CODECOV_BINARY_LOCATION" && mv "$CODECOV_FILENAME" $_
-  say "$g==>$x Codecov binary moved to ${CODECOV_BINARY_LOCATION}"
+  say "$g==>$x ${CODECOV_CLI_TYPE} binary moved to ${CODECOV_BINARY_LOCATION}"
 fi
 
 if [ "$CODECOV_DOWNLOAD_ONLY" = "true" ];
 then
-  say "$g==>$x Codecov download only called. Exiting..."
+  say "$g==>$x ${CODECOV_CLI_TYPE} download only called. Exiting..."
+  exit
 fi
 env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \"\$$val\")"; done > ./codecov_envs

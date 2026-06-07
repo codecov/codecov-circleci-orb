@@ -46,10 +46,11 @@ r="\033[0;31m"  # errors
 x="\033[0m"
 retry="--retry 5 --retry-delay 2"
 
-CODECOV_WRAPPER_VERSION="0.2.6"
+CODECOV_WRAPPER_VERSION="0.2.9"
 CODECOV_VERSION="${CODECOV_VERSION:-latest}"
 CODECOV_FAIL_ON_ERROR="${CODECOV_FAIL_ON_ERROR:-false}"
 CODECOV_RUN_CMD="${CODECOV_RUN_CMD:-upload-coverage}"
+CODECOV_CLI_TYPE=${CODECOV_CLI_TYPE:-"codecov-cli"}
 
 say "     _____          _
     / ____|        | |
@@ -59,4 +60,9 @@ say "     _____          _
     \\_____\\___/ \\__,_|\\___|\\___\\___/ \\_/
                            $r Wrapper-$CODECOV_WRAPPER_VERSION$x
                            "
+
+if [[ "$CODECOV_CLI_TYPE" != "codecov-cli" && "$CODECOV_CLI_TYPE" != "sentry-prevent-cli" ]]; then
+  echo "Invalid CODECOV_CLI_TYPE: '$CODECOV_CLI_TYPE'. Must be 'codecov-cli' or 'sentry-prevent-cli'"
+  exit 1
+fi
 env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \"\$$val\")"; done > ./codecov_envs
