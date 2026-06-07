@@ -185,6 +185,7 @@ steps:
         CODECOV_BRANCH: << parameters.branch >>
         CODECOV_BUILD: << parameters.build >>
         CODECOV_BUILD_URL: << parameters.build_url >>
+        CODECOV_CLI_TYPE: codecov-cli
         CODECOV_CODE: << parameters.code >>
         CODECOV_DIR: << parameters.dir >>
         CODECOV_DISABLE_FILE_FIXES: << parameters.disable_file_fixes >>
