@@ -31,5 +31,16 @@
   "bugs": {
     "url": "https://github.com/codecov/codecov-circleci-orb/issues"
   },
-  "homepage": "https://github.com/codecov/codecov-circleci-orb#readme"
+  "homepage": "https://github.com/codecov/codecov-circleci-orb#readme",
+  "overrides": {
+    "brace-expansion@1": "1.1.18",
+    "brace-expansion@2": "2.1.4",
+    "minimatch@3": "3.1.5",
+    "minimatch@5": "5.1.8",
+    "minimatch@9": "9.0.9",
+    "js-yaml@3": "3.15.1",
+    "js-yaml@4": "4.3.1",
+    "glob@10": "10.5.0",
+    "serialize-javascript": "7.0.3"
+  }
 }
