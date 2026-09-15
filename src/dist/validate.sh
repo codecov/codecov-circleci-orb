@@ -54,7 +54,6 @@ then
     chmod +x "$CODECOV_COMMAND"
   fi
 else
-  CODECOV_DOWNLOAD_DIR="${CODECOV_DOWNLOAD_DIR:-.}"
   gpg_key_url="https://keybase.io/codecovsecops/pgp_keys.asc"
   gpg_import_ok=false
   for gpg_attempt in 1 2 3; do
