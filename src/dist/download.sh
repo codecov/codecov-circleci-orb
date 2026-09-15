@@ -110,5 +110,9 @@ else
   v=$(curl $retry --retry-all-errors -s "$v_url" -H "Accept:application/json" | tr \{ '\n' | tr , '\n' | tr \} '\n' | grep "\"version\"" | awk  -F'"' '{print $4}' | tail -1)
   say "      Version: $b$v$x"
   say " "
+  export CODECOV_DOWNLOAD_DIR
+  export CODECOV_COMMAND
+  export CODECOV_FILENAME
+  export CODECOV_OS
 fi
 env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \"\$$val\")"; done > ./codecov_envs
