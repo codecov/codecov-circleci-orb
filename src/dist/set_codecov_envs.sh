@@ -7,6 +7,7 @@ echo "#!/usr/bin/env bash" > ./codecov_envs
 export CODECOV_BINARY_LOCATION=
 export CODECOV_CLI_URL=
 export CODECOV_COMMAND=
+export CODECOV_DOWNLOAD_DIR=
 export CODECOV_DOWNLOAD_ONLY=
 export CODECOV_FILENAME=
 export CODECOV_GCOV_ARGS=
