@@ -79,6 +79,7 @@ jobs:
           at: .
       - codecov/upload:
           flags: backend
+          verbose: true
       - codecov/upload:
           fail_on_error: true
           files: coverage/coverage-final.json

@@ -189,7 +189,7 @@ steps:
         CODECOV_BRANCH: << parameters.branch >>
         CODECOV_BUILD: << parameters.build >>
         CODECOV_BUILD_URL: << parameters.build_url >>
-        CODECOV_CLEANUP: <<#parameters.cleanup>>true<</parameters.cleanup>><<^parameters.cleanup>>false<</parameters.cleanup>>
+        CODECOV_CLEANUP: << parameters.cleanup >>
         CODECOV_CLI_TYPE: codecov-cli
         CODECOV_CODE: << parameters.code >>
         CODECOV_DIR: << parameters.dir >>
