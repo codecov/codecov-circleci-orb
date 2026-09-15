@@ -7,23 +7,9 @@ HEADER="source ./codecov_envs\n"
 FOOTER='env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \\\"\$$val\\\")"; done > ./codecov_envs\n'
 CLEANUP="rm ./codecov_envs\n"
 
-# Empty exports for wrapper state set across orb steps (see set_codecov_envs.sh).
-PREEXPORT_SUFFIXES = sorted([
-    'BINARY_LOCATION',
-    'CLI_URL',
-    'COMMAND',
-    'DOWNLOAD_DIR',
-    'DOWNLOAD_ONLY',
-    'FILENAME',
-    'GCOV_ARGS',
-    'GCOV_EXECUTABLE',
-    'GCOV_IGNORE',
-    'GCOV_INCLUDE',
-    'PUBLIC_PGP_KEY',
-    'SWIFT_PROJECT',
-    'WRAPPER_VERSION',
-    'YML_PATH',
-])
+# Wrapper scripts that run as separate orb steps; assignments here must be pre-exported
+# so the FOOTER `env | grep CODECOV_` picks them up on the next step.
+STEP_SCRIPTS = ('set_defaults.sh', 'download.sh', 'validate.sh')
 
 
 def package():
@@ -33,7 +19,19 @@ def package():
     _write_set_codecov_envs()
 
 
+def _assigned_codecov_suffixes():
+    suffixes = set()
+    for script in STEP_SCRIPTS:
+        path = os.path.join('src', 'scripts', 'scripts', script)
+        with open(path, 'r') as f:
+            text = f.read()
+        for var in re.findall(r'^\s*(CODECOV_[A-Z0-9_]+)=', text, re.MULTILINE):
+            suffixes.add(var.removeprefix('CODECOV_'))
+    return sorted(suffixes)
+
+
 def _write_set_codecov_envs():
+    suffixes = _assigned_codecov_suffixes()
     lines = [
         '#!/usr/bin/env bash',
         '',
@@ -42,7 +40,7 @@ def _write_set_codecov_envs():
         'echo "#!/usr/bin/env bash" > ./codecov_envs',
         '',
     ]
-    for suffix in PREEXPORT_SUFFIXES:
+    for suffix in suffixes:
         lines.append(f'export CODECOV_{suffix}=')
     lines.extend([
         '',
