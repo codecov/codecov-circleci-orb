@@ -7,9 +7,8 @@ HEADER="source ./codecov_envs\n"
 FOOTER='env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \\\"\$$val\\\")"; done > ./codecov_envs\n'
 CLEANUP="rm ./codecov_envs\n"
 
-# Orb-only: empty exports so assignments in later steps survive `env | grep CODECOV_`.
-# Merged with assignments found in wrapper step scripts (see _preexport_suffixes).
-LEGACY_PREEXPORT_SUFFIXES = [
+# Empty exports for wrapper state set across orb steps (see set_codecov_envs.sh).
+PREEXPORT_SUFFIXES = sorted([
     'BINARY_LOCATION',
     'CLI_URL',
     'COMMAND',
@@ -24,9 +23,7 @@ LEGACY_PREEXPORT_SUFFIXES = [
     'SWIFT_PROJECT',
     'WRAPPER_VERSION',
     'YML_PATH',
-]
-
-WRAPPER_STEP_SCRIPTS = ('set_defaults.sh', 'download.sh', 'validate.sh')
+])
 
 
 def package():
@@ -36,60 +33,16 @@ def package():
     _write_set_codecov_envs()
 
 
-def _assigned_codecov_vars(script_name):
-    path = os.path.join('src', 'scripts', 'scripts', script_name)
-    with open(path, 'r') as f:
-        text = f.read()
-    return set(re.findall(r'^\s*(CODECOV_[A-Z0-9_]+)=', text, re.MULTILINE))
-
-
-def _wrapper_env_suffixes():
-    path = os.path.join('src', 'scripts', 'env')
-    if not os.path.isfile(path):
-        return set()
-    suffixes = set()
-    with open(path, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith('CC_'):
-                suffixes.add(line[3:])
-    return suffixes
-
-
-def _preexport_suffixes():
-    assigned = set()
-    for script in WRAPPER_STEP_SCRIPTS:
-        assigned |= _assigned_codecov_vars(script)
-
-    suffixes = set(LEGACY_PREEXPORT_SUFFIXES)
-    for var in assigned:
-        suffixes.add(var.removeprefix('CODECOV_'))
-
-    wrapper_env = _wrapper_env_suffixes()
-    download_assigned = _assigned_codecov_vars('download.sh')
-    for var in download_assigned:
-        suffix = var.removeprefix('CODECOV_')
-        if suffix in wrapper_env and suffix not in suffixes:
-            print(
-                f'Wrapper env lists CC_{suffix} but orb pre-export list is missing '
-                f'CODECOV_{suffix}; update LEGACY_PREEXPORT_SUFFIXES or wrapper scripts.'
-            )
-            exit(1)
-
-    return sorted(suffixes)
-
-
 def _write_set_codecov_envs():
-    suffixes = _preexport_suffixes()
     lines = [
-        BASH.rstrip('\n'),
+        '#!/usr/bin/env bash',
         '',
         'touch ./codecov_envs',
         'chmod u+x ./codecov_envs',
         'echo "#!/usr/bin/env bash" > ./codecov_envs',
         '',
     ]
-    for suffix in suffixes:
+    for suffix in PREEXPORT_SUFFIXES:
         lines.append(f'export CODECOV_{suffix}=')
     lines.extend([
         '',
@@ -101,7 +54,6 @@ def _write_set_codecov_envs():
     with open(path, 'w') as f:
         f.write('\n'.join(lines))
     os.chmod(path, 0o711)
-    print(f'Wrote {path} with {len(suffixes)} pre-export vars')
 
 def _get_funcs():
     with open('src/scripts/scripts/set_funcs.sh', 'r') as f:
