@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 source ./codecov_envs
+if [ ! -f ./codecov_step_ok ]; then
+  echo "==> A previous Codecov step did not finish. Skipping..."
+  if [ "$CODECOV_FAIL_ON_ERROR" = true ]; then
+    exit 1
+  fi
+  exit 0
+fi
+rm ./codecov_step_ok
 
 set +u
 say() {
@@ -112,3 +120,4 @@ else
   say " "
 fi
 env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \"\$$val\")"; done > ./codecov_envs
+touch ./codecov_step_ok

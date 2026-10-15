@@ -18,3 +18,4 @@ export CODECOV_WRAPPER_VERSION=
 
 env | grep -i "CODECOV_" | grep -iv "CODECOV_TOKEN" | sed -e 's/^/export /' > ./codecov_envs
 cat ./codecov_envs
+touch ./codecov_step_ok

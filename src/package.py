@@ -3,8 +3,18 @@ import re
 import shutil
 
 BASH="#!/usr/bin/env bash\n"
-HEADER="source ./codecov_envs\n"
-FOOTER='env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \\\"\$$val\\\")"; done > ./codecov_envs\n'
+# Steps run with the caller's `when`, so each one confirms the step before it finished.
+HEADER="""source ./codecov_envs
+if [ ! -f ./codecov_step_ok ]; then
+  echo "==> A previous Codecov step did not finish. Skipping..."
+  if [ "$CODECOV_FAIL_ON_ERROR" = true ]; then
+    exit 1
+  fi
+  exit 0
+fi
+rm ./codecov_step_ok
+"""
+FOOTER='env | grep -io "CODECOV_.*=" | tr "=" " " | while read -r val; do echo "export $val=$(eval echo \\\"\$$val\\\")"; done > ./codecov_envs\ntouch ./codecov_step_ok\n'
 CLEANUP="rm ./codecov_envs\n"
 
 # Wrapper scripts that run as separate orb steps; assignments here must be pre-exported
@@ -46,6 +56,7 @@ def _write_set_codecov_envs():
         '',
         'env | grep -i "CODECOV_" | grep -iv "CODECOV_TOKEN" | sed -e \'s/^/export /\' > ./codecov_envs',
         'cat ./codecov_envs',
+        'touch ./codecov_step_ok',
         '',
     ])
     path = os.path.join('src', 'dist', 'set_codecov_envs.sh')
