@@ -51,7 +51,7 @@ def _write_set_codecov_envs():
         '',
     ]
     for suffix in suffixes:
-        lines.append(f'export CODECOV_{suffix}=')
+        lines.append(f'export CODECOV_{suffix}="${{CODECOV_{suffix}-}}"')
     lines.extend([
         '',
         'env | grep -i "CODECOV_" | grep -iv "CODECOV_TOKEN" | sed -e \'s/^/export /\' > ./codecov_envs',
