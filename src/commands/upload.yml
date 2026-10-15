@@ -182,6 +182,7 @@ parameters:
 steps:
   - run:
       name: (Codecov) Setup Codecov environment variables
+      when: << parameters.when >>
       command: <<include(dist/set_codecov_envs.sh)>>
       environment:
         CODECOV_BASE_SHA: << parameters.base_sha >>
@@ -228,15 +229,19 @@ steps:
         CODECOV_VERSION: << parameters.version >>
   - run:
       name: (Codecov) Set Defaults
+      when: << parameters.when >>
       command: <<include(dist/set_defaults.sh)>>
   - run:
       name: (Codecov) Download CLI
+      when: << parameters.when >>
       command: <<include(dist/download.sh)>>
   - run:
       name: (Codecov) Validate CLI
+      when: << parameters.when >>
       command: <<include(dist/validate.sh)>>
   - run:
       name: (Codecov) Run CLI command
+      when: << parameters.when >>
       command: <<include(dist/run_command.sh)>>
       environment:
         CODECOV_TOKEN_VAR: << parameters.token >>
